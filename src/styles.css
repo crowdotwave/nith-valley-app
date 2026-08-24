@@ -147,6 +147,28 @@ button.ghost {
 
 .row-title { font-weight: 600; }
 .row-detail { font-size: .875rem; color: var(--muted); }
+.row input { margin-top: .5rem; }
+
+.badge {
+  justify-self: start;
+  margin-top: .375rem;
+  padding: .125rem .5rem;
+  font-size: .75rem;
+  border-radius: 1rem;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .625rem;
+}
+
+.actions button { padding: .5rem .75rem; font-size: .875rem; }
+
+.staff-tile { margin-bottom: 1rem; }
 .row-note {
   font-size: .875rem;
   margin-top: .25rem;

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { useProfile } from '../lib/useProfile';
 import { CLINIC, openBooking, messageClinic } from '../lib/clinic';
 
 type Tile = {
@@ -48,12 +49,22 @@ function TileBody({ tile }: { tile: Tile }) {
 }
 
 export default function Home() {
+  const { profile } = useProfile();
+  const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
+
   return (
     <main className="home">
       <header>
         <h1>{CLINIC.name}</h1>
         <p className="muted">{CLINIC.address}</p>
       </header>
+
+      {isStaff && (
+        <Link to="/staff" className="tile staff-tile">
+          <span className="tile-label">Request queue</span>
+          <span className="tile-detail">Staff view</span>
+        </Link>
+      )}
 
       <div className="tiles">
         {TILES.map((t) =>
