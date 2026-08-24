@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { CLINIC, openBooking, messageClinic } from '../lib/clinic';
 
 type Tile = {
   label: string;
   detail: string;
+  to?: string;
   onClick?: () => void;
   pending?: boolean;
 };
@@ -22,12 +24,28 @@ const TILES: Tile[] = [
     detail: `Text ${CLINIC.phoneDisplay}`,
     onClick: messageClinic,
   },
-  { label: 'Order food', detail: 'Request a refill', pending: true },
-  { label: 'Request medication', detail: 'Refill or renewal', pending: true },
+  { label: 'Order food', detail: 'Request a refill', to: '/request/food' },
+  {
+    label: 'Request medication',
+    detail: 'Refill or renewal',
+    to: '/request/medication',
+  },
+  { label: 'My requests', detail: 'Track what you have sent', to: '/requests' },
+  { label: 'My pets', detail: 'Diet, medications, records', to: '/pets' },
   { label: 'Reminders', detail: 'What is coming due', pending: true },
   { label: 'Send us a photo', detail: 'For our social media', pending: true },
-  { label: 'My pets', detail: 'Diet, medications, records', pending: true },
 ];
+
+function TileBody({ tile }: { tile: Tile }) {
+  return (
+    <>
+      <span className="tile-label">{tile.label}</span>
+      <span className="tile-detail">
+        {tile.pending ? 'Coming soon' : tile.detail}
+      </span>
+    </>
+  );
+}
 
 export default function Home() {
   return (
@@ -38,19 +56,22 @@ export default function Home() {
       </header>
 
       <div className="tiles">
-        {TILES.map((t) => (
-          <button
-            key={t.label}
-            className={t.pending ? 'tile pending' : 'tile'}
-            onClick={t.onClick}
-            disabled={t.pending}
-          >
-            <span className="tile-label">{t.label}</span>
-            <span className="tile-detail">
-              {t.pending ? 'Coming soon' : t.detail}
-            </span>
-          </button>
-        ))}
+        {TILES.map((t) =>
+          t.to ? (
+            <Link key={t.label} to={t.to} className="tile">
+              <TileBody tile={t} />
+            </Link>
+          ) : (
+            <button
+              key={t.label}
+              className={t.pending ? 'tile pending' : 'tile'}
+              onClick={t.onClick}
+              disabled={t.pending}
+            >
+              <TileBody tile={t} />
+            </button>
+          ),
+        )}
       </div>
 
       <footer>

@@ -43,22 +43,41 @@ h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
 
 main { max-width: 34rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 
-/* Auth ---------------------------------------------------------------- */
+a { color: var(--accent); }
 
-.auth form { display: grid; gap: .5rem; margin-top: 1.5rem; }
-.auth label { font-size: .875rem; color: var(--muted); }
+.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: .875rem;
+  text-decoration: none;
+}
 
-input {
+/* Forms --------------------------------------------------------------- */
+
+.auth form,
+.stack { display: grid; gap: .5rem; margin-top: 1.5rem; }
+
+label { font-size: .875rem; color: var(--muted); }
+
+input,
+select,
+textarea {
   padding: .75rem;
-  font-size: 1rem;
+  font: inherit;
   border: 1px solid var(--border);
   border-radius: .5rem;
   background: var(--bg);
   color: var(--text);
+  width: 100%;
 }
 
+textarea { resize: vertical; }
+
 input:focus-visible,
-button:focus-visible {
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -96,6 +115,9 @@ button.ghost {
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
+  border-radius: .5rem;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .tile-label { font-weight: 600; }
@@ -103,3 +125,31 @@ button.ghost {
 .tile.pending { opacity: .55; }
 
 .home footer { margin-top: 2rem; }
+
+/* Lists --------------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: .5rem;
+}
+
+.row {
+  display: grid;
+  gap: .125rem;
+  padding: .875rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+}
+
+.row-title { font-weight: 600; }
+.row-detail { font-size: .875rem; color: var(--muted); }
+.row-note {
+  font-size: .875rem;
+  margin-top: .25rem;
+  padding-top: .25rem;
+  border-top: 1px solid var(--border);
+}

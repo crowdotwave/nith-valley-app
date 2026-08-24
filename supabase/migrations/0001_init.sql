@@ -283,9 +283,10 @@ create table points_ledger (
 
 create index points_ledger_household_idx on points_ledger (household_id, created_at desc);
 
--- Enforce append-only at the table level, not just in policy.
-create rule points_ledger_no_update as on update to points_ledger do instead nothing;
-create rule points_ledger_no_delete as on delete to points_ledger do instead nothing;
+-- Append-only is enforced by privilege, not by RULEs: rules also rewrite the
+-- referential-integrity queries behind foreign keys and break cascade deletes.
+-- RLS grants no UPDATE or DELETE policy here, and this makes it explicit.
+revoke update, delete on points_ledger from authenticated, anon;
 
 -- security_invoker so the view respects points_ledger's RLS. Without it a
 -- client could read every household's balance through this view.
