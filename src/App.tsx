@@ -5,6 +5,7 @@ import { supabase } from './lib/supabase';
 import Login from './routes/Login';
 import Home from './routes/Home';
 import Pets from './routes/Pets';
+import PetDetail from './routes/Pet';
 import RequestForm from './routes/RequestForm';
 import Requests from './routes/Requests';
 import StaffQueue from './routes/StaffQueue';
@@ -41,6 +42,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/pets" element={<Pets />} />
+      <Route path="/pets/:id" element={<PetDetail />} />
       <Route path="/request/:type" element={<RequestForm />} />
       <Route path="/requests" element={<Requests />} />
       <Route path="/staff" element={<StaffQueue />} />

@@ -68,9 +68,11 @@ export default function Pets() {
 
       <ul className="list">
         {pets.map((p) => (
-          <li key={p.id} className="row">
-            <span className="row-title">{p.name}</span>
-            <span className="row-detail">{p.species ?? ''}</span>
+          <li key={p.id}>
+            <Link to={`/pets/${p.id}`} className="row">
+              <span className="row-title">{p.name}</span>
+              <span className="row-detail">{p.species ?? ''}</span>
+            </Link>
           </li>
         ))}
       </ul>
