@@ -73,11 +73,16 @@ residency, which matters for an Ontario clinic holding client information.
 
 ## Status
 
-Database live: 15 tables, RLS enabled on all of them, security advisors clean.
+Live at https://crowdotwave.github.io/nith-valley-app/ — deploys on push to
+`main`.
 
-App scaffold runs the auth flow (magic link) and the home screen. Booking and
-messaging work — they hand off to Covetrus and to SMS. The other five tiles are
-visible but inert until built.
+Database: 15 tables, RLS on all of them, security advisors clean. Policies
+verified against simulated client and staff sessions — cross-household reads
+blocked, clients cannot write vaccinations, grant themselves points, promote
+themselves to staff, or edit the ledger; staff see everything.
 
-Not started: food/medication request flows, reminders, photo upload, pet file,
-loyalty screens, the staff console, Capacitor wrap, marketing site.
+Working: magic-link auth, home screen, booking handoff to Covetrus, SMS
+handoff, add/list pets, food and medication requests, request tracking.
+
+Not started: reminders, photo upload, vaccination display, loyalty screens,
+the staff console, Capacitor wrap, marketing site.
