@@ -287,7 +287,9 @@ create index points_ledger_household_idx on points_ledger (household_id, created
 create rule points_ledger_no_update as on update to points_ledger do instead nothing;
 create rule points_ledger_no_delete as on delete to points_ledger do instead nothing;
 
-create view points_balances as
+-- security_invoker so the view respects points_ledger's RLS. Without it a
+-- client could read every household's balance through this view.
+create view points_balances with (security_invoker = true) as
   select household_id, sum(delta)::int as balance
   from points_ledger
   where expires_on is null or expires_on >= current_date
@@ -315,6 +317,7 @@ create index device_tokens_profile_idx on device_tokens (profile_id);
 create or replace function app.touch_updated_at()
 returns trigger
 language plpgsql
+set search_path = pg_catalog, pg_temp
 as $$
 begin
   new.updated_at := now();

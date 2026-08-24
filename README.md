@@ -52,9 +52,32 @@ join key staff use to match app accounts to client files.
 ## Layout
 
 ```
+src/lib/clinic.ts      clinic details, booking link, SMS handoff
+src/lib/supabase.ts    Supabase client
+src/routes/            screens
 supabase/migrations/   database schema and RLS policies
 ```
 
+## Setup
+
+Requires Node 20+.
+
+```
+npm install
+cp .env.example .env    # fill in from Supabase dashboard, or use the existing .env
+npm run dev
+```
+
+The Supabase project is `nith-valley-app` in `ca-central-1` — Canadian data
+residency, which matters for an Ontario clinic holding client information.
+
 ## Status
 
-Schema drafted, not yet applied to a database. Nothing else scaffolded.
+Database live: 15 tables, RLS enabled on all of them, security advisors clean.
+
+App scaffold runs the auth flow (magic link) and the home screen. Booking and
+messaging work — they hand off to Covetrus and to SMS. The other five tiles are
+visible but inert until built.
+
+Not started: food/medication request flows, reminders, photo upload, pet file,
+loyalty screens, the staff console, Capacitor wrap, marketing site.
