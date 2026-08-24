@@ -1,0 +1,105 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f4f6f5;
+  --text: #16211e;
+  --muted: #5c6b66;
+  --border: #dbe3e0;
+  --accent: #1f6f5c;
+  --accent-text: #ffffff;
+  --error: #b3261e;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101614;
+    --surface: #1a2320;
+    --text: #e8efec;
+    --muted: #9aaba5;
+    --border: #2b3833;
+    --accent: #4fbfa0;
+    --accent-text: #06120e;
+    --error: #f2b8b5;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Respect notches when this runs under Capacitor. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+.muted { color: var(--muted); margin: 0; }
+.error { color: var(--error); }
+.loading { padding: 2rem; color: var(--muted); }
+
+main { max-width: 34rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+/* Auth ---------------------------------------------------------------- */
+
+.auth form { display: grid; gap: .5rem; margin-top: 1.5rem; }
+.auth label { font-size: .875rem; color: var(--muted); }
+
+input {
+  padding: .75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  padding: .75rem 1rem;
+  border: 0;
+  border-radius: .5rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  cursor: pointer;
+}
+
+button:disabled { cursor: default; }
+
+button.ghost {
+  background: none;
+  color: var(--muted);
+  text-decoration: underline;
+  padding: .5rem 0;
+}
+
+/* Home ---------------------------------------------------------------- */
+
+.home header { margin-bottom: 1.5rem; }
+
+.tiles { display: grid; gap: .75rem; }
+
+.tile {
+  display: grid;
+  gap: .125rem;
+  text-align: left;
+  padding: 1rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.tile-label { font-weight: 600; }
+.tile-detail { font-size: .875rem; color: var(--muted); }
+.tile.pending { opacity: .55; }
+
+.home footer { margin-top: 2rem; }
