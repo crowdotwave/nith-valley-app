@@ -89,7 +89,11 @@ than by the client.
 Staff access is granted by setting `profiles.role` to `staff` — there is no
 self-service path to it, by design.
 
-Not started: reminders, photo upload, vaccination display, loyalty screens,
+Pet detail carries diet, medications and vaccinations. Depletion dates are
+computed by the database and verified: a 6kg bag at 220g/day bought 10 days ago
+reads 17 days left; a 90-day med filled 80 days ago reads 10.
+
+Not started: the reminder job and screen, photo upload, loyalty screens,
 Capacitor wrap, marketing site.
 
 ## The PIMS
