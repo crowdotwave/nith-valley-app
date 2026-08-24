@@ -82,7 +82,19 @@ blocked, clients cannot write vaccinations, grant themselves points, promote
 themselves to staff, or edit the ledger; staff see everything.
 
 Working: magic-link auth, home screen, booking handoff to Covetrus, SMS
-handoff, add/list pets, food and medication requests, request tracking.
+handoff, add/list pets, food and medication requests, request tracking, and the
+staff request queue. Status changes are audited by a database trigger rather
+than by the client.
+
+Staff access is granted by setting `profiles.role` to `staff` — there is no
+self-service path to it, by design.
 
 Not started: reminders, photo upload, vaccination display, loyalty screens,
-the staff console, Capacitor wrap, marketing site.
+Capacitor wrap, marketing site.
+
+## The PIMS
+
+The clinic runs Covetrus Pulse, with Rapport Online Scheduling as the booking
+front end. There is no API access; see the table above for what that means.
+Worth checking whether GreatPetCare (Covetrus's own pet-parent portal, which
+requires Pulse) would cover the vaccination gap off the shelf.
