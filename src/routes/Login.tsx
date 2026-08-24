@@ -16,7 +16,12 @@ export default function Login() {
 
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: window.location.origin },
+      options: {
+        // Not window.location.origin — under GitHub Pages the app lives at a
+        // subpath, and origin alone would send people to the domain root.
+        // Strip the hash so the magic link's own fragment isn't doubled up.
+        emailRedirectTo: window.location.href.split('#')[0],
+      },
     });
 
     if (error) {
