@@ -93,8 +93,14 @@ Pet detail carries diet, medications and vaccinations. Depletion dates are
 computed by the database and verified: a 6kg bag at 220g/day bought 10 days ago
 reads 17 days left; a 90-day med filled 80 days ago reads 10.
 
-Not started: the reminder job and screen, photo upload, loyalty screens,
-Capacitor wrap, marketing site.
+Reminders are generated nightly by `app.reconcile_supply_reminders()`, run by
+pg_cron at 07:00 UTC. It reconciles rather than appends — when a client records
+a new purchase the depletion date moves, so the stale reminder is deleted and
+replaced. Verified idempotent: a second run in the same state changes nothing.
+Staff-created reminders are never touched by it.
+
+Not started: push notifications (needs the Capacitor wrap and an FCM project),
+photo upload, loyalty screens, marketing site.
 
 ## The PIMS
 
