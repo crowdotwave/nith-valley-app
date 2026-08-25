@@ -1,26 +1,43 @@
+/* Palette taken from the practice's website: navy #1D3557 on a pale blue
+   ground, white cards, Fraunces for display type. The site has no dark mode;
+   this adds one, built from the same navy rather than a generic grey. */
+
 :root {
-  --bg: #ffffff;
-  --surface: #f4f6f5;
-  --text: #16211e;
-  --muted: #5c6b66;
-  --border: #dbe3e0;
-  --accent: #1f6f5c;
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-alt: #e8edf6;
+  --text: #14263f;
+  --muted: #5f7590;
+  --border: #dde5f0;
+  --accent: #1d3557;
   --accent-text: #ffffff;
-  --error: #b3261e;
+  --accent-soft: #e8edf6;
+  --error: #a4262c;
+  --shadow: 0 1px 2px rgba(20, 38, 63, .06), 0 8px 24px rgba(20, 38, 63, .06);
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --radius: .875rem;
+  --pill: 999px;
 
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #101614;
-    --surface: #1a2320;
-    --text: #e8efec;
-    --muted: #9aaba5;
-    --border: #2b3833;
-    --accent: #4fbfa0;
-    --accent-text: #06120e;
+    --bg: #0e1521;
+    --surface: #182333;
+    --surface-alt: #1b2839;
+    --text: #e6ecf4;
+    /* The website's own muted blue reads well against the dark ground. */
+    --muted: #93aabe;
+    --border: #26344a;
+    --accent: #8ab4e0;
+    --accent-text: #0e1521;
+    --accent-soft: #1b2839;
     --error: #f2b8b5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
   }
 }
 
@@ -30,45 +47,62 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif;
-  /* Respect notches when this runs under Capacitor. */
+  font: 16px/1.55 var(--font-body);
+  -webkit-font-smoothing: antialiased;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -.01em;
+  line-height: 1.15;
+}
+
+h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
+
 .muted { color: var(--muted); margin: 0; }
 .error { color: var(--error); }
 .loading { padding: 2rem; color: var(--muted); }
 
-main { max-width: 34rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+main { max-width: 32rem; margin: 0 auto; padding: 1.5rem 1.125rem 4rem; }
 
 a { color: var(--accent); }
 
 .back {
-  display: inline-block;
-  margin-bottom: 1rem;
-  font-size: .875rem;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding: .375rem .75rem .375rem .5rem;
+  font-size: .8125rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
   text-decoration: none;
 }
 
-/* Forms --------------------------------------------------------------- */
+.icon { width: 1.375rem; height: 1.375rem; flex: 0 0 auto; }
+
+/* Forms ---------------------------------------------------------------- */
 
 .auth form,
 .stack { display: grid; gap: .5rem; margin-top: 1.5rem; }
 
-label { font-size: .875rem; color: var(--muted); }
+label { font-size: .8125rem; font-weight: 500; color: var(--muted); }
 
 input,
 select,
 textarea {
-  padding: .75rem;
-  font: inherit;
-  border: 1px solid var(--border);
-  border-radius: .5rem;
-  background: var(--bg);
-  color: var(--text);
   width: 100%;
+  padding: .8125rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: .625rem;
 }
 
 textarea { resize: vertical; }
@@ -83,76 +117,145 @@ a:focus-visible {
 }
 
 button {
-  font: inherit;
-  padding: .75rem 1rem;
+  font: 500 1rem var(--font-body);
+  padding: .8125rem 1.25rem;
   border: 0;
-  border-radius: .5rem;
+  border-radius: var(--pill);
   background: var(--accent);
   color: var(--accent-text);
   cursor: pointer;
 }
 
-button:disabled { cursor: default; }
+button:disabled { opacity: .5; cursor: default; }
 
 button.ghost {
   background: none;
   color: var(--muted);
-  text-decoration: underline;
-  padding: .5rem 0;
+  border: 1px solid var(--border);
+  padding: .625rem 1rem;
 }
 
-/* Home ---------------------------------------------------------------- */
+/* Home ----------------------------------------------------------------- */
 
-.home header { margin-bottom: 1.5rem; }
+.home header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
 
-.tiles { display: grid; gap: .75rem; }
+.home header h1 { font-size: 2rem; }
+
+/* The one thing worth surfacing above the fold: what needs doing. */
+.summary {
+  display: block;
+  padding: 1rem 1.125rem;
+  margin-bottom: 1.25rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  border-radius: var(--radius);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.summary-title { font-family: var(--font-display); font-size: 1.0625rem; }
+.summary-detail { display: block; font-size: .875rem; opacity: .82; margin-top: .125rem; }
+
+.section-label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.75rem 0 .625rem;
+}
+
+.tiles { display: grid; gap: .625rem; }
 
 .tile {
   display: grid;
-  gap: .125rem;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: .875rem;
+  width: 100%;
   text-align: left;
-  padding: 1rem;
+  padding: 1rem 1.125rem;
+  font: inherit;
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: .5rem;
+  border-radius: var(--radius);
   text-decoration: none;
   cursor: pointer;
+  box-shadow: var(--shadow);
 }
 
+.tile .icon { color: var(--accent); grid-row: span 2; }
 .tile-label { font-weight: 600; }
-.tile-detail { font-size: .875rem; color: var(--muted); }
-.tile.pending { opacity: .55; }
+.tile-detail { font-size: .8125rem; color: var(--muted); }
+.tile.pending { opacity: .5; box-shadow: none; }
 
-.home footer { margin-top: 2rem; }
+.staff-tile { margin-bottom: .5rem; }
+.staff-tile .tile { background: var(--surface-alt); box-shadow: none; }
 
-/* Lists --------------------------------------------------------------- */
+.home footer { margin-top: 2.5rem; text-align: center; }
+
+/* Lists ---------------------------------------------------------------- */
 
 .list {
   list-style: none;
   padding: 0;
   margin: 1rem 0;
   display: grid;
-  gap: .5rem;
+  gap: .625rem;
 }
 
 .row {
   display: grid;
   gap: .125rem;
-  padding: .875rem 1rem;
+  padding: 1rem 1.125rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: .5rem;
+  border-radius: var(--radius);
   color: var(--text);
   text-decoration: none;
+  box-shadow: var(--shadow);
 }
 
-section { margin-top: 2rem; }
+.row-title { font-weight: 600; }
+.row-detail { font-size: .8125rem; color: var(--muted); }
+.row input { margin-top: .5rem; }
+
+.row-note {
+  font-size: .875rem;
+  margin-top: .5rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.badge {
+  justify-self: start;
+  margin-top: .5rem;
+  padding: .1875rem .625rem;
+  font-size: .75rem;
+  font-weight: 600;
+  border-radius: var(--pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .badge { color: var(--text); }
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
+.actions button { padding: .5rem 1rem; font-size: .875rem; }
+.actions a { text-decoration: none; }
+
+section { margin-top: 2.25rem; }
 
 section h2 {
-  font-size: 1.125rem;
-  margin: 0 0 .5rem;
-  padding-bottom: .25rem;
+  padding-bottom: .5rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -161,6 +264,7 @@ label.inline {
   align-items: center;
   gap: .5rem;
   color: var(--text);
+  font-weight: 400;
 }
 
 label.inline input { width: auto; }
@@ -169,31 +273,31 @@ label.consent {
   align-items: flex-start;
   gap: .625rem;
   font-size: .875rem;
-  line-height: 1.4;
-  padding: .75rem;
+  line-height: 1.45;
+  padding: .875rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: .5rem;
+  border-radius: .625rem;
 }
 
-label.consent input { margin-top: .2rem; flex: 0 0 auto; }
+label.consent input { margin-top: .25rem; flex: 0 0 auto; }
 
-/* Photos -------------------------------------------------------------- */
+/* Photos --------------------------------------------------------------- */
 
 .gallery {
   list-style: none;
   padding: 0;
   margin: 1rem 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-  gap: .75rem;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: .625rem;
 }
 
 .gallery img {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: .5rem;
+  border-radius: .625rem;
   border: 1px solid var(--border);
 }
 
@@ -201,38 +305,18 @@ label.consent input { margin-top: .2rem; flex: 0 0 auto; }
   width: 100%;
   max-height: 18rem;
   object-fit: contain;
-  border-radius: .5rem;
-  background: var(--bg);
-  margin-bottom: .5rem;
+  border-radius: .625rem;
+  background: var(--surface-alt);
+  margin-bottom: .625rem;
 }
 
-.row-title { font-weight: 600; }
-.row-detail { font-size: .875rem; color: var(--muted); }
-.row input { margin-top: .5rem; }
+/* Auth ----------------------------------------------------------------- */
 
-.badge {
-  justify-self: start;
-  margin-top: .375rem;
-  padding: .125rem .5rem;
-  font-size: .75rem;
-  border-radius: 1rem;
-  background: var(--accent);
-  color: var(--accent-text);
-}
-
-.actions {
+.auth {
+  min-height: 80vh;
   display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  margin-top: .625rem;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.actions button { padding: .5rem .75rem; font-size: .875rem; }
-
-.staff-tile { margin-bottom: 1rem; }
-.row-note {
-  font-size: .875rem;
-  margin-top: .25rem;
-  padding-top: .25rem;
-  border-top: 1px solid var(--border);
-}
+.auth h1 { font-size: 2rem; }

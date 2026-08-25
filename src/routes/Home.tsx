@@ -1,48 +1,67 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
 import { CLINIC, openBooking, messageClinic } from '../lib/clinic';
+import Icon from '../components/Icon';
 
 type Tile = {
   label: string;
   detail: string;
+  icon: string;
   to?: string;
   onClick?: () => void;
-  pending?: boolean;
 };
 
-// The seven goals, in the order a client is likely to want them.
-// `pending` tiles are visible but inert — the shape of the app is real even
-// where the feature isn't built yet.
-const TILES: Tile[] = [
+const GROUPS: { heading: string; tiles: Tile[] }[] = [
   {
-    label: 'Book an appointment',
-    detail: 'Opens our scheduling system',
-    onClick: openBooking,
+    heading: 'Get care',
+    tiles: [
+      {
+        label: 'Book an appointment',
+        detail: 'Opens our scheduling system',
+        icon: 'calendar',
+        onClick: openBooking,
+      },
+      {
+        label: 'Message us',
+        detail: `Text ${CLINIC.phoneDisplay}`,
+        icon: 'message',
+        onClick: messageClinic,
+      },
+    ],
   },
   {
-    label: 'Message us',
-    detail: `Text ${CLINIC.phoneDisplay}`,
-    onClick: messageClinic,
+    heading: 'Food & medication',
+    tiles: [
+      { label: 'Order food', detail: 'Request a refill', icon: 'food', to: '/request/food' },
+      {
+        label: 'Request medication',
+        detail: 'Refill or renewal',
+        icon: 'pill',
+        to: '/request/medication',
+      },
+      { label: 'My requests', detail: 'Track what you have sent', icon: 'list', to: '/requests' },
+    ],
   },
-  { label: 'Order food', detail: 'Request a refill', to: '/request/food' },
   {
-    label: 'Request medication',
-    detail: 'Refill or renewal',
-    to: '/request/medication',
+    heading: 'Your pets',
+    tiles: [
+      { label: 'My pets', detail: 'Diet, medications, records', icon: 'paw', to: '/pets' },
+      { label: 'Reminders', detail: 'What is coming due', icon: 'bell', to: '/reminders' },
+      { label: 'Send us a photo', detail: 'For our social media', icon: 'camera', to: '/photos' },
+    ],
   },
-  { label: 'My requests', detail: 'Track what you have sent', to: '/requests' },
-  { label: 'My pets', detail: 'Diet, medications, records', to: '/pets' },
-  { label: 'Reminders', detail: 'What is coming due', to: '/reminders' },
-  { label: 'Send us a photo', detail: 'For our social media', to: '/photos' },
 ];
 
 function TileBody({ tile }: { tile: Tile }) {
   return (
     <>
-      <span className="tile-label">{tile.label}</span>
-      <span className="tile-detail">
-        {tile.pending ? 'Coming soon' : tile.detail}
+      <Icon name={tile.icon} />
+      <span>
+        <span className="tile-label">{tile.label}</span>
+        <br />
+        <span className="tile-detail">{tile.detail}</span>
       </span>
     </>
   );
@@ -51,6 +70,31 @@ function TileBody({ tile }: { tile: Tile }) {
 export default function Home() {
   const { profile } = useProfile();
   const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
+  const [due, setDue] = useState(0);
+  const [open, setOpen] = useState(0);
+
+  useEffect(() => {
+    const today = new Date();
+    const horizon = new Date();
+    horizon.setDate(horizon.getDate() + 14);
+    const iso = (d: Date) => d.toISOString().slice(0, 10);
+
+    supabase
+      .from('reminders')
+      .select('id', { count: 'exact', head: true })
+      .is('completed_at', null)
+      .lte('due_on', iso(horizon))
+      .or(`snoozed_until.is.null,snoozed_until.lte.${iso(today)}`)
+      .then(({ count }) => setDue(count ?? 0));
+
+    supabase
+      .from('requests')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['submitted', 'in_review', 'approved', 'ready'])
+      .then(({ count }) => setOpen(count ?? 0));
+  }, []);
+
+  const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
   return (
     <main className="home">
@@ -62,34 +106,57 @@ export default function Home() {
       {isStaff && (
         <div className="tiles staff-tile">
           <Link to="/staff" className="tile">
-            <span className="tile-label">Request queue</span>
-            <span className="tile-detail">Staff view</span>
+            <Icon name="list" />
+            <span>
+              <span className="tile-label">Request queue</span>
+              <br />
+              <span className="tile-detail">Staff view</span>
+            </span>
           </Link>
           <Link to="/staff/photos" className="tile">
-            <span className="tile-label">Photo submissions</span>
-            <span className="tile-detail">Staff view</span>
+            <Icon name="camera" />
+            <span>
+              <span className="tile-label">Photo submissions</span>
+              <br />
+              <span className="tile-detail">Staff view</span>
+            </span>
           </Link>
         </div>
       )}
 
-      <div className="tiles">
-        {TILES.map((t) =>
-          t.to ? (
-            <Link key={t.label} to={t.to} className="tile">
-              <TileBody tile={t} />
-            </Link>
-          ) : (
-            <button
-              key={t.label}
-              className={t.pending ? 'tile pending' : 'tile'}
-              onClick={t.onClick}
-              disabled={t.pending}
-            >
-              <TileBody tile={t} />
-            </button>
-          ),
-        )}
-      </div>
+      {/* Only shown when there is genuinely something to act on — a card that
+          is always there stops being read. */}
+      {due > 0 && (
+        <Link to="/reminders" className="summary">
+          <span className="summary-title">
+            {due} {plural(due, 'thing', 'things')} coming due
+          </span>
+          <span className="summary-detail">
+            {open > 0
+              ? `You also have ${open} open ${plural(open, 'request', 'requests')}`
+              : 'Tap to see what needs ordering'}
+          </span>
+        </Link>
+      )}
+
+      {GROUPS.map((g) => (
+        <div key={g.heading}>
+          <p className="section-label">{g.heading}</p>
+          <div className="tiles">
+            {g.tiles.map((t) =>
+              t.to ? (
+                <Link key={t.label} to={t.to} className="tile">
+                  <TileBody tile={t} />
+                </Link>
+              ) : (
+                <button key={t.label} className="tile" onClick={t.onClick}>
+                  <TileBody tile={t} />
+                </button>
+              ),
+            )}
+          </div>
+        </div>
+      ))}
 
       <footer>
         <button className="ghost" onClick={() => supabase.auth.signOut()}>

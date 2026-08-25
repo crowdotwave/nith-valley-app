@@ -3,8 +3,8 @@
 
 export const CLINIC = {
   name: 'Nith Valley Animal Hospital',
-  // TODO: the practice moves on 31 August 2026 — replace before that date.
-  address: '78 Huron St, New Hamburg, ON N3A 1J3',
+  // Moved 31 August 2026 from 78 Huron St. Postal code still to confirm.
+  address: '216 Huron St, New Hamburg, ON',
   phone: '+15196622749',
   phoneDisplay: '(519) 662-2749',
   email: 'info@nithvalleyah.com',
