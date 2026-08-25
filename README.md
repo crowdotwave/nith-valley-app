@@ -99,8 +99,23 @@ a new purchase the depletion date moves, so the stale reminder is deleted and
 replaced. Verified idempotent: a second run in the same state changes nothing.
 Staff-created reminders are never touched by it.
 
+Photo submissions capture consent at submit time, with the wording version
+recorded so a release can be evidenced after the text changes. The bucket is
+private and keyed by household; staff view images through signed URLs rather
+than leaving them on permanent public URLs.
+
+All seven original goals are built.
+
+## Visual design
+
+Taken from the practice's website: navy `#1D3557`, pale blue ground, white
+cards, pill buttons, Fraunces for display type. The site has no dark mode; this
+adds one built from the same navy rather than a generic grey. Fraunces loads
+from Google Fonts, so the serif fallback stack matters once this runs under
+Capacitor offline — consider self-hosting it at that point.
+
 Not started: push notifications (needs the Capacitor wrap and an FCM project),
-photo upload, loyalty screens, marketing site.
+loyalty screens, marketing site.
 
 ## The PIMS
 
