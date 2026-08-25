@@ -34,7 +34,7 @@ const TILES: Tile[] = [
   { label: 'My requests', detail: 'Track what you have sent', to: '/requests' },
   { label: 'My pets', detail: 'Diet, medications, records', to: '/pets' },
   { label: 'Reminders', detail: 'What is coming due', to: '/reminders' },
-  { label: 'Send us a photo', detail: 'For our social media', pending: true },
+  { label: 'Send us a photo', detail: 'For our social media', to: '/photos' },
 ];
 
 function TileBody({ tile }: { tile: Tile }) {
@@ -60,10 +60,16 @@ export default function Home() {
       </header>
 
       {isStaff && (
-        <Link to="/staff" className="tile staff-tile">
-          <span className="tile-label">Request queue</span>
-          <span className="tile-detail">Staff view</span>
-        </Link>
+        <div className="tiles staff-tile">
+          <Link to="/staff" className="tile">
+            <span className="tile-label">Request queue</span>
+            <span className="tile-detail">Staff view</span>
+          </Link>
+          <Link to="/staff/photos" className="tile">
+            <span className="tile-label">Photo submissions</span>
+            <span className="tile-detail">Staff view</span>
+          </Link>
+        </div>
       )}
 
       <div className="tiles">

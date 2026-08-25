@@ -3,11 +3,20 @@
 
 export const CLINIC = {
   name: 'Nith Valley Animal Hospital',
+  // TODO: the practice moves on 31 August 2026 — replace before that date.
   address: '78 Huron St, New Hamburg, ON N3A 1J3',
   phone: '+15196622749',
   phoneDisplay: '(519) 662-2749',
   email: 'info@nithvalleyah.com',
 } as const;
+
+// Recorded against every photo submission so a release can still be evidenced
+// after the wording changes. Bump the version whenever the text below changes.
+export const CONSENT_VERSION = '2026-08-v1';
+
+export const CONSENT_TEXT =
+  `I give ${CLINIC.name} permission to post this photo of my pet on their ` +
+  `social media and website. I can ask for it to be removed at any time.`;
 
 // Covetrus Rapport online scheduling. This is the practice's own booking link,
 // taken from their website. Booking is not rebuilt in the app — it opens here.
