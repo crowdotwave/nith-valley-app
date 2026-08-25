@@ -9,6 +9,7 @@ import PetDetail from './routes/Pet';
 import RequestForm from './routes/RequestForm';
 import Requests from './routes/Requests';
 import StaffQueue from './routes/StaffQueue';
+import Reminders from './routes/Reminders';
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -46,6 +47,7 @@ export default function App() {
       <Route path="/request/:type" element={<RequestForm />} />
       <Route path="/requests" element={<Requests />} />
       <Route path="/staff" element={<StaffQueue />} />
+      <Route path="/reminders" element={<Reminders />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

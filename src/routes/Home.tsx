@@ -33,7 +33,7 @@ const TILES: Tile[] = [
   },
   { label: 'My requests', detail: 'Track what you have sent', to: '/requests' },
   { label: 'My pets', detail: 'Diet, medications, records', to: '/pets' },
-  { label: 'Reminders', detail: 'What is coming due', pending: true },
+  { label: 'Reminders', detail: 'What is coming due', to: '/reminders' },
   { label: 'Send us a photo', detail: 'For our social media', pending: true },
 ];
 
