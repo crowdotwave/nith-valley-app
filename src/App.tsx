@@ -12,6 +12,8 @@ import StaffQueue from './routes/StaffQueue';
 import Reminders from './routes/Reminders';
 import Photos from './routes/Photos';
 import StaffPhotos from './routes/StaffPhotos';
+import Contact from './routes/Contact';
+import Services from './routes/Services';
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -51,6 +53,8 @@ export default function App() {
       <Route path="/staff" element={<StaffQueue />} />
       <Route path="/reminders" element={<Reminders />} />
       <Route path="/photos" element={<Photos />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/services" element={<Services />} />
       <Route path="/staff/photos" element={<StaffPhotos />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

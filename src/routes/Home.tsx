@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
-import { CLINIC, openBooking, messageClinic } from '../lib/clinic';
+import { CLINIC, openBooking } from '../lib/clinic';
 import Icon from '../components/Icon';
+import Logo from '../components/Logo';
 
 type Tile = {
   label: string;
@@ -24,11 +25,12 @@ const GROUPS: { heading: string; tiles: Tile[] }[] = [
         onClick: openBooking,
       },
       {
-        label: 'Message us',
-        detail: `Text ${CLINIC.phoneDisplay}`,
+        label: 'Contact us',
+        detail: 'Call, text, email or find us',
         icon: 'message',
-        onClick: messageClinic,
+        to: '/contact',
       },
+      { label: 'What we do', detail: 'Our services', icon: 'list', to: '/services' },
     ],
   },
   {
@@ -99,7 +101,7 @@ export default function Home() {
   return (
     <main className="home">
       <header>
-        <h1>{CLINIC.name}</h1>
+        <Logo className="logo" />
         <p className="muted">{CLINIC.address}</p>
       </header>
 

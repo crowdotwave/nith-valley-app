@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
-import { CLINIC } from '../lib/clinic';
+import Logo from '../components/Logo';
 
 // Passwordless by design. Clients already have a Covetrus password for
 // booking; a second one would land every reset request on the front desk.
@@ -49,7 +49,7 @@ export default function Login() {
 
   return (
     <main className="auth">
-      <h1>{CLINIC.name}</h1>
+      <Logo className="logo logo-auth" />
       <p className="muted">
         Sign in with the email address the clinic has on file for you.
       </p>
