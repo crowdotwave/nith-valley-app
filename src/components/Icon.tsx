@@ -10,17 +10,21 @@ const PATHS: Record<string, string> = {
   camera: 'M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
   paw: 'M5.5 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18.5 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM9.5 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM14.5 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM12 12c-3 0-5 2.5-5 5a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3c0-2.5-2-5-5-5z',
   list: 'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',
+  // Services had been sharing `list` with two unrelated tiles.
+  care: 'M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z',
+  // Marks a tile that hands off to a third-party site.
+  external: 'M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5',
 };
 
 export type IconName = keyof typeof PATHS;
 
-export default function Icon({ name }: { name: string }) {
+export default function Icon({ name, className }: { name: string; className?: string }) {
   const d = PATHS[name];
   if (!d) return null;
 
   return (
     <svg
-      className="icon"
+      className={className ? `icon ${className}` : 'icon'}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
