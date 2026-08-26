@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font-size",
+        "value": "1.25rem",
+        "createdAt": "2026-08-26T10:22:52.218Z",
+        "reason": "user confirmed: reconcile DESIGN.md and record the glyph sizes as a non-ramp exception. 1.25rem is not text — .stub-photo-empty is an initial standing in for a missing photograph inside its frame, .chev is a disclosure ornament. Both are letterforms used as graphic marks, sized to their frame. Documented under Off-ramp glyph sizes in DESIGN.md."
+      }
+    ]
+  }
+}

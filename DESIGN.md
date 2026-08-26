@@ -52,6 +52,20 @@ typography:
     lineHeight: 1.5
     letterSpacing: "normal"
     fontVariation: "'wdth' 100"
+  lead:
+    fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: "normal"
+    fontVariation: "'wdth' 100"
+  note:
+    fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.45
+    letterSpacing: "normal"
+    fontVariation: "'wdth' 100"
   caption:
     fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
     fontSize: "0.75rem"
@@ -309,15 +323,29 @@ generic `sans-serif`.
   stub. The largest normal-width type in the client app — the subject of the document.
 - **Metric** (600, 1.375rem / 22px, 1.1, `wdth 100`, `tabular-nums`): the staff console's
   standing queue counts. The only role that uses tabular figures.
-- **Body** (400, 1rem / 16px, 1.5, `wdth 100`): the root, set on `body`. Index-row labels
-  step down to .9375rem / 15px at 600; the sealed row's label holds 1rem.
-- **Caption** (400, 0.75rem / 12px, 1.5, `wdth 100`): row details, the issuing address
-  (which takes `wdth 78` and .04em instead), summary details at .9375rem.
+- **Body** (400, 1rem / 16px, 1.5, `wdth 100`): the root, set on `body`. The sealed row's
+  label holds 1rem; everything that steps down from it uses Lead or Note below.
+- **Lead** (0.9375rem / 15px, 1.5, `wdth 100`): the step immediately under Body, and the
+  most-used size in the app after Body itself. Index-row labels and record titles take it
+  at 600 (`.tile-label`, `.row-title`); summary details, notice body, and inline label
+  text take it at 400 (`.summary-detail`, `.notice`, `label.inline`).
+- **Note** (0.875rem / 14px, 1.45–1.5, `wdth 100`): quieter running text that is still
+  prose rather than caption — the calm-day band (`.summary-clear`), consent wording
+  (`label.consent`), and the account name (`.account-name`).
+- **Caption** (400, 0.75rem / 12px, 1.5, `wdth 100`): row details and the issuing address
+  (which takes `wdth 78` and .04em instead).
 - **Label** (600, 0.6875rem / 11px, 1.2, `wdth 78`, uppercase, .09em): field labels,
   section labels, form labels, the back link, stub meta lines (at .07em). Always soft
   ink, and always followed by a 1px `rule-ink` underline when it heads a section.
 - **Stamp** (700, 0.625rem / 10px, `wdth 78`, uppercase, .1em): status marks and the
   queue-field names (at 10px / .625rem).
+
+**Off-ramp glyph sizes.** Two declarations set `font-size: 1.25rem` and are deliberately
+not ramp steps, because neither is type being read as text: the initial letter standing in
+for a missing photograph inside a stub's frame (`.stub-photo-empty`), and the disclosure
+chevron (`.chev`). Both are letterforms used as graphic marks, sized to their frame rather
+than to the hierarchy. Do not treat 1.25rem as an available text size, and do not add
+further off-ramp sizes without recording them here.
 
 ### Named Rules
 
