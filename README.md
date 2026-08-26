@@ -109,10 +109,11 @@ All seven original goals are built.
 ## Visual design
 
 Taken from the practice's website: navy `#1D3557`, pale blue ground, white
-cards, pill buttons, Fraunces for display type. The site has no dark mode; this
-adds one built from the same navy rather than a generic grey. Fraunces loads
-from Google Fonts, so the serif fallback stack matters once this runs under
-Capacitor offline — consider self-hosting it at that point.
+cards, pill buttons, Fraunces for display type. Light only — a dark mode existed
+and was dropped deliberately; see `PRODUCT.md` under Brand Commitments, which
+also records the direction this is heading (clean white, logo blues as accents).
+Fraunces loads from Google Fonts, so the serif fallback stack matters once this
+runs under Capacitor offline — consider self-hosting it at that point.
 
 Not started: push notifications (needs the Capacitor wrap and an FCM project),
 loyalty screens, marketing site.

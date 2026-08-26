@@ -1,6 +1,6 @@
 /* Palette taken from the practice's website: navy #1D3557 on a pale blue
-   ground, white cards, Fraunces for display type. The site has no dark mode;
-   this adds one, built from the same navy rather than a generic grey. */
+   ground, white cards, Fraunces for display type. Light only — dark mode was
+   dropped deliberately, see PRODUCT.md under Brand Commitments. */
 
 :root {
   --bg: #f4f7fb;
@@ -21,24 +21,7 @@
   --radius: .875rem;
   --pill: 999px;
 
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0e1521;
-    --surface: #182333;
-    --surface-alt: #1b2839;
-    --text: #e6ecf4;
-    /* The website's own muted blue reads well against the dark ground. */
-    --muted: #93aabe;
-    --border: #26344a;
-    --accent: #8ab4e0;
-    --accent-text: #0e1521;
-    --accent-soft: #1b2839;
-    --error: #f2b8b5;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
-  }
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -99,17 +82,6 @@ a { color: var(--accent); }
 }
 
 .logo-auth { max-width: 17rem; margin: 0 auto 1.25rem; }
-
-/* The mark is navy on transparent, so it disappears against the dark
-   background. Sit it on a light plate rather than recolouring it and losing
-   the two-tone. Only applied to the image, not the text fallback. */
-@media (prefers-color-scheme: dark) {
-  img.logo {
-    background: #ffffff;
-    padding: .75rem .875rem;
-    border-radius: .75rem;
-  }
-}
 
 /* Notices -------------------------------------------------------------- */
 
@@ -385,10 +357,6 @@ button.ghost {
   border-radius: var(--pill);
   background: var(--accent-soft);
   color: var(--accent);
-}
-
-@media (prefers-color-scheme: dark) {
-  .badge { color: var(--text); }
 }
 
 .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
