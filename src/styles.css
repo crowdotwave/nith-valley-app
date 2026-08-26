@@ -228,6 +228,15 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   cursor: pointer;
 }
 
+/* These rows render as either a link or a button depending on where they go,
+   so they must not inherit the button's stamped casing — otherwise the same
+   row shouts or whispers based on its destination. */
+.tile, .row, .summary-error, .stub {
+  text-transform: none;
+  letter-spacing: normal;
+  font-stretch: 100%;
+}
+
 .tile .icon { color: var(--seal-mid); }
 .tile-text, .row { min-width: 0; }
 .tile-text { display: grid; gap: .0625rem; }
@@ -530,6 +539,7 @@ section { margin-top: 2rem; }
   align-items: center;
   justify-content: center;
   font-stretch: 78%;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--seal-mid);
 }
