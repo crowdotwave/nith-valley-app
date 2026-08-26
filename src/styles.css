@@ -313,7 +313,10 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 
 /* Summary band: what is due, in the year-band colour -------------------- */
 
-.summary-slot { min-height: 3.75rem; margin: .75rem 0 0; }
+/* Clear of the masthead rule. At the old spacing the 2px rule and the band's
+   3px top edge sat ~8px apart and read as one thick double rule under the
+   logo, rather than as two separate signals. */
+.summary-slot { min-height: 3.75rem; margin: 1.5rem 0 0; }
 
 .summary {
   display: block;
@@ -500,12 +503,15 @@ label.consent input { margin-top: .25rem; flex: 0 0 auto; }
 
 /* Document furniture --------------------------------------------------- */
 
+/* The emergency callout gets the same visible floor as every other boundary.
+   Raising the row separators and leaving this one on the decorative rule made
+   the block that most needs an edge the faintest on the page. */
 .notice {
   margin: 0 0 1.25rem;
   padding: .75rem .875rem;
   font-size: .9375rem;
   background: var(--field);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--rule-row);
   border-radius: var(--radius);
 }
 
