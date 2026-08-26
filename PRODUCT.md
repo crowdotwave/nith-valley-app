@@ -101,9 +101,12 @@ Undecided, recorded rather than invented:
   genuinely transparent (87.8% of pixels fully transparent, verified by decode).
   It is used to accent the interface.
 - Binding visual constraint volunteered this session: **a clean white app, with
-  the logo's blues as the accents.** Dark mode is not wanted at the moment — it
-  is currently implemented via `prefers-color-scheme` in `src/styles.css` and
-  should be retired rather than maintained.
+  the logo's blues as the accents.** Dark mode is not wanted at the moment; it
+  was removed from `src/styles.css` and `index.html` rather than maintained.
+- **Typography is open.** Fraunces is in the codebase only because it matches the
+  practice website's headings — inherited evidence, not a constraint the practice
+  made binding. Confirmed this session that later design work should choose a
+  display face deliberately rather than carry this one forward.
 - Voice: plain language, no marketing filler. The standing note at the top of
   `src/lib/content.ts` is the house style — "no sentences that could describe any
   clinic in the country." Client-facing status wording is deliberately
