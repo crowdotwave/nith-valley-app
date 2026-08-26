@@ -16,6 +16,11 @@ export default function Logo({ className }: { className?: string }) {
       className={className}
       src={`${import.meta.env.BASE_URL}logo.png`}
       alt={CLINIC.name}
+      // Intrinsic size of the asset. With `height: auto` in CSS the browser
+      // reserves the right box before the file lands, so the header does not
+      // jump once it does.
+      width={1425}
+      height={675}
       onError={() => setFailed(true)}
     />
   );

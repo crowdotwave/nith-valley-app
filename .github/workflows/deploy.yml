@@ -25,9 +25,7 @@ jobs:
         with:
           node-version: 20
 
-      # npm install rather than npm ci: there is no lockfile committed yet.
-      # Switch to `npm ci` once package-lock.json exists.
-      - run: npm install
+      - run: npm ci
 
       - run: npm run build
         env:
