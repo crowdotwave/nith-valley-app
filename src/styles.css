@@ -13,7 +13,9 @@
   --field: #f4f7fa;        /* ruled field fill, barely there */
   --ink: #14263f;
   --ink-soft: #5f7590;     /* 4.74:1 on stock — the floor, do not lighten */
-  --rule: #d3dce8;
+  --rule: #d3dce8;         /* decorative only — 1.38:1, never a separator */
+  --rule-row: #7e8fa6;     /* 3.30:1: rules ARE the structure here, so they
+                              have to be visible to an older client base */
   --rule-ink: #14263f;
 
   /* Logo blues -------------------------------------------------------- */
@@ -144,13 +146,11 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   text-align: left;
   background: none;
   border: 0;
-  border-bottom: 1px dashed var(--rule);   /* the perforation */
+  border-bottom: 1px dashed var(--rule-row);   /* the perforation */
   color: var(--ink);
   font: inherit;
   text-decoration: none;
 }
-
-.stub:last-child { border-bottom: 1px solid var(--rule-ink); }
 
 .stub-photo {
   width: 3.5rem;
@@ -220,7 +220,7 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   text-align: left;
   background: none;
   border: 0;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-row);
   border-radius: 0;
   color: var(--ink);
   font: inherit;
@@ -275,6 +275,42 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 
 .staff-tile { margin-bottom: .5rem; }
 
+/* The queue as fields of the document rather than a caption under a link. */
+.queue-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: .25rem;
+  background: var(--rule-row);
+  border: 1px solid var(--rule-row);
+}
+
+.queue-field { background: var(--stock); padding: .625rem .75rem; }
+
+.queue-value {
+  display: block;
+  font-size: 1.375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.queue-name {
+  display: block;
+  margin-top: .125rem;
+  font-size: .625rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--ink-soft);
+}
+
+/* The client app is a phone document and stays one. The front desk works at a
+   counter all day, so its console gets the width its job actually needs. */
+@media (min-width: 46rem) {
+  .desk { max-width: 44rem; }
+}
+
 /* Summary band: what is due, in the year-band colour -------------------- */
 
 .summary-slot { min-height: 3.75rem; margin: .75rem 0 0; }
@@ -325,7 +361,9 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 .summary-error .summary-title { color: var(--alert); }
 .summary-error .summary-detail { color: var(--ink-soft); }
 
-/* The calm day: a ruled note, not a card. */
+/* The calm day. The band runs the full width as a band — a coloured stripe
+   down one side is the side-tab tell, and it has no business on the primary
+   surface's first viewport. */
 .summary-clear {
   display: flex;
   align-items: center;
@@ -333,9 +371,9 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   margin: 0;
   padding: 0 .875rem;
   font-size: .875rem;
-  color: var(--ink-soft);
+  color: var(--ink);
   background: var(--field);
-  border-left: 2px solid var(--band);
+  border-top: 3px solid var(--band);
   text-decoration: none;
 }
 
@@ -361,8 +399,26 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 .stamp-review  { border-style: dashed; }
 .stamp-approved{ border-style: double; border-width: 3px; padding: .0625rem .4375rem; }
 .stamp-ready   { background: var(--ink); color: var(--stock); }
-.stamp-done    { border-style: solid; opacity: .55; text-decoration: line-through; }
-.stamp-declined{ border-style: solid; color: var(--alert); border-color: var(--alert); text-decoration: line-through; }
+
+/* Picked up and Not approved are opposite outcomes, so they cannot differ by
+   hue or by lightness alone: struck-plain versus struck-and-hatched separates
+   them in greyscale. No opacity — it took this one below contrast. */
+.stamp-done {
+  border-style: solid;
+  color: var(--ink-soft);
+  border-color: var(--ink-soft);
+  text-decoration: line-through;
+}
+
+.stamp-declined {
+  border-style: solid;
+  color: var(--alert);
+  border-color: var(--alert);
+  text-decoration: line-through;
+  background: repeating-linear-gradient(
+    135deg, transparent 0 3px, rgba(20, 38, 63, .16) 3px 5px
+  );
+}
 
 /* Forms ---------------------------------------------------------------- */
 
@@ -460,7 +516,8 @@ label.consent input { margin-top: .25rem; flex: 0 0 auto; }
   justify-content: space-between;
   gap: 1rem;
   padding: .5rem 0;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-row);
+  font-variant-numeric: tabular-nums;
 }
 
 .hours li:last-child { border-bottom: 0; }
@@ -549,7 +606,28 @@ section { margin-top: 2rem; }
 .account-name { font-size: .875rem; }
 .account-detail { font-size: .6875rem; color: var(--ink-soft); }
 
-.photo-field { display: none; }
+/* Clipped, never display:none — hiding it dropped photo capture out of the tab
+   order entirely, so the feature shipped mouse-only. */
+.sr-only, .photo-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.stub-photo-slot:focus-within .stub-photo,
+.account-photo-slot:focus-within .account-photo,
+.stub-photo-empty:focus-within,
+.account-photo-empty:focus-within {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
 
 .photo-swap {
   font-size: .625rem;

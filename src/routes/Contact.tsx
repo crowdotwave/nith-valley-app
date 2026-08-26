@@ -16,28 +16,25 @@ export default function Contact() {
 
       <div className="tiles">
         <a className="tile" href={`tel:${CLINIC.phone}`}>
-          <Icon name="message" />
-          <span>
+          <Icon name="phone" />
+          <span className="tile-text">
             <span className="tile-label">Call the clinic</span>
-            <br />
             <span className="tile-detail">{CLINIC.phoneDisplay}</span>
           </span>
         </a>
 
         <a className="tile" href={`sms:${CLINIC.phone}`}>
           <Icon name="message" />
-          <span>
+          <span className="tile-text">
             <span className="tile-label">Send a text</span>
-            <br />
             <span className="tile-detail">{CLINIC.phoneDisplay}</span>
           </span>
         </a>
 
         <a className="tile" href={`mailto:${CLINIC.email}`}>
-          <Icon name="list" />
-          <span>
+          <Icon name="mail" />
+          <span className="tile-text">
             <span className="tile-label">Email us</span>
-            <br />
             <span className="tile-detail">{CLINIC.email}</span>
           </span>
         </a>
@@ -64,10 +61,9 @@ export default function Contact() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Icon name="calendar" />
-          <span>
+          <Icon name="pin" />
+          <span className="tile-text">
             <span className="tile-label">Open in maps</span>
-            <br />
             <span className="tile-detail">Directions to the clinic</span>
           </span>
         </a>

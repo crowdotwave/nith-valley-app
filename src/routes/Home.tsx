@@ -5,6 +5,7 @@ import { useProfile } from '../lib/useProfile';
 import { CLINIC, openBooking } from '../lib/clinic';
 import { relativeDue } from '../lib/dates';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
+import AccountRow from '../components/AccountRow';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
 import type { Pet } from '../lib/types';
@@ -108,7 +109,6 @@ export default function Home() {
   const [load, setLoad] = useState<Load>({ state: 'loading' });
   const [attempt, setAttempt] = useState(0);
   const [urls, setUrls] = useState<Record<string, string>>({});
-  const [avatar, setAvatar] = useState<string | null>(null);
   const [photoError, setPhotoError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -166,22 +166,6 @@ export default function Home() {
     };
   }, [attempt]);
 
-  useEffect(() => {
-    let cancelled = false;
-    if (!profile?.avatar_path) {
-      setAvatar(null);
-      return;
-    }
-
-    signPaths([profile.avatar_path]).then((signed) => {
-      if (!cancelled) setAvatar(signed[profile.avatar_path!] ?? null);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [profile?.avatar_path]);
-
   const attachPetPhoto = useCallback(
     async (pet: Pet, e: ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
@@ -212,39 +196,8 @@ export default function Home() {
     [profile?.household_id],
   );
 
-  const attachAvatar = useCallback(
-    async (e: ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      e.target.value = '';
-      if (!file || !profile?.household_id || !profile.id) return;
-
-      setPhotoError(null);
-      try {
-        const path = await uploadHouseholdPhoto(file, profile.household_id, 'avatars');
-        const { error } = await supabase
-          .from('profiles')
-          .update({ avatar_path: path })
-          .eq('id', profile.id);
-
-        if (error) {
-          await removePhoto(path);
-          setPhotoError(error.message);
-          return;
-        }
-
-        await removePhoto(profile.avatar_path);
-        const signed = await signPaths([path]);
-        setAvatar(signed[path] ?? null);
-      } catch (err) {
-        setPhotoError(err instanceof Error ? err.message : 'Upload failed');
-      }
-    },
-    [profile?.household_id, profile?.id, profile?.avatar_path],
-  );
-
   const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
   const dueCount = load.state === 'ready' ? load.due.length : 0;
-  const initial = (profile?.full_name || profile?.email || '?').trim().charAt(0).toUpperCase();
 
   return (
     <main className="home">
@@ -306,20 +259,25 @@ export default function Home() {
               <li key={pet.id} className="stub">
                 <label
                   className={src ? 'stub-photo-slot' : 'stub-photo stub-photo-empty'}
-                  title={src ? `Change ${pet.name}'s picture` : `Add a picture of ${pet.name}`}
+                  htmlFor={`pet-photo-${pet.id}`}
                 >
                   {src ? (
                     <img className="stub-photo" src={src} alt={pet.name} />
                   ) : (
                     pet.name.charAt(0).toUpperCase()
                   )}
-                  <input
-                    className="photo-field"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => attachPetPhoto(pet, e)}
-                  />
                 </label>
+
+                <input
+                  id={`pet-photo-${pet.id}`}
+                  className="photo-field"
+                  type="file"
+                  accept="image/*"
+                  aria-label={
+                    src ? `Change ${pet.name}'s picture` : `Add a picture of ${pet.name}`
+                  }
+                  onChange={(e) => attachPetPhoto(pet, e)}
+                />
 
                 <Link to={`/pets/${pet.id}`} className="stub-body">
                   <span className="stub-name">{pet.name}</span>
@@ -364,27 +322,7 @@ export default function Home() {
         </>
       )}
 
-      <div className="account">
-        <label
-          className={avatar ? 'account-photo-slot' : 'account-photo account-photo-empty'}
-          title="Change your picture"
-        >
-          {avatar ? <img className="account-photo" src={avatar} alt="" /> : initial}
-          <input className="photo-field" type="file" accept="image/*" onChange={attachAvatar} />
-        </label>
-
-        <span>
-          <span className="account-name">{profile?.full_name || profile?.email}</span>
-          <br />
-          <span className="account-detail">
-            {avatar ? 'Tap your picture to change it' : 'Tap to add your picture'}
-          </span>
-        </span>
-
-        <button className="ghost" onClick={() => supabase.auth.signOut()}>
-          Sign out
-        </button>
-      </div>
+      <AccountRow />
     </main>
   );
 }

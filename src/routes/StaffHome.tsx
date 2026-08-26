@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { useProfile } from '../lib/useProfile';
 import { CLINIC } from '../lib/clinic';
+import AccountRow from '../components/AccountRow';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
 
@@ -15,7 +15,6 @@ type Load =
   | { state: 'ready'; waiting: number; inReview: number; ready: number; photos: number };
 
 export default function StaffHome() {
-  const { profile } = useProfile();
   const [load, setLoad] = useState<Load>({ state: 'loading' });
   const [attempt, setAttempt] = useState(0);
 
@@ -60,7 +59,7 @@ export default function StaffHome() {
   const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
   return (
-    <main className="home">
+    <main className="home desk">
       <header className="masthead">
         <Logo className="logo" />
         <p className="issuing">Front desk · {CLINIC.address}</p>
@@ -96,16 +95,32 @@ export default function StaffHome() {
       </div>
 
       <p className="field-label">The queue</p>
+
+      {/* The desk's standing numbers are fields of this document, not a caption
+          under a link. */}
+      {load.state === 'ready' && (
+        <div className="queue-fields">
+          <div className="queue-field">
+            <span className="queue-value">{load.waiting}</span>
+            <span className="queue-name">New</span>
+          </div>
+          <div className="queue-field">
+            <span className="queue-value">{load.inReview}</span>
+            <span className="queue-name">In review</span>
+          </div>
+          <div className="queue-field">
+            <span className="queue-value">{load.ready}</span>
+            <span className="queue-name">To hand over</span>
+          </div>
+        </div>
+      )}
+
       <div className="tiles">
         <Link to="/staff" className="tile tile-primary">
           <Icon name="list" />
           <span className="tile-text">
             <span className="tile-label">Request queue</span>
-            <span className="tile-detail">
-              {load.state === 'ready'
-                ? `${load.waiting} new · ${load.inReview} in review · ${load.ready} to hand over`
-                : 'Food and medication requests'}
-            </span>
+            <span className="tile-detail">Food and medication requests</span>
           </span>
         </Link>
 
@@ -152,21 +167,7 @@ export default function StaffHome() {
         </Link>
       </div>
 
-      <div className="account">
-        <span className="account-photo account-photo-empty">
-          {(profile?.full_name || profile?.email || '?').trim().charAt(0).toUpperCase()}
-        </span>
-
-        <span>
-          <span className="account-name">{profile?.full_name || profile?.email}</span>
-          <br />
-          <span className="account-detail">Signed in as {profile?.role}</span>
-        </span>
-
-        <button className="ghost" onClick={() => supabase.auth.signOut()}>
-          Sign out
-        </button>
-      </div>
+      <AccountRow />
     </main>
   );
 }
