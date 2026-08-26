@@ -1,25 +1,52 @@
-/* Palette taken from the practice's website: navy #1D3557 on a pale blue
-   ground, white cards, Fraunces for display type. Light only — dark mode was
-   dropped deliberately, see PRODUCT.md under Brand Commitments. */
+/* The Vaccination Certificate.
+   ---------------------------------------------------------------------------
+   The app is the document the practice issues about your animal. White stock,
+   hairline rules, a field-and-value grid. The logo's blues are the ink; a
+   year-coded band is the only accent. Status is a stamp whose SHAPE carries
+   state — never its hue — so it survives colour blindness and greyscale.
+   One family, Archivo, across its width axis. No cards, no shadows, no dark
+   mode. See the direction contract at the top of index.html. */
 
 :root {
-  --bg: #f4f7fb;
-  --surface: #ffffff;
-  --surface-alt: #e8edf6;
-  --text: #14263f;
-  --muted: #5f7590;
-  --border: #dde5f0;
-  --accent: #1d3557;
-  --accent-text: #ffffff;
-  --accent-soft: #e8edf6;
-  --error: #a4262c;
-  --shadow: 0 1px 2px rgba(20, 38, 63, .06), 0 8px 24px rgba(20, 38, 63, .06);
+  /* Document ---------------------------------------------------------- */
+  --stock: #ffffff;        /* the ground: clean white */
+  --field: #f4f7fa;        /* ruled field fill, barely there */
+  --ink: #14263f;
+  --ink-soft: #5f7590;     /* 4.74:1 on stock — the floor, do not lighten */
+  --rule: #d3dce8;
+  --rule-ink: #14263f;
 
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Logo blues -------------------------------------------------------- */
+  --seal: #1d3557;         /* the mark's navy */
+  --seal-mid: #4e7ebf;     /* the mark's mid blue */
+  --seal-ink: #ffffff;
 
-  --radius: .875rem;
-  --pill: 999px;
+  /* The band: rabies tags are colour-coded by year. The one accent. */
+  --band: #1f7a46;         /* 5.34:1 against white text */
+  --band-ink: #ffffff;
+
+  --alert: #a4262c;
+
+  --font-doc: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+
+  --radius: 2px;           /* documents do not have soft corners */
+  --pill: 2px;
+
+  /* Legacy aliases. The eleven routes not individually reworked in this pass
+     still reference these; they now resolve into the certificate world. */
+  --bg: var(--stock);
+  --surface: var(--stock);
+  --surface-alt: var(--field);
+  --text: var(--ink);
+  --muted: var(--ink-soft);
+  --border: var(--rule);
+  --accent: var(--seal);
+  --accent-text: var(--seal-ink);
+  --accent-soft: var(--field);
+  --error: var(--alert);
+  --shadow: none;
+  --font-display: var(--font-doc);
+  --font-body: var(--font-doc);
 
   color-scheme: light;
 }
@@ -28,197 +55,245 @@
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.55 var(--font-body);
+  background: var(--stock);
+  color: var(--ink);
+  font: 16px/1.5 var(--font-doc);
   -webkit-font-smoothing: antialiased;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-h1, h2, h3 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -.01em;
-  line-height: 1.15;
-}
-
-h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
-h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
-
-.muted { color: var(--muted); margin: 0; }
-.error { color: var(--error); }
-.loading { padding: 2rem; color: var(--muted); }
-
 main { max-width: 32rem; margin: 0 auto; padding: 1.5rem 1.125rem 4rem; }
 
-a { color: var(--accent); }
+a { color: var(--seal); }
 
+/* Field labels are the system's voice: condensed, small, spaced, upper. */
+h1, h2, h3, .field-label, .section-label {
+  font-family: var(--font-doc);
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 { font-size: 1.125rem; margin-bottom: .75rem; }
+h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
+
+.field-label,
+.section-label {
+  display: block;
+  font-size: .6875rem;
+  color: var(--ink-soft);
+  margin: 1.75rem 0 .5rem;
+  padding-bottom: .3125rem;
+  border-bottom: 1px solid var(--rule-ink);
+}
+
+.muted { color: var(--ink-soft); margin: 0; }
+.error { color: var(--alert); }
+.loading { padding: 2rem; color: var(--ink-soft); }
+
+.icon { width: 1.125rem; height: 1.125rem; flex: 0 0 auto; }
+
+/* Back is a filing reference, not a button. */
 .back {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   margin-bottom: 1.25rem;
-  padding: .375rem .75rem .375rem .5rem;
-  font-size: .8125rem;
-  color: var(--muted);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--pill);
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Masthead ------------------------------------------------------------- */
+
+.masthead,
+.home header {
+  padding-bottom: .875rem;
+  margin-bottom: .25rem;
+  border-bottom: 2px solid var(--rule-ink);
+}
+
+.logo { display: block; width: 100%; max-width: 13rem; height: auto; }
+.logo-auth { max-width: 15rem; margin: 0 auto 1.25rem; }
+
+.issuing {
+  margin: .5rem 0 0;
+  font-size: .75rem;
+  font-stretch: 78%;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+}
+
+/* Stubs: one per animal, the detachable section of a certificate --------- */
+
+.stubs { list-style: none; margin: 0; padding: 0; }
+
+.stub {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  align-items: center;
+  gap: .875rem;
+  width: 100%;
+  padding: .75rem 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px dashed var(--rule);   /* the perforation */
+  color: var(--ink);
+  font: inherit;
   text-decoration: none;
 }
 
-.icon { width: 1.375rem; height: 1.375rem; flex: 0 0 auto; }
+.stub:last-child { border-bottom: 1px solid var(--rule-ink); }
 
-/* Logo ----------------------------------------------------------------- */
-
-.logo {
+.stub-photo {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: cover;
+  border: 1px solid var(--rule-ink);
+  background: var(--field);
   display: block;
-  width: 100%;
-  max-width: 15rem;
-  height: auto;
-  margin-bottom: .625rem;
-  font-family: var(--font-display);
-  font-size: 1.75rem;
 }
 
-.logo-auth { max-width: 17rem; margin: 0 auto 1.25rem; }
-
-/* Notices -------------------------------------------------------------- */
-
-.notice {
-  margin: 0 0 1.25rem;
-  padding: .875rem 1rem;
-  font-size: .9375rem;
-  background: var(--surface-alt);
-  border-left: 3px solid var(--accent);
-  border-radius: .375rem;
-}
-
-/* Hours ---------------------------------------------------------------- */
-
-.hours { list-style: none; padding: 0; margin: 0; }
-
-.hours li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: .625rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.hours li:last-child { border-bottom: 0; }
-
-/* Disclosure ----------------------------------------------------------- */
-
-.disclosure {
+/* No photo yet is a designed state, not a grey circle: the empty frame a
+   certificate ships with, initial set in the practice's own blue. */
+.stub-photo-empty {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: center;
+  font-stretch: 78%;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--seal-mid);
+  border-style: dashed;
+}
+
+/* The photo frame is its own control so tapping it attaches a picture; the
+   body beside it is the link into the animal's record. */
+.stub-photo-slot { display: block; width: 3.5rem; height: 3.5rem; cursor: pointer; }
+.stub-photo-empty { cursor: pointer; }
+
+.stub-body {
+  min-width: 0;
+  display: grid;
+  gap: .0625rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.record-empty { padding: .75rem 0 1rem; }
+
+.stub-name {
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -.005em;
+}
+
+.stub-meta {
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-soft);
+}
+
+.stub-due { font-size: .8125rem; color: var(--ink); margin-top: .1875rem; }
+.stub-due.clear { color: var(--ink-soft); }
+
+/* Index rows: the actions, ruled rather than tiled --------------------- */
+
+.tiles, .list { list-style: none; margin: 0; padding: 0; display: block; }
+
+.tile, .row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: .75rem;
   width: 100%;
-  padding: 0;
+  padding: .8125rem 0;
   text-align: left;
   background: none;
-  color: var(--text);
-  border-radius: 0;
-  font: inherit;
-}
-
-.chev {
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--muted);
-  transition: transform .15s ease;
-}
-
-.chev.open { transform: rotate(90deg); }
-
-/* Forms ---------------------------------------------------------------- */
-
-.auth form,
-.stack { display: grid; gap: .5rem; margin-top: 1.5rem; }
-
-label { font-size: .8125rem; font-weight: 500; color: var(--muted); }
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: .8125rem;
-  font: inherit;
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: .625rem;
-}
-
-textarea { resize: vertical; }
-
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-button:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-button {
-  font: 500 1rem var(--font-body);
-  padding: .8125rem 1.25rem;
   border: 0;
-  border-radius: var(--pill);
-  background: var(--accent);
-  color: var(--accent-text);
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  color: var(--ink);
+  font: inherit;
+  text-decoration: none;
   cursor: pointer;
 }
 
-button:disabled { opacity: .5; cursor: default; }
+.tile .icon { color: var(--seal-mid); }
+.tile-text, .row { min-width: 0; }
+.tile-text { display: grid; gap: .0625rem; }
+.tile-label, .row-title { font-weight: 600; font-size: .9375rem; }
+.tile-detail, .row-detail { font-size: .75rem; color: var(--ink-soft); }
+.tile.pending { opacity: .5; }
 
-button.ghost {
-  background: none;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: .625rem 1rem;
+.row { display: grid; grid-template-columns: 1fr; gap: .125rem; cursor: default; }
+.row input { margin-top: .5rem; }
+
+.row-note {
+  font-size: .8125rem;
+  margin-top: .5rem;
+  padding-top: .5rem;
+  border-top: 1px dashed var(--rule);
+  color: var(--ink-soft);
 }
 
-/* Home ----------------------------------------------------------------- */
-
-.home header {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border);
+/* The sealed row: one action leads the document. */
+.tile-primary {
+  grid-template-columns: auto 1fr auto;
+  margin-top: .25rem;
+  padding: 1rem .875rem;
+  background: var(--seal);
+  color: var(--seal-ink);
+  border-bottom: 0;
 }
 
-.home header h1 { font-size: 2rem; }
+.tile-primary .icon,
+.tile-primary .tile-detail { color: var(--seal-ink); }
+.tile-primary .tile-detail { opacity: .78; }
+.tile-primary .tile-label { font-size: 1rem; }
 
-/* The one thing worth surfacing above the fold: what needs doing.
+.tile-external { grid-template-columns: auto 1fr auto; }
+.icon.tile-external-mark { width: .875rem; height: .875rem; opacity: .8; }
 
-   The slot reserves the card's height whether or not a card is showing, so the
-   tiles underneath never shift when the counts resolve. The empty case pays a
-   little whitespace; the alternative is a tap target sliding out from under a
-   thumb on a slow connection. */
-.summary-slot { min-height: 4.75rem; margin-bottom: 1.25rem; }
+.staff-tile { margin-bottom: .5rem; }
+
+/* Summary band: what is due, in the year-band colour -------------------- */
+
+.summary-slot { min-height: 3.75rem; margin: .75rem 0 0; }
 
 .summary {
   display: block;
-  min-height: 4.75rem;
-  padding: 1rem 1.125rem;
-  background: var(--accent);
-  color: var(--accent-text);
+  min-height: 3.75rem;
+  padding: .75rem .875rem;
+  background: var(--band);
+  color: var(--band-ink);
   border-radius: var(--radius);
   text-decoration: none;
-  box-shadow: var(--shadow);
 }
 
-.summary-title { font-family: var(--font-display); font-size: 1.0625rem; }
-.summary-detail { display: block; font-size: .875rem; opacity: .82; margin-top: .125rem; }
+.summary-title {
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+.summary-detail { display: block; font-size: .9375rem; margin-top: .1875rem; }
 
 .summary-skeleton {
-  height: 4.75rem;
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  box-shadow: none;
+  height: 3.75rem;
+  background: var(--field);
+  border: 1px solid var(--rule);
   animation: summary-pulse 1.4s ease-in-out infinite;
 }
 
@@ -228,153 +303,119 @@ button.ghost {
   .summary-skeleton { animation: none; }
 }
 
-/* A failed count is reported, never rendered as zero. */
 .summary-error {
   width: 100%;
   text-align: left;
   font: inherit;
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--error);
-  box-shadow: none;
+  background: var(--stock);
+  color: var(--ink);
+  border: 1px solid var(--alert);
+  cursor: pointer;
 }
 
-.summary-error .summary-title { color: var(--error); }
-.summary-error .summary-detail { color: var(--muted); opacity: 1; }
+.summary-error .summary-title { color: var(--alert); }
+.summary-error .summary-detail { color: var(--ink-soft); }
 
-/* Fills the slot on the common day, when nothing is due. Muted panel rather
-   than an accent card, so it never competes with a real reminder. */
+/* The calm day: a ruled note, not a card. */
 .summary-clear {
   display: flex;
   align-items: center;
-  min-height: 4.75rem;
+  min-height: 3.75rem;
   margin: 0;
-  padding: 0 1.125rem;
-  font-size: .9375rem;
-  color: var(--muted);
-  background: var(--surface-alt);
-  border-radius: var(--radius);
-  text-decoration: none;
-}
-
-.section-label {
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 1.75rem 0 .625rem;
-}
-
-.tiles { display: grid; gap: .625rem; }
-
-.tile {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: .875rem;
-  width: 100%;
-  text-align: left;
-  padding: 1rem 1.125rem;
-  font: inherit;
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-}
-
-.tile .icon { color: var(--accent); }
-/* Two grid rows rather than a <br>, so a screen reader gets label and detail as
-   separate runs instead of one unbroken sentence. */
-.tile-text { display: grid; gap: .125rem; min-width: 0; }
-.tile-label { font-weight: 600; }
-.tile-detail { font-size: .8125rem; color: var(--muted); }
-.tile.pending { opacity: .5; box-shadow: none; }
-
-/* One action leads the page. Deliberately lighter than .summary so a real due
-   reminder still outranks it when both are on screen. */
-.tile-primary {
-  padding: 1.25rem 1.125rem;
-  background: var(--accent-soft);
-  border: 1.5px solid var(--accent);
-}
-
-.tile-primary .tile-label { font-family: var(--font-display); font-size: 1.0625rem; }
-.tile-primary .icon { width: 1.625rem; height: 1.625rem; }
-
-/* Leaving the app should be visible before the tap, not after it. */
-.tile-external { grid-template-columns: auto 1fr auto; }
-.icon.tile-external-mark { width: 1rem; height: 1rem; color: var(--muted); }
-
-.staff-tile { margin-bottom: .5rem; }
-.staff-tile .tile { background: var(--surface-alt); box-shadow: none; }
-
-.home footer { margin-top: 2.5rem; text-align: center; }
-
-/* Lists ---------------------------------------------------------------- */
-
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0;
-  display: grid;
-  gap: .625rem;
-}
-
-.row {
-  display: grid;
-  gap: .125rem;
-  padding: 1rem 1.125rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text);
-  text-decoration: none;
-  box-shadow: var(--shadow);
-}
-
-.row-title { font-weight: 600; }
-.row-detail { font-size: .8125rem; color: var(--muted); }
-.row input { margin-top: .5rem; }
-
-.row-note {
+  padding: 0 .875rem;
   font-size: .875rem;
-  margin-top: .5rem;
-  padding-top: .5rem;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
+  color: var(--ink-soft);
+  background: var(--field);
+  border-left: 2px solid var(--band);
+  text-decoration: none;
 }
 
-.badge {
+/* Stamps: state by SHAPE, never by hue --------------------------------- */
+
+.stamp, .badge {
   justify-self: start;
-  margin-top: .5rem;
-  padding: .1875rem .625rem;
-  font-size: .75rem;
-  font-weight: 600;
-  border-radius: var(--pill);
-  background: var(--accent-soft);
-  color: var(--accent);
+  display: inline-block;
+  margin-top: .375rem;
+  padding: .1875rem .5rem;
+  font-size: .625rem;
+  font-stretch: 78%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--ink);
+  border-radius: 0;
 }
 
-.actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
-.actions button { padding: .5rem 1rem; font-size: .875rem; }
-.actions a { text-decoration: none; }
+.stamp-sent    { border-style: solid; }
+.stamp-review  { border-style: dashed; }
+.stamp-approved{ border-style: double; border-width: 3px; padding: .0625rem .4375rem; }
+.stamp-ready   { background: var(--ink); color: var(--stock); }
+.stamp-done    { border-style: solid; opacity: .55; text-decoration: line-through; }
+.stamp-declined{ border-style: solid; color: var(--alert); border-color: var(--alert); text-decoration: line-through; }
 
-section { margin-top: 2.25rem; }
+/* Forms ---------------------------------------------------------------- */
 
-section h2 {
-  padding-bottom: .5rem;
-  border-bottom: 1px solid var(--border);
+.auth form, .stack { display: grid; gap: .5rem; margin-top: 1.5rem; }
+
+label {
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: .75rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--stock);
+  border: 1px solid var(--rule-ink);
+  border-radius: var(--radius);
+}
+
+textarea { resize: vertical; }
+
+input:focus-visible, select:focus-visible, textarea:focus-visible,
+button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+button {
+  font: 600 .8125rem var(--font-doc);
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  padding: .8125rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--seal);
+  color: var(--seal-ink);
+  cursor: pointer;
+}
+
+button:disabled { opacity: .45; cursor: default; }
+
+button.ghost {
+  background: none;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule-ink);
 }
 
 label.inline {
   display: flex;
   align-items: center;
   gap: .5rem;
-  color: var(--text);
+  color: var(--ink);
+  font-size: .9375rem;
+  font-stretch: 100%;
+  text-transform: none;
+  letter-spacing: 0;
   font-weight: 400;
 }
 
@@ -386,12 +427,59 @@ label.consent {
   font-size: .875rem;
   line-height: 1.45;
   padding: .875rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: .625rem;
+  background: var(--field);
+  border: 1px dashed var(--rule-ink);
 }
 
 label.consent input { margin-top: .25rem; flex: 0 0 auto; }
+
+/* Document furniture --------------------------------------------------- */
+
+.notice {
+  margin: 0 0 1.25rem;
+  padding: .75rem .875rem;
+  font-size: .9375rem;
+  background: var(--field);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.hours { list-style: none; padding: 0; margin: 0; }
+
+.hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hours li:last-child { border-bottom: 0; }
+
+.disclosure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ink);
+  border-radius: 0;
+  font: inherit;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.chev { font-size: 1.25rem; line-height: 1; color: var(--ink-soft); transition: transform .15s ease; }
+.chev.open { transform: rotate(90deg); }
+
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
+.actions button { padding: .5rem .875rem; font-size: .6875rem; }
+.actions a { text-decoration: none; }
+
+section { margin-top: 2rem; }
 
 /* Photos --------------------------------------------------------------- */
 
@@ -400,7 +488,7 @@ label.consent input { margin-top: .25rem; flex: 0 0 auto; }
   padding: 0;
   margin: 1rem 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
   gap: .625rem;
 }
 
@@ -408,17 +496,59 @@ label.consent input { margin-top: .25rem; flex: 0 0 auto; }
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: .625rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--rule-ink);
 }
 
 .review-image {
   width: 100%;
   max-height: 18rem;
   object-fit: contain;
-  border-radius: .625rem;
-  background: var(--surface-alt);
+  border: 1px solid var(--rule-ink);
+  background: var(--field);
   margin-bottom: .625rem;
+}
+
+/* Account picture ------------------------------------------------------ */
+
+.account {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr auto;
+  align-items: center;
+  gap: .75rem;
+  margin-top: 2rem;
+  padding-top: .875rem;
+  border-top: 1px solid var(--rule);
+}
+
+.account-photo {
+  width: 2.75rem;
+  height: 2.75rem;
+  object-fit: cover;
+  border: 1px solid var(--rule-ink);
+  background: var(--field);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-stretch: 78%;
+  font-weight: 600;
+  color: var(--seal-mid);
+}
+
+.account-photo-slot { display: block; width: 2.75rem; height: 2.75rem; cursor: pointer; }
+.account-photo-empty { border-style: dashed; cursor: pointer; }
+.account-name { font-size: .875rem; }
+.account-detail { font-size: .6875rem; color: var(--ink-soft); }
+
+.photo-field { display: none; }
+
+.photo-swap {
+  font-size: .625rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
 }
 
 /* Auth ----------------------------------------------------------------- */
@@ -430,4 +560,4 @@ label.consent input { margin-top: .25rem; flex: 0 0 auto; }
   justify-content: center;
 }
 
-.auth h1 { font-size: 2rem; }
+.home footer { margin-top: 2rem; text-align: center; }

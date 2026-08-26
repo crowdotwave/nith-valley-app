@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
-import { STATUS_LABEL, type RequestStatus } from '../lib/types';
+import { STATUS_LABEL, STATUS_STAMP, type RequestStatus } from '../lib/types';
 
 type QueueRow = {
   id: string;
@@ -108,7 +108,7 @@ export default function StaffQueue() {
               {new Date(r.created_at).toLocaleDateString()}
             </span>
 
-            <span className="badge">{STATUS_LABEL[r.status]}</span>
+            <span className={`badge ${STATUS_STAMP[r.status]}`}>{STATUS_LABEL[r.status]}</span>
 
             {r.client_note && <span className="row-note">“{r.client_note}”</span>}
 

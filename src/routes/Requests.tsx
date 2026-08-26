@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { STATUS_LABEL, type ClientRequest } from '../lib/types';
+import { STATUS_LABEL, STATUS_STAMP, type ClientRequest } from '../lib/types';
 
 export default function Requests() {
   const [rows, setRows] = useState<ClientRequest[]>([]);
@@ -38,10 +38,9 @@ export default function Requests() {
               {r.details?.item || (r.type === 'food' ? 'Food' : 'Medication')}
             </span>
             <span className="row-detail">
-              {STATUS_LABEL[r.status]}
-              {' · '}
-              {new Date(r.created_at).toLocaleDateString()}
+              Sent {new Date(r.created_at).toLocaleDateString()}
             </span>
+            <span className={`badge ${STATUS_STAMP[r.status]}`}>{STATUS_LABEL[r.status]}</span>
             {r.staff_note && <span className="row-note">{r.staff_note}</span>}
           </li>
         ))}

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
+import { useProfile } from './lib/useProfile';
 import Login from './routes/Login';
 import Home from './routes/Home';
+import StaffHome from './routes/StaffHome';
 import Pets from './routes/Pets';
 import PetDetail from './routes/Pet';
 import RequestForm from './routes/RequestForm';
@@ -14,6 +16,18 @@ import Photos from './routes/Photos';
 import StaffPhotos from './routes/StaffPhotos';
 import Contact from './routes/Contact';
 import Services from './routes/Services';
+
+// Clients and staff are co-equal audiences with different jobs, so they land on
+// different documents. Keeping the decision at "/" means every `← Back` link in
+// the app still resolves to the right home for whoever is signed in.
+function Landing() {
+  const { profile, loading } = useProfile();
+
+  if (loading) return <div className="loading">Loading…</div>;
+
+  const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
+  return <Navigate to={isStaff ? '/desk' : '/home'} replace />;
+}
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -45,7 +59,9 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/desk" element={<StaffHome />} />
       <Route path="/pets" element={<Pets />} />
       <Route path="/pets/:id" element={<PetDetail />} />
       <Route path="/request/:type" element={<RequestForm />} />

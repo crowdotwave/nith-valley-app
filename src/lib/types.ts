@@ -4,6 +4,7 @@ export type Profile = {
   email: string;
   full_name: string | null;
   role: 'client' | 'staff' | 'admin';
+  avatar_path: string | null;
 };
 
 export type Pet = {
@@ -68,6 +69,18 @@ export type ClientRequest = {
   client_note: string | null;
   staff_note: string | null;
   created_at: string;
+};
+
+// Each status gets a distinct stamp SHAPE — solid, dashed, doubled, filled,
+// struck — so state survives colour blindness and greyscale. Nothing here
+// depends on hue alone. See .stamp-* in styles.css.
+export const STATUS_STAMP: Record<RequestStatus, string> = {
+  submitted: 'stamp-sent',
+  in_review: 'stamp-review',
+  approved: 'stamp-approved',
+  ready: 'stamp-ready',
+  completed: 'stamp-done',
+  declined: 'stamp-declined',
 };
 
 // Wording the client sees. The raw status values are for staff.

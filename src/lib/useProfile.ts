@@ -15,7 +15,7 @@ export function useProfile() {
 
     supabase
       .from('profiles')
-      .select('id, household_id, email, full_name, role')
+      .select('id, household_id, email, full_name, role, avatar_path')
       .single()
       .then(({ data, error }) => {
         if (cancelled) return;

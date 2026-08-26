@@ -6,18 +6,34 @@
     <meta name="theme-color" content="#1D3557" />
     <meta name="description" content="Nith Valley Animal Hospital — book appointments, order food and medication, and keep track of your pet's care." />
 
-    <!-- Fraunces matches the practice's website headings. Remote fonts will not
-         load offline under Capacitor, so the serif fallback stack matters. -->
+    <!-- Archivo carries the whole system on its width axis: condensed for field
+         labels, normal for values. One family, no second face. Remote fonts do
+         not load offline under Capacitor, so the grotesque fallback matters. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&display=swap"
       rel="stylesheet"
     />
 
     <title>Nith Valley Animal Hospital</title>
   </head>
   <body>
+    <!--
+      THESIS: This app is the document the practice issues about your animal. It
+      refuses the equal-weight card grid every clinic app ships.
+      OWN-WORLD: White document stock, hairline rules, a ruled field-and-value
+      grid. Logo blues as ink, one year-coded band as the sole accent. Status is
+      a stamp whose shape carries state, never its hue. Archivo across widths,
+      no second family. No cards, no shadows, no dark mode.
+      STORY: You arrive, see your animals as certificate stubs each showing the
+      one thing it needs, and hand the practice a request that lands stamped.
+      FIRST VIEWPORT: Practice masthead over the issuing address, a hairline
+      rule, then one stub per animal with photo, name and due line. Booking sits
+      below as the single sealed row.
+      FORM: The Vaccination Certificate; candidate 5 of 7; seed key 1b91bcc7.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
