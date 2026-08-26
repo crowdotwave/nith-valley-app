@@ -201,6 +201,20 @@ export default function Home() {
             </span>
           </Link>
         )}
+
+        {/* The calm state. Quiet enough that the accent card still lands when
+            something is actually due, present enough that the slot reads as
+            breathing room rather than a hole — and it confirms the check ran,
+            which an empty gap never did. */}
+        {load.state === 'ready' &&
+          load.due === 0 &&
+          (load.open > 0 ? (
+            <Link to="/requests" className="summary-clear">
+              Nothing due. {load.open} open {plural(load.open, 'request', 'requests')} to track.
+            </Link>
+          ) : (
+            <p className="summary-clear">Nothing due right now.</p>
+          ))}
       </div>
 
       {GROUPS.map((g) => (
