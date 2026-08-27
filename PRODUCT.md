@@ -53,6 +53,10 @@ rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
 
 - The front desk is five people and will not reliably watch a second message
   queue. This is why messaging is SMS and not an in-app inbox.
+- **Staff work mainly on computers, not phones** (practice, August 2026). The
+  client app is a phone document; the staff console is a desktop surface and
+  should be designed as one. This is why `.desk` is the only route carrying a
+  width breakpoint.
 - Clients already hold a Covetrus password for booking. The app is passwordless
   (email magic link) so there is no second credential to support.
 - The app's email address is the join key staff use to match app accounts to
@@ -88,11 +92,24 @@ Durable constraints future work must preserve:
   last purchase date are the same data as "current diet". Collected once, shown
   twice.
 
+Stated direction, explicitly deferred:
+
+- **The practice wants the app and Covetrus to talk to each other eventually**
+  (practice, August 2026), but has asked that Covetrus not be contacted yet.
+  Treat PIMS integration as a wanted future capability, not a dead end — and
+  note it bears directly on the GreatPetCare question below.
+- **A public-facing website is wanted but deferred.** Not this app, and not the
+  staff console; a separate surface for a separate audience.
+
 Undecided, recorded rather than invented:
 
 - Whether GreatPetCare (Covetrus's own pet-parent portal, which requires Pulse)
   would cover the vaccination gap off the shelf.
 - Postal code for the new address.
+
+Near-term goal (August 2026): something the clinic owner can click around and
+get excited by. That is a demo-readiness goal, not a feature goal — it is served
+by realistic data and populated screens far more than by additional surfaces.
 
 ## Brand Commitments
 
