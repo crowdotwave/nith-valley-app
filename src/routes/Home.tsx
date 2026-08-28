@@ -199,6 +199,29 @@ export default function Home() {
   const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
   const dueCount = load.state === 'ready' ? load.due.length : 0;
 
+  // Ordered by what each animal needs, not by name. A page whose whole promise
+  // is "the one thing this animal needs" must not bury the most urgent one at
+  // the bottom of an alphabetical list. `due` arrives sorted by date, so the
+  // first match for a pet is its soonest; animals with nothing due fall to the
+  // end in name order.
+  const stubs =
+    load.state === 'ready'
+      ? load.pets
+          .map((pet) => ({ pet, next: load.due.find((d) => d.pet_id === pet.id) }))
+          .sort((a, b) => {
+            if (a.next && b.next) {
+              return a.next.due_on === b.next.due_on
+                ? a.pet.name.localeCompare(b.pet.name)
+                : a.next.due_on < b.next.due_on
+                  ? -1
+                  : 1;
+            }
+            if (a.next) return -1;
+            if (b.next) return 1;
+            return a.pet.name.localeCompare(b.pet.name);
+          })
+      : [];
+
   return (
     <main className="home">
       <header className="masthead">
@@ -250,10 +273,8 @@ export default function Home() {
       )}
 
       <ul className="stubs">
-        {load.state === 'ready' &&
-          load.pets.map((pet) => {
-            const next = load.due.find((d) => d.pet_id === pet.id);
-            const src = pet.photo_path ? urls[pet.photo_path] : undefined;
+        {stubs.map(({ pet, next }) => {
+          const src = pet.photo_path ? urls[pet.photo_path] : undefined;
 
             return (
               <li key={pet.id} className="stub">
