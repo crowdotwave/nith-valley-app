@@ -20,3 +20,9 @@ Thumbs.db
 # Impeccable tooling install (machine-local; restore with `npx impeccable install`).
 # The design context it produces — .impeccable/ — is committed.
 .claude/
+
+# Demo pet photographs. Deliberately not committed and deliberately not in
+# public/: the pet-photos bucket is private precisely so a client's photo is
+# never left on a permanent public URL, and anything in public/ ships in every
+# deploy. These are staged here only to be uploaded through the app.
+demo-photos/
