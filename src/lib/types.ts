@@ -83,6 +83,19 @@ export const STATUS_STAMP: Record<RequestStatus, string> = {
   declined: 'stamp-declined',
 };
 
+// What a staff member is about to DO, in the imperative. The stamps below name
+// states; these name actions. Using one wording for both put a button reading
+// "Approved" next to a stamp reading "Being looked at", which says nothing
+// about what pressing it does.
+export const ACTION_LABEL: Record<RequestStatus, string> = {
+  submitted: 'Reopen',
+  in_review: 'Review',
+  approved: 'Approve',
+  ready: 'Mark ready',
+  completed: 'Hand over',
+  declined: 'Decline',
+};
+
 // Wording the client sees. The raw status values are for staff.
 export const STATUS_LABEL: Record<RequestStatus, string> = {
   submitted: 'Sent',
