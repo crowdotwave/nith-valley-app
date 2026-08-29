@@ -339,7 +339,19 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 }
 
 .queue-act { display: flex; flex-wrap: wrap; gap: .5rem; align-content: start; }
-.queue-act button { padding: .5rem .875rem; font-size: .6875rem; }
+
+/* Outlined, because the filled `ready` stamp is a solid navy block and a solid
+   navy button sat right beside it — in a ledger the staff click through all
+   day, the state mark and the control must not read as the same object.
+   Filled is state; outlined is something you press. */
+.queue-act button {
+  padding: .5rem .875rem;
+  font-size: .6875rem;
+  background: none;
+  color: var(--seal);
+  border: 1px solid var(--seal);
+}
+
 .queue-note { font-size: .875rem; }
 
 /* The client app is a phone document and stays one. The front desk works at a
@@ -348,8 +360,11 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 @media (min-width: 46rem) {
   .desk { max-width: 60rem; }
 
+  /* Every track fixed except the item, so each row computes identical widths.
+     An `auto` action column sized itself to each row's button count, so the
+     columns did not line up from one line to the next. */
   .queue-row {
-    grid-template-columns: 9rem minmax(0, 1fr) 5.5rem 8.5rem auto;
+    grid-template-columns: 9rem minmax(0, 1fr) 5.5rem 8.5rem 13.5rem;
     align-items: start;
   }
 
