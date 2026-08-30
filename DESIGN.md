@@ -340,12 +340,18 @@ generic `sans-serif`.
 - **Stamp** (700, 0.625rem / 10px, `wdth 78`, uppercase, .1em): status marks and the
   queue-field names (at 10px / .625rem).
 
-**Off-ramp glyph sizes.** Two declarations set `font-size: 1.25rem` and are deliberately
-not ramp steps, because neither is type being read as text: the initial letter standing in
-for a missing photograph inside a stub's frame (`.stub-photo-empty`), and the disclosure
-chevron (`.chev`). Both are letterforms used as graphic marks, sized to their frame rather
-than to the hierarchy. Do not treat 1.25rem as an available text size, and do not add
-further off-ramp sizes without recording them here.
+**Off-ramp glyph sizes.** Three declarations sit deliberately outside the ramp, because
+none of them is type being read as text — each is a letterform used as a graphic mark,
+sized to its frame rather than to the hierarchy:
+
+- `1.25rem` — the initial standing in for a missing photograph in a home-screen stub
+  (`.stub-photo-empty`), and the disclosure chevron (`.chev`).
+- `1.5rem` — the same initial in the larger 4.5rem frame on an animal's own record
+  (`.pet-photo`).
+
+The rule is the frame, not the number: a stand-in initial is sized to the box that holds
+it. Do not treat either value as an available text size, and do not add further off-ramp
+sizes without recording them here.
 
 ### Named Rules
 
