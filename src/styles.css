@@ -668,6 +668,43 @@ section { margin-top: 2rem; }
   color: var(--seal-mid);
 }
 
+/* The animal's record leads with the animal. */
+.pet-head {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--rule-ink);
+}
+
+.pet-head h1 { margin-bottom: .25rem; }
+.pet-photo-slot { display: block; width: 4.5rem; height: 4.5rem; cursor: pointer; }
+
+.pet-photo {
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border: 1px solid var(--rule-ink);
+  background: var(--field);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-stretch: 78%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--seal-mid);
+}
+
+.pet-photo-empty { border-style: dashed; cursor: pointer; }
+
+.pet-photo-slot:focus-within .pet-photo,
+.pet-photo-empty:focus-within {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
 .account-photo-slot { display: block; width: 2.75rem; height: 2.75rem; cursor: pointer; }
 .account-photo-empty { border-style: dashed; cursor: pointer; }
 .account-name { font-size: .875rem; }

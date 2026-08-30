@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
 import { relativeDue, isSoon } from '../lib/dates';
+import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 import type { Pet, PetFood, PetMedication, Vaccination } from '../lib/types';
 
 // Bags are sold in kilograms; feeding guides are written in grams per day.
@@ -18,6 +19,7 @@ export default function PetDetail() {
   const [foods, setFoods] = useState<PetFood[]>([]);
   const [meds, setMeds] = useState<PetMedication[]>([]);
   const [vaccines, setVaccines] = useState<Vaccination[]>([]);
+  const [photo, setPhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState<'food' | 'med' | 'vaccine' | null>(null);
@@ -48,6 +50,52 @@ export default function PetDetail() {
   useEffect(() => {
     load();
   }, [load]);
+
+  // The bucket is private, so the picture needs a signed URL each time.
+  useEffect(() => {
+    let cancelled = false;
+    const path = pet?.photo_path;
+
+    if (!path) {
+      setPhoto(null);
+      return;
+    }
+
+    signPaths([path]).then((signed) => {
+      if (!cancelled) setPhoto(signed[path] ?? null);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pet?.photo_path]);
+
+  async function attachPhoto(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file || !pet || !profile?.household_id) return;
+
+    setError(null);
+    try {
+      const path = await uploadHouseholdPhoto(file, profile.household_id, 'pets');
+      const { error: writeError } = await supabase
+        .from('pets')
+        .update({ photo_path: path })
+        .eq('id', pet.id);
+
+      if (writeError) {
+        // Do not leave an orphaned object behind if the row failed to write.
+        await removePhoto(path);
+        setError(writeError.message);
+        return;
+      }
+
+      await removePhoto(pet.photo_path);
+      load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed');
+    }
+  }
 
   async function addFood(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -115,8 +163,35 @@ export default function PetDetail() {
   return (
     <main>
       <Link to="/pets" className="back">← All pets</Link>
-      <h1>{pet.name}</h1>
-      <p className="muted">{[pet.species, pet.breed].filter(Boolean).join(' · ')}</p>
+
+      {/* The animal's own picture belongs on the animal's own record, not only
+          on the home screen. */}
+      <div className="pet-head">
+        <label
+          className={photo ? 'pet-photo-slot' : 'pet-photo pet-photo-empty'}
+          htmlFor="pet-photo"
+        >
+          {photo ? (
+            <img className="pet-photo" src={photo} alt={pet.name} />
+          ) : (
+            pet.name.charAt(0).toUpperCase()
+          )}
+        </label>
+
+        <input
+          id="pet-photo"
+          className="photo-field"
+          type="file"
+          accept="image/*"
+          aria-label={photo ? `Change ${pet.name}'s picture` : `Add a picture of ${pet.name}`}
+          onChange={attachPhoto}
+        />
+
+        <span>
+          <h1>{pet.name}</h1>
+          <p className="muted">{[pet.species, pet.breed].filter(Boolean).join(' · ')}</p>
+        </span>
+      </div>
 
       {error && <p className="error">{error}</p>}
 
