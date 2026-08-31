@@ -35,9 +35,3 @@ export const BOOKING_URL =
 export function openBooking() {
   window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
 }
-
-// Messaging is native SMS rather than an in-app inbox: a five-person front
-// desk will not reliably watch a second message queue.
-export function messageClinic() {
-  window.location.href = `sms:${CLINIC.phone}`;
-}
