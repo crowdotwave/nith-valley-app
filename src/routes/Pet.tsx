@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent } fr
 import { Link, useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
-import { relativeDue, isSoon } from '../lib/dates';
+import { daysUntil, relativeDue, relativeWhen, isSoon } from '../lib/dates';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 import type { Pet, PetFood, PetMedication, Vaccination } from '../lib/types';
 
@@ -211,7 +211,8 @@ export default function PetDetail() {
               </span>
               {f.depletes_on && (
                 <span className={isSoon(f.depletes_on) ? 'badge' : 'row-detail'}>
-                  Runs out {relativeDue(f.depletes_on)}
+                  {daysUntil(f.depletes_on!) < 0 ? 'Ran out' : 'Runs out'}{' '}
+                  {relativeWhen(f.depletes_on)}
                 </span>
               )}
             </li>
@@ -254,7 +255,8 @@ export default function PetDetail() {
               </span>
               {m.depletes_on && (
                 <span className={isSoon(m.depletes_on) ? 'badge' : 'row-detail'}>
-                  Runs out {relativeDue(m.depletes_on)}
+                  {daysUntil(m.depletes_on!) < 0 ? 'Ran out' : 'Runs out'}{' '}
+                  {relativeWhen(m.depletes_on)}
                 </span>
               )}
             </li>
