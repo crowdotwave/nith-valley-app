@@ -75,7 +75,7 @@ begin
 end;
 $fn$;
 
--- Daily at 07:00 UTC (03:00 Eastern) — before the clinic opens, so staff see a
+-- Daily at 07:00 UTC (03:00 Eastern), before the clinic opens, so staff see a
 -- settled list rather than one that shifts under them during the day.
 create extension if not exists pg_cron;
 

@@ -11,7 +11,7 @@ one web system rather than per-OS native conventions. Confirmed this session.
 
 ## Users
 
-Two audiences, confirmed co-equal — front desk lives in this daily, so staff
+Two audiences, confirmed co-equal: front desk lives in this daily, so staff
 screens carry the same quality bar as client screens.
 
 **Clients.** Existing clients of the practice, on a phone. The household is the
@@ -30,13 +30,13 @@ setting `profiles.role`; there is no self-service path to it, by design.
 
 Confirmed success measures, all four selected this session:
 
-- Fewer phone interruptions — refill and food requests arrive as structured
+- Fewer phone interruptions: refill and food requests arrive as structured
   records rather than calls the front desk fields mid-appointment.
-- More refills captured — supply reminders catch food and medication running out
+- More refills captured: supply reminders catch food and medication running out
   before the client forgets or goes elsewhere.
-- Client loyalty and retention — the points ledger and pet file make the practice
+- Client loyalty and retention: the points ledger and pet file make the practice
   stickier than the clinic down the road.
-- Fewer missed clinical reminders — vaccines and exams get booked because the
+- Fewer missed clinical reminders: vaccines and exams get booked because the
   client sees them coming.
 
 ## Positioning
@@ -45,7 +45,7 @@ This is not a medical records system. The clinic runs Covetrus Pulse, with
 Rapport Online Scheduling as the booking front end, and there is no API access to
 either. The PIMS holds the patient record, the invoicing and the prescriptions.
 
-This app holds requests, preferences and loyalty — things the PIMS has never
+This app holds requests, preferences and loyalty, things the PIMS has never
 heard of. Where the clinic already staffs a system, the app hands off to it
 rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
 
@@ -64,7 +64,7 @@ rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
 - The practice moved to 216 Huron St, New Hamburg ON on 31 August 2026. Postal
   code still to confirm.
 - Hours, service area and services copy live in `src/lib/content.ts`.
-- Data resides in Supabase `ca-central-1` — Canadian residency, which matters for
+- Data resides in Supabase `ca-central-1`, Canadian residency, which matters for
   an Ontario clinic holding client information.
 - Supply reminders are generated nightly by `app.reconcile_supply_reminders()`
   under pg_cron at 07:00 UTC. It reconciles rather than appends.
@@ -88,7 +88,7 @@ Durable constraints future work must preserve:
 - **The points ledger is append-only.** Balance is `sum(delta)`; corrections are
   offsetting rows.
 - **Household-scoped RLS** keys off `app.household_id()`.
-- **Supply tracking doubles as the pet file** — brand, bag size, daily amount and
+- **Supply tracking doubles as the pet file**: brand, bag size, daily amount and
   last purchase date are the same data as "current diet". Collected once, shown
   twice.
 
@@ -96,7 +96,7 @@ Stated direction, explicitly deferred:
 
 - **The practice wants the app and Covetrus to talk to each other eventually**
   (practice, August 2026), but has asked that Covetrus not be contacted yet.
-  Treat PIMS integration as a wanted future capability, not a dead end — and
+  Treat PIMS integration as a wanted future capability, not a dead end, and
   note it bears directly on the GreatPetCare question below.
 - **A public-facing website is wanted but deferred.** Not this app, and not the
   staff console; a separate surface for a separate audience.
@@ -108,7 +108,7 @@ Undecided, recorded rather than invented:
 - Postal code for the new address.
 
 Near-term goal (August 2026): something the clinic owner can click around and
-get excited by. That is a demo-readiness goal, not a feature goal — it is served
+get excited by. That is a demo-readiness goal, not a feature goal; it is served
 by realistic data and populated screens far more than by additional surfaces.
 
 ## Brand Commitments
@@ -121,11 +121,11 @@ by realistic data and populated screens far more than by additional surfaces.
   the logo's blues as the accents.** Dark mode is not wanted at the moment; it
   was removed from `src/styles.css` and `index.html` rather than maintained.
 - **Typography is open.** Fraunces is in the codebase only because it matches the
-  practice website's headings — inherited evidence, not a constraint the practice
+  practice website's headings, inherited evidence, not a constraint the practice
   made binding. Confirmed this session that later design work should choose a
   display face deliberately rather than carry this one forward.
 - Voice: plain language, no marketing filler. The standing note at the top of
-  `src/lib/content.ts` is the house style — "no sentences that could describe any
+  `src/lib/content.ts` is the house style: "no sentences that could describe any
   clinic in the country." Client-facing status wording is deliberately
   non-technical (`STATUS_LABEL` in `src/lib/types.ts` maps `submitted` to "Sent",
   `in_review` to "Being looked at").

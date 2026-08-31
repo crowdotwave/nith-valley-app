@@ -1,4 +1,4 @@
-# Nith Valley Animal Hospital — client app
+# Nith Valley Animal Hospital client app
 
 Client app + staff console for Nith Valley Animal Hospital, New Hamburg ON.
 
@@ -6,19 +6,19 @@ Client app + staff console for Nith Valley Animal Hospital, New Hamburg ON.
 
 This is **not** a medical records system. The clinic's PIMS holds the patient
 record, the invoicing, and the prescriptions, and there is no API access to it.
-This app holds requests, preferences, and loyalty — things the PIMS has never
+This app holds requests, preferences, and loyalty, things the PIMS has never
 heard of.
 
 | Feature | Where it lives |
 | --- | --- |
-| Book an appointment | Covetrus Rapport — opened in an in-app browser, not rebuilt |
+| Book an appointment | Covetrus Rapport, opened in an in-app browser, not rebuilt |
 | Message the clinic | Native SMS to the clinic number |
 | Food / medication requests | Here |
 | Supply reminders (food & meds running out) | Here |
 | Clinical reminders (vaccines, exams) | Here, staff-entered |
 | Photo submissions for social | Here |
-| Pet file — diet, medications, profile pic | Here |
-| Pet file — vaccination history | Here, staff-entered, gradually |
+| Pet file: diet, medications, profile pic | Here |
+| Pet file: vaccination history | Here, staff-entered, gradually |
 | Loyalty points | Here, staff-awarded at checkout |
 
 ## Design decisions worth not re-litigating
@@ -46,7 +46,7 @@ every point a client has is explainable.
 
 **Passwordless auth.** Email magic link. Clients already have a Covetrus
 password for booking; a second one would double the front desk's support load
-for no benefit. The app's email must match the one the clinic holds — it's the
+for no benefit. The app's email must match the one the clinic holds; it's the
 join key staff use to match app accounts to client files.
 
 ## Layout
@@ -68,16 +68,16 @@ cp .env.example .env    # fill in from Supabase dashboard, or use the existing .
 npm run dev
 ```
 
-The Supabase project is `nith-valley-app` in `ca-central-1` — Canadian data
+The Supabase project is `nith-valley-app` in `ca-central-1`, Canadian data
 residency, which matters for an Ontario clinic holding client information.
 
 ## Status
 
-Live at https://crowdotwave.github.io/nith-valley-app/ — deploys on push to
+Live at https://crowdotwave.github.io/nith-valley-app/, deploys on push to
 `main`.
 
 Database: 15 tables, RLS on all of them, security advisors clean. Policies
-verified against simulated client and staff sessions — cross-household reads
+verified against simulated client and staff sessions: cross-household reads
 blocked, clients cannot write vaccinations, grant themselves points, promote
 themselves to staff, or edit the ledger; staff see everything.
 
@@ -86,7 +86,7 @@ handoff, add/list pets, food and medication requests, request tracking, and the
 staff request queue. Status changes are audited by a database trigger rather
 than by the client.
 
-Staff access is granted by setting `profiles.role` to `staff` — there is no
+Staff access is granted by setting `profiles.role` to `staff`; there is no
 self-service path to it, by design.
 
 Pet detail carries diet, medications and vaccinations. Depletion dates are
@@ -94,7 +94,7 @@ computed by the database and verified: a 6kg bag at 220g/day bought 10 days ago
 reads 17 days left; a 90-day med filled 80 days ago reads 10.
 
 Reminders are generated nightly by `app.reconcile_supply_reminders()`, run by
-pg_cron at 07:00 UTC. It reconciles rather than appends — when a client records
+pg_cron at 07:00 UTC. It reconciles rather than appends: when a client records
 a new purchase the depletion date moves, so the stale reminder is deleted and
 replaced. Verified idempotent: a second run in the same state changes nothing.
 Staff-created reminders are never touched by it.
@@ -109,11 +109,11 @@ All seven original goals are built.
 ## Visual design
 
 Taken from the practice's website: navy `#1D3557`, pale blue ground, white
-cards, pill buttons, Fraunces for display type. Light only — a dark mode existed
+cards, pill buttons, Fraunces for display type. Light only; a dark mode existed
 and was dropped deliberately; see `PRODUCT.md` under Brand Commitments, which
 also records the direction this is heading (clean white, logo blues as accents).
 Fraunces loads from Google Fonts, so the serif fallback stack matters once this
-runs under Capacitor offline — consider self-hosting it at that point.
+runs under Capacitor offline; consider self-hosting it at that point.
 
 Not started: push notifications (needs the Capacitor wrap and an FCM project),
 loyalty screens, marketing site.

@@ -3,7 +3,7 @@
    The app is the document the practice issues about your animal. White stock,
    hairline rules, a field-and-value grid. The logo's blues are the ink; a
    year-coded band is the only accent. Status is a stamp whose SHAPE carries
-   state — never its hue — so it survives colour blindness and greyscale.
+   state, never its hue, so it survives colour blindness and greyscale.
    One family, Archivo, across its width axis. No cards, no shadows, no dark
    mode. See the direction contract at the top of index.html. */
 
@@ -12,8 +12,8 @@
   --stock: #ffffff;        /* the ground: clean white */
   --field: #f4f7fa;        /* ruled field fill, barely there */
   --ink: #14263f;
-  --ink-soft: #5f7590;     /* 4.74:1 on stock — the floor, do not lighten */
-  --rule: #d3dce8;         /* decorative only — 1.38:1, never a separator */
+  --ink-soft: #5f7590;     /* 4.74:1 on stock: the floor, do not lighten */
+  --rule: #d3dce8;         /* decorative only: 1.38:1, never a separator */
   --rule-row: #7e8fa6;     /* 3.30:1: rules ARE the structure here, so they
                               have to be visible to an older client base */
   --rule-ink: #14263f;
@@ -229,7 +229,7 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 }
 
 /* These rows render as either a link or a button depending on where they go,
-   so they must not inherit the button's stamped casing — otherwise the same
+   so they must not inherit the button's stamped casing; otherwise the same
    row shouts or whispers based on its destination. */
 .tile, .row, .summary-error, .stub {
   text-transform: none;
@@ -306,7 +306,7 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 }
 
 /* The queue as a ruled ledger: one line per request, read across. The console
-   works it in place — a queue sitting one click behind a link is a menu, not a
+   works it in place; a queue sitting one click behind a link is a menu, not a
    console. */
 .queue { list-style: none; margin: .25rem 0 0; padding: 0; }
 
@@ -341,7 +341,7 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 .queue-act { display: flex; flex-wrap: wrap; gap: .5rem; align-content: start; }
 
 /* Outlined, because the filled `ready` stamp is a solid navy block and a solid
-   navy button sat right beside it — in a ledger the staff click through all
+   navy button sat right beside it. In a ledger the staff click through all
    day, the state mark and the control must not read as the same object.
    Filled is state; outlined is something you press. */
 .queue-act button {
@@ -425,7 +425,7 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 .summary-error .summary-title { color: var(--alert); }
 .summary-error .summary-detail { color: var(--ink-soft); }
 
-/* The calm day. The band runs the full width as a band — a coloured stripe
+/* The calm day. The band runs the full width as a band; a coloured stripe
    down one side is the side-tab tell, and it has no business on the primary
    surface's first viewport. */
 .summary-clear {
@@ -466,7 +466,7 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 
 /* Picked up and Not approved are opposite outcomes, so they cannot differ by
    hue or by lightness alone: struck-plain versus struck-and-hatched separates
-   them in greyscale. No opacity — it took this one below contrast. */
+   them in greyscale. No opacity: it took this one below contrast. */
 .stamp-done {
   border-style: solid;
   color: var(--ink-soft);
@@ -589,25 +589,6 @@ label.consent input { margin-top: .25rem; flex: 0 0 auto; }
 
 .hours li:last-child { border-bottom: 0; }
 
-.disclosure {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-  padding: 0;
-  text-align: left;
-  background: none;
-  color: var(--ink);
-  border-radius: 0;
-  font: inherit;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.chev { font-size: 1.25rem; line-height: 1; color: var(--ink-soft); transition: transform .15s ease; }
-.chev.open { transform: rotate(90deg); }
-
 .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
 .actions button { padding: .5rem .875rem; font-size: .6875rem; }
 .actions a { text-decoration: none; }
@@ -710,7 +691,7 @@ section { margin-top: 2rem; }
 .account-name { font-size: .875rem; }
 .account-detail { font-size: .6875rem; color: var(--ink-soft); }
 
-/* Clipped, never display:none — hiding it dropped photo capture out of the tab
+/* Clipped, never display:none; hiding it dropped photo capture out of the tab
    order entirely, so the feature shipped mouse-only. */
 .sr-only, .photo-field {
   position: absolute;

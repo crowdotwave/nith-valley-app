@@ -1,6 +1,6 @@
 ---
 name: Nith Valley Animal Hospital
-description: The document the practice issues about your animal — white stock, hairline rules, a ruled field-and-value grid, and status carried by stamp shape.
+description: The document the practice issues about your animal: white stock, hairline rules, a ruled field-and-value grid, and status carried by stamp shape.
 colors:
   stock: "#ffffff"
   field: "#f4f7fa"
@@ -191,7 +191,7 @@ components:
 **Creative North Star: "The Vaccination Certificate"**
 
 The app is the document the practice issues about your animal. Not a dashboard, not a
-feed, not a grid of equal-weight cards — a printed record on white stock, ruled into
+feed, not a grid of equal-weight cards: a printed record on white stock, ruled into
 fields and values, with the practice's mark at the head and the issuing address beneath
 it. Every screen inherits that posture: a masthead, a heavy rule, then rows of
 information separated by hairlines. Where a card app would draw a box, this one draws a
@@ -201,8 +201,8 @@ The density is document density rather than app density. Rows sit on the page at
 natural height (measured 69px for an index row, 92px for an animal stub) with no fill,
 no border box, no radius and no shadow. Structure comes entirely from the rules between
 things and from the alternation of condensed uppercase field labels against normal-width
-values. The one place the document raises its voice is the sealed row — a single navy
-block per screen for the one action that leads — and the one place it uses colour as
+values. The one place the document raises its voice is the sealed row (a single navy
+block per screen for the one action that leads), and the one place it uses colour as
 information is the summary band, borrowed from the year-coded colour of a rabies tag.
 
 Status never speaks in hue. A request's state is a stamp whose *shape* carries the
@@ -215,7 +215,7 @@ permanently unavailable.
 **Key Characteristics:**
 
 - White document stock; structure from rules, never from boxes or elevation
-- One family, Archivo, worked across its width axis — condensed labels, normal values
+- One family, Archivo, worked across its width axis: condensed labels, normal values
 - Field-label-and-value grammar on every surface
 - State carried by mark shape; hue is decorative or supplementary, never load-bearing
 - Light only; no dark mode, no theme switch
@@ -235,14 +235,14 @@ built page, not estimated.
 - **Certificate Ink** (`{colors.ink}`): the body text colour and the heavy boundary
   weight. **15.23:1** on stock. Used for all primary text, the 2px masthead rule, the
   1px underline beneath every field label, input borders, and photo frames (where the
-  stylesheet names it `rule-ink` — a distinct role that deliberately resolves to the
+  stylesheet names it `rule-ink`, a distinct role that deliberately resolves to the
   same value, so a boundary and a word are the same darkness).
 - **Practice Navy** (`{colors.seal}`): the mark's navy. **12.36:1** on stock, and white
   on it is the same 12.36:1. This is the sealed-row fill, the primary button fill, the
   link colour, and the focus-ring colour. It is the only large field of saturated colour
   in the client app apart from the band.
 - **Mid Blue** (`{colors.seal-mid}`): the mark's lighter blue, **4.15:1** on stock.
-  Reserved for non-text marks and large glyphs only — the stroke icons in index rows and
+  Reserved for non-text marks and large glyphs only: the stroke icons in index rows and
   the single large initial inside an empty photo frame (1.25rem, 600). It is below the
   4.5:1 body-text floor and must not be used for running text.
 
@@ -266,7 +266,7 @@ built page, not estimated.
   calm-day band, consent blocks, the emergency notice, photo-frame backing and skeletons.
   Body text on it measures 14.17:1; soft text measures 4.41:1.
 - **Soft Ink** (`{colors.ink-soft}`): **4.74:1** on stock, **4.41:1** on field. Field
-  labels, captions, meta lines, the ghost button. This is the floor — the system has no
+  labels, captions, meta lines, the ghost button. This is the floor; the system has no
   lighter text colour and must not acquire one.
 - **Row Rule** (`{colors.rule-row}`): **3.30:1** on stock, 3.07:1 on field. The
   separator. Every row boundary, every stub perforation, the queue grid lines, and the
@@ -280,10 +280,10 @@ separator. These are not interchangeable and the distinction is not stylistic: o
 system the rules *are* the information structure, and at 1.38:1 they were near-invisible
 to an older client base. Any boundary a reader must perceive to parse the page takes
 `--rule-row` or `--rule-ink`. `--rule` is permitted only for the underline on the back
-link, the photo-swap affordance, the account divider, and inline note tops — places
+link, the photo-swap affordance, the account divider, and inline note tops, places
 where losing the line loses nothing.
 
-**The No-Hue-State Rule.** No state — anywhere, on any surface — may be communicated by
+**The No-Hue-State Rule.** No state, anywhere, on any surface, may be communicated by
 colour alone. State takes a stamp shape (see Components). Colour may reinforce a state it
 does not carry. The acceptance test is one line: render the surface under
 `filter: grayscale(1)`; if two states become the same mark, the design is wrong.
@@ -300,13 +300,13 @@ add a dark branch "just in case".
 ## Typography
 
 **Display Font:** Archivo (variable, `wdth 62..125`, `wght 400..700`)
-**Body Font:** Archivo — the same face
-**Label Font:** Archivo at `font-stretch: 78%` — the same face, narrowed
+**Body Font:** Archivo, the same face
+**Label Font:** Archivo at `font-stretch: 78%`, the same face, narrowed
 **Fallback:** `'Helvetica Neue', Arial, sans-serif`
 
 **Character:** One grotesque, worked across its width axis instead of paired with a
-second family. Condensed uppercase for the document's own voice — field labels, section
-headings, stamps, buttons, the masthead's issuing line — and normal width for everything
+second family. Condensed uppercase for the document's own voice (field labels, section
+headings, stamps, buttons, the masthead's issuing line) and normal width for everything
 the document is *about*: an animal's name, a due line, a request detail, a count. The
 narrowing is the hierarchy. Verified loaded on the live build
 (`document.fonts.check('600 11px Archivo')` returns true); remote fonts do not load
@@ -320,7 +320,7 @@ generic `sans-serif`.
 - **Subtitle** (600, 0.8125rem / 13px, 1.2, `wdth 78`, uppercase, .09em): secondary
   headings (`h2`) in soft ink. Shares its metrics with `button`.
 - **Record** (600, 1.0625rem / 17px, 1.5, `wdth 100`, −.005em): an animal's name on its
-  stub. The largest normal-width type in the client app — the subject of the document.
+  stub. The largest normal-width type in the client app: the subject of the document.
 - **Metric** (600, 1.375rem / 22px, 1.1, `wdth 100`, `tabular-nums`): the staff console's
   standing queue counts. The only role that uses tabular figures.
 - **Body** (400, 1rem / 16px, 1.5, `wdth 100`): the root, set on `body`. The sealed row's
@@ -330,7 +330,7 @@ generic `sans-serif`.
   at 600 (`.tile-label`, `.row-title`); summary details, notice body, and inline label
   text take it at 400 (`.summary-detail`, `.notice`, `label.inline`).
 - **Note** (0.875rem / 14px, 1.45–1.5, `wdth 100`): quieter running text that is still
-  prose rather than caption — the calm-day band (`.summary-clear`), consent wording
+  prose rather than caption: the calm-day band (`.summary-clear`), consent wording
   (`label.consent`), and the account name (`.account-name`).
 - **Caption** (400, 0.75rem / 12px, 1.5, `wdth 100`): row details and the issuing address
   (which takes `wdth 78` and .04em instead).
@@ -341,12 +341,12 @@ generic `sans-serif`.
   queue-field names (at 10px / .625rem).
 
 **Off-ramp glyph sizes.** Three declarations sit deliberately outside the ramp, because
-none of them is type being read as text — each is a letterform used as a graphic mark,
+none of them is type being read as text; each is a letterform used as a graphic mark,
 sized to its frame rather than to the hierarchy:
 
-- `1.25rem` — the initial standing in for a missing photograph in a home-screen stub
-  (`.stub-photo-empty`), and the disclosure chevron (`.chev`).
-- `1.5rem` — the same initial in the larger 4.5rem frame on an animal's own record
+- `1.25rem`: the initial standing in for a missing photograph in a home-screen stub
+  (`.stub-photo-empty`).
+- `1.5rem`: the same initial in the larger 4.5rem frame on an animal's own record
   (`.pet-photo`).
 
 The rule is the frame, not the number: a stand-in initial is sized to the box that holds
@@ -357,7 +357,7 @@ sizes without recording them here.
 
 **The One Family Rule.** Archivo alone, carried on its width axis. There is no second
 face and no display face. Fraunces was inherited from the practice's website, was never a
-binding practice commitment, and was retired during this build — do not reintroduce it or
+binding practice commitment, and was retired during this build. Do not reintroduce it or
 substitute another serif for "warmth". Warmth in this system comes from the animals'
 photographs, not from a typeface.
 
@@ -382,15 +382,15 @@ its 1px underline, then `.5rem` before the first row. Rows are `.8125rem` of ver
 padding each (index rows) or `.75rem` (stubs), so a section reads as a run of evenly
 ruled entries rather than a stack of spaced objects. Sections are separated by `2rem`.
 
-The summary slot reserves `3.75rem` (measured 60px) in every load state — skeleton,
-error, band and calm day all occupy the same box — so the record below never shifts once
+The summary slot reserves `3.75rem` (measured 60px) in every load state (skeleton,
+error, band and calm day all occupy the same box) so the record below never shifts once
 counts land. The slot sits `1.5rem` below the masthead rule; at the previous spacing the
 masthead's 2px rule and the band's 3px top edge read as one thick double rule under the
 logo instead of two separate signals.
 
 **One width media query exists in the entire system**: `@media (min-width: 46rem)`, and
 it scopes only to `.desk`, raising the staff console to `max-width: 44rem` (measured
-704px). The client app has no breakpoints at all, by design — it is a phone document and
+704px). The client app has no breakpoints at all, by design; it is a phone document and
 stays one. The only other media query is `prefers-reduced-motion`, which stops the
 skeleton pulse.
 
@@ -412,10 +412,10 @@ backdrop-filter, and no z-layering beyond normal document flow.
 
 Depth is conveyed by rule weight alone, in three steps:
 
-- **2px `rule-ink`** — the masthead. The document's own edge.
-- **1px `rule-ink`** — a field label's underline, an input's border, a photo frame. A
+- **2px `rule-ink`**: the masthead. The document's own edge.
+- **1px `rule-ink`**: a field label's underline, an input's border, a photo frame. A
   boundary that belongs to the ink.
-- **1px `rule-row`** (3.30:1) — a separator between peer rows. Solid for index rows,
+- **1px `rule-row`** (3.30:1): a separator between peer rows. Solid for index rows,
   **dashed** for animal stubs, where the dash reads as the perforation on a detachable
   certificate stub.
 
@@ -431,14 +431,14 @@ from what is around it, it gets a rule.
 ## Shapes
 
 Rectangles. `--radius: 2px` exists for the few filled blocks that need the corner taken
-off an edge — inputs, buttons, the summary band, the emergency notice — and `--pill: 2px`
+off an edge (inputs, buttons, the summary band, the emergency notice), and `--pill: 2px`
 is deliberately the same value, so a pill and a rectangle are the same shape. Rows,
 tiles, stamps, queue cells, photo frames and the sealed row all compute to `0`.
 
 Two silhouettes recur and both come from paper:
 
-- **The perforation** — a 1px dashed `rule-row` bottom edge, used on animal stubs.
-- **The empty frame** — a square dashed `rule-ink` border with a single large initial in
+- **The perforation**: a 1px dashed `rule-row` bottom edge, used on animal stubs.
+- **The empty frame**: a square dashed `rule-ink` border with a single large initial in
   mid blue, used wherever a photograph has not been supplied. It is a designed state, not
   a grey placeholder circle: it is the blank box the certificate ships with.
 
@@ -465,7 +465,7 @@ are all the same tell and all prohibited.
 The workhorse. A ruled line item that reads as an entry in an index, not a button.
 
 - **Shape:** square (0 radius), no fill, 1px solid `rule-row` bottom rule
-- **Grid:** `auto 1fr` — an 18px icon, then a two-line text block; `.75rem` gap
+- **Grid:** `auto 1fr`: an 18px icon, then a two-line text block; `.75rem` gap
 - **Padding / height:** `.8125rem 0`; measured 69px
 - **Type:** label at 600 / .9375rem, detail at .75rem in soft ink, both at `wdth 100`
 - **Icon:** mid blue, 18px stroke
@@ -486,15 +486,15 @@ The single action that leads a screen. One per surface.
 
 ### Animal Stub (`.stub`)
 
-The detachable section of a certificate — one per animal, each showing the one thing it
+The detachable section of a certificate, one per animal, each showing the one thing it
 needs.
 
-- **Grid:** `3.5rem 1fr auto` — photo frame, body, optional trailing mark; `.875rem` gap
-- **Separator:** 1px **dashed** `rule-row` — the perforation
+- **Grid:** `3.5rem 1fr auto`: photo frame, body, optional trailing mark; `.875rem` gap
+- **Separator:** 1px **dashed** `rule-row`, the perforation
 - **Padding / height:** `.75rem 0`; measured 92px
 - **Photo:** 56px square, 1px `rule-ink` border, `object-fit: cover`. The frame is its own
   label-wrapped file input so tapping the picture attaches one, while the body beside it
-  links into the animal's record — two targets, two jobs, in one row.
+  links into the animal's record: two targets, two jobs, in one row.
 - **Empty photo:** dashed border, the name's initial at 1.25rem / 600 in mid blue
 - **Body:** name (Record role), meta line (species · breed, Label metrics at .07em), due
   line at .8125rem; `.due.clear` drops to soft ink for "Nothing due"
@@ -515,7 +515,7 @@ uppercase / .1em, 0 radius, `.1875rem .5rem` padding.
   135° **hatch** at `rgba(20,38,63,.16)` on a 3px/2px repeat
 
 Picked up and Not approved are opposite outcomes, so they may not differ by hue or by
-lightness alone — struck-plain versus struck-and-hatched is what separates them in
+lightness alone; struck-plain versus struck-and-hatched is what separates them in
 greyscale. No `opacity` is used on any stamp; it took the completed variant below
 contrast.
 
@@ -547,7 +547,7 @@ header the system refuses.
 The signed-in footer, shared by both homes so the client and staff surfaces cannot drift.
 
 - **Grid:** `2.75rem 1fr auto`, `.75rem` gap, `2rem` top margin, `.875rem` top padding
-  above a 1px `rule` divider (decorative here — it closes the document rather than
+  above a 1px `rule` divider (decorative here: it closes the document rather than
   separating peers)
 - **Avatar:** 44px square, 1px `rule-ink`; empty state is the dashed frame with a 1rem
   initial in mid blue, wrapped in a label bound to a hidden file input
@@ -564,15 +564,15 @@ The signed-in footer, shared by both homes so the client and staff surfaces cann
   radius, Subtitle metrics (600 / .8125rem / `wdth 78` / uppercase / .09em). Disabled
   drops to 45% opacity.
 - **Ghost button:** no fill, soft-ink text, 1px `rule-ink` border, same metrics.
-- **Focus:** one treatment system-wide — `outline: 2px solid var(--seal)` at `2px` offset,
+- **Focus:** one treatment system-wide, `outline: 2px solid var(--seal)` at `2px` offset,
   on inputs, buttons, links, and (via `:focus-within`) both photo slots.
 
-### Queue Fields (`.queue-fields`) — staff console only
+### Queue Fields (`.queue-fields`): staff console only
 
 The front desk's standing counts, expressed as fields of the document.
 
 - **Grid:** three equal columns with a **1px gap over a `rule-row` background**, inside a
-  1px `rule-row` border — the gaps *are* the rules; there is no per-cell border
+  1px `rule-row` border: the gaps *are* the rules; there is no per-cell border
 - **Cells:** stock fill, `.625rem .75rem` padding, 0 radius, no shadow, no per-tile accent
 - **Type:** Metric value (22px, 600, tabular) over a 10px `wdth 78` uppercase name in soft
   ink
@@ -595,13 +595,13 @@ feature shipped mouse-only.
 
 - **Do** separate peers with 1px `{colors.rule-row}` (3.30:1) and reserve
   `{colors.rule}` (1.38:1) for decoration only.
-- **Do** carry every state on a stamp shape — solid, dashed, double, filled, struck,
-  hatched-struck — and verify the surface under `filter: grayscale(1)` before shipping it.
+- **Do** carry every state on a stamp shape (solid, dashed, double, filled, struck,
+  hatched-struck) and verify the surface under `filter: grayscale(1)` before shipping it.
 - **Do** work hierarchy through Archivo's width axis: `font-stretch: 78%` uppercase for
   the document's voice, `100%` for its content.
 - **Do** head each group with a field label and its 1px `rule-ink` underline instead of
   drawing a container.
-- **Do** reserve a block's final height across loading, error and ready states — the
+- **Do** reserve a block's final height across loading, error and ready states; the
   summary slot's `3.75rem` is the pattern.
 - **Do** keep exactly one sealed row and at most one band per screen.
 - **Do** render a missing photograph as the dashed empty frame with the subject's initial
@@ -613,7 +613,7 @@ feature shipped mouse-only.
 ### Don't:
 
 - **Don't** add a dark mode, a `prefers-color-scheme` block, or a second `theme-color`.
-- **Don't** introduce a second typeface — no display face, no serif, and specifically not
+- **Don't** introduce a second typeface: no display face, no serif, and specifically not
   Fraunces, which was retired from this build.
 - **Don't** give a row a fill, a border box, a radius or a shadow. `--shadow: none` is the
   whole elevation system.
@@ -633,14 +633,14 @@ feature shipped mouse-only.
 Recorded as of this pass so a future one does not mistake them for settled decisions.
 
 - **The staff console was scored *partial* by the finish review.** It is materially
-  improved — it has its own masthead, its own summary slot, its own queue fields and its
-  own sealed row — but it still reads closer to a document with a summary block than to a
+  improved (it has its own masthead, its own summary slot, its own queue fields and its
+  own sealed row), but it still reads closer to a document with a summary block than to a
   queue console a five-person front desk works all day. The next pass on `.desk` should
   treat that as the open problem.
 - **The app has never been rendered at a real device viewport.** Browser resizing does not
   take effect in the harness this was built in. A 390px layout-width substitute measured
-  clean — 0 horizontal overflow, stub 92px, sealed row 75px, index row 69px, queue cells
-  117px with unclipped labels — but that substitute does not exercise `env(safe-area-inset-*)`,
+  clean (0 horizontal overflow, stub 92px, sealed row 75px, index row 69px, queue cells
+  117px with unclipped labels), but that substitute does not exercise `env(safe-area-inset-*)`,
   real hit-testing, or mobile text-size adjustment. Treat the phone layout as unverified
   until it has been seen on hardware.
 - **The certificate world's warmth is unproven.** No pet photographs exist on file yet, so

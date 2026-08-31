@@ -25,7 +25,7 @@ export default function QueueList({
           <span className="queue-item">
             <span className="queue-product">
               {r.details?.item || (r.type === 'medication' ? 'Medication' : 'Food')}
-              {r.details?.quantity ? ` — ${r.details.quantity}` : ''}
+              {r.details?.quantity ? `, ${r.details.quantity}` : ''}
             </span>
             {r.client_note && <span className="queue-quote">“{r.client_note}”</span>}
           </span>

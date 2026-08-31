@@ -40,7 +40,7 @@ const SECTIONS: { heading: string; entries: Entry[] }[] = [
         icon: 'message',
         to: '/contact',
       },
-      { label: 'What we do', detail: 'Our services', icon: 'care', to: '/services' },
+      { label: 'Services', detail: 'What we treat and offer', icon: 'care', to: '/services' },
     ],
   },
   {

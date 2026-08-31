@@ -18,7 +18,7 @@ Thumbs.db
 !.vscode/extensions.json
 
 # Impeccable tooling install (machine-local; restore with `npx impeccable install`).
-# The design context it produces — .impeccable/ — is committed.
+# The design context it produces, .impeccable/, is committed.
 .claude/
 
 # Demo pet photographs. Deliberately not committed and deliberately not in

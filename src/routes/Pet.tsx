@@ -307,7 +307,7 @@ export default function PetDetail() {
           ))}
         </ul>
 
-        {/* Clients cannot write here — the policy blocks it, and offering the
+        {/* Clients cannot write here: the policy blocks it, and offering the
             form would only produce a confusing error. */}
         {isStaff &&
           (form === 'vaccine' ? (

@@ -1,7 +1,7 @@
 -- Log every status change on a request automatically rather than trusting the
 -- client to write the audit row. Medication approvals need a defensible record
 -- of who changed what and when, and a trigger cannot be skipped by a caller
--- that forgets — or chooses not — to insert the event.
+-- that forgets, or chooses not, to insert the event.
 
 create or replace function app.log_request_status_change()
 returns trigger

@@ -71,8 +71,8 @@ export type ClientRequest = {
   created_at: string;
 };
 
-// Each status gets a distinct stamp SHAPE — solid, dashed, doubled, filled,
-// struck — so state survives colour blindness and greyscale. Nothing here
+// Each status gets a distinct stamp SHAPE (solid, dashed, doubled, filled,
+// struck) so state survives colour blindness and greyscale. Nothing here
 // depends on hue alone. See .stamp-* in styles.css.
 export const STATUS_STAMP: Record<RequestStatus, string> = {
   submitted: 'stamp-sent',

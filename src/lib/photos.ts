@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 
 // Everything lives in the existing private pet-photos bucket. The storage
 // policies gate on the first path segment, so the household id has to lead the
-// key — see supabase/migrations/0006_photo_storage.sql.
+// key. See supabase/migrations/0006_photo_storage.sql.
 const BUCKET = 'pet-photos';
 
 /**

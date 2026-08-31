@@ -1,4 +1,4 @@
-// Small stroke icons, inlined rather than pulled from a package — there are
+// Small stroke icons, inlined rather than pulled from a package. There are
 // eight of them and a dependency would outweigh the markup.
 
 const PATHS: Record<string, string> = {

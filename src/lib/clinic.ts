@@ -19,7 +19,7 @@ export const CONSENT_TEXT =
   `social media and website. I can ask for it to be removed at any time.`;
 
 // Covetrus Rapport online scheduling. This is the practice's own booking link,
-// taken from their website. Booking is not rebuilt in the app — it opens here.
+// taken from their website. Booking is not rebuilt in the app; it opens here.
 //
 // On web this is a normal new tab. Under Capacitor, open it with
 // @capacitor/browser so it presents as a sheet over the app rather than

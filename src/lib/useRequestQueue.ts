@@ -15,7 +15,7 @@ export type QueueRow = {
 };
 
 // What a staff member can move a request to from where it is now. Kept
-// deliberately linear — declining is always available, everything else moves
+// deliberately linear: declining is always available, everything else moves
 // one step forward, so nobody has to remember the state machine.
 export const NEXT: Record<RequestStatus, RequestStatus[]> = {
   submitted: ['in_review', 'declined'],
