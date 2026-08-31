@@ -26,7 +26,7 @@ const KIND_LABEL: Record<ReminderRow['type'], string> = {
 };
 
 // Whose reminder this is. A client can set their own, so the page has to say
-// which came from the practice — a note to yourself must never read as clinical
+// which came from the practice. A note to yourself must never read as clinical
 // instruction from the clinic.
 const SOURCE_LABEL: Record<ReminderRow['source'], string> = {
   auto: 'From your pet file',

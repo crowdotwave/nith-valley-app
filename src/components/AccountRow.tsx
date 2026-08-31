@@ -4,7 +4,7 @@ import { useProfile } from '../lib/useProfile';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 
 // Shared by both homes. Previously the client home carried a working upload
-// control and the staff console carried an inert span that looked identical —
+// control and the staff console carried an inert span that looked identical:
 // same pixels, one tappable and one not.
 export default function AccountRow() {
   const { profile } = useProfile();

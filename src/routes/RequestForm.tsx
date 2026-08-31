@@ -8,7 +8,7 @@ const COPY: Record<'food' | 'medication', { title: string; itemLabel: string; hi
   food: {
     title: 'Order food',
     itemLabel: 'What food?',
-    hint: 'Brand and bag size if you know it — we can look it up otherwise.',
+    hint: 'Brand and bag size if you know it. We can look it up otherwise.',
   },
   medication: {
     title: 'Request medication',

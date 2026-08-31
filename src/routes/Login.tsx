@@ -17,7 +17,7 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
       options: {
-        // Not window.location.origin — under GitHub Pages the app lives at a
+        // Not window.location.origin: under GitHub Pages the app lives at a
         // subpath, and origin alone would send people to the domain root.
         // Strip the hash so the magic link's own fragment isn't doubled up.
         emailRedirectTo: window.location.href.split('#')[0],
@@ -38,7 +38,7 @@ export default function Login() {
         <h1>Check your email</h1>
         <p>
           We sent a sign-in link to <strong>{email}</strong>. Open it on this
-          device and you'll be signed in — no password needed.
+          device and you'll be signed in. No password needed.
         </p>
         <button className="ghost" onClick={() => setStatus('idle')}>
           Use a different email

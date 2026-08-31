@@ -1,4 +1,4 @@
--- Nith Valley Animal Hospital — client app
+-- Nith Valley Animal Hospital client app
 -- 0001_init: households, pets, supply tracking, requests, reminders, photos, loyalty
 --
 -- Access model: the HOUSEHOLD is the unit of ownership, not the user.
@@ -55,7 +55,7 @@ create table pets (
   date_of_birth  date,
   photo_path     text,           -- Supabase Storage object path
   -- Optional back-reference to the PIMS. Staff-entered, never trusted for
-  -- clinical decisions — it exists so staff can find the right file fast.
+  -- clinical decisions; it exists so staff can find the right file fast.
   pims_patient_ref text,
   created_at     timestamptz not null default now(),
   updated_at     timestamptz not null default now(),
@@ -116,7 +116,7 @@ create index pet_medications_pet_idx on pet_medications (pet_id);
 
 -- Vaccines are STAFF-ENTRY ONLY and clients can never write to this table.
 -- Filled in gradually as pets come through for appointments. Do not compute
--- next_due_on in the app — it is transcribed from the PIMS, never derived.
+-- next_due_on in the app; it is transcribed from the PIMS, never derived.
 create table pet_vaccinations (
   id              uuid primary key default gen_random_uuid(),
   pet_id          uuid not null references pets (id) on delete cascade,
@@ -229,7 +229,7 @@ create index photo_submissions_queue_idx on photo_submissions (status, created_a
 -- ---------------------------------------------------------------------------
 -- Loyalty points
 --
--- Points accrue per QUALIFYING EVENT, not per dollar — staff tap one button
+-- Points accrue per QUALIFYING EVENT, not per dollar; staff tap one button
 -- at checkout instead of keying in invoice totals that nobody can reconcile
 -- against the PIMS.
 -- ---------------------------------------------------------------------------
@@ -266,7 +266,7 @@ create table redemptions (
 
 create index redemptions_household_idx on redemptions (household_id, created_at desc);
 
--- Append-only. The balance is always sum(delta) — never a stored column that
+-- Append-only. The balance is always sum(delta), never a stored column that
 -- can drift. Corrections are offsetting rows, so every point is explainable.
 create table points_ledger (
   id            uuid primary key default gen_random_uuid(),
@@ -435,7 +435,7 @@ create policy pets_client_write on pets for all to authenticated
 create policy pets_staff_write on pets for all to authenticated
   using (app.is_staff()) with check (app.is_staff());
 
--- Supply tracking — client-editable, because they are the ones who know what
+-- Supply tracking: client-editable, because they are the ones who know what
 -- they bought and when. Staff can correct.
 create policy pet_foods_rw on pet_foods for all to authenticated
   using (app.owns_pet(pet_id) or app.is_staff())
@@ -445,7 +445,7 @@ create policy pet_medications_rw on pet_medications for all to authenticated
   using (app.owns_pet(pet_id) or app.is_staff())
   with check (app.owns_pet(pet_id) or app.is_staff());
 
--- Vaccinations — read-only for clients. This is transcribed clinical data.
+-- Vaccinations: read-only for clients. This is transcribed clinical data.
 create policy pet_vaccinations_read on pet_vaccinations for select to authenticated
   using (app.owns_pet(pet_id) or app.is_staff());
 create policy pet_vaccinations_staff_write on pet_vaccinations for all to authenticated
@@ -468,7 +468,7 @@ create policy request_events_read on request_events for select to authenticated
 create policy request_events_staff_write on request_events for insert to authenticated
   with check (app.is_staff());
 
--- Reminders — clients may snooze/complete their own but never create clinical ones.
+-- Reminders: clients may snooze/complete their own but never create clinical ones.
 create policy reminders_read on reminders for select to authenticated
   using (app.owns_pet(pet_id) or app.is_staff());
 create policy reminders_client_update on reminders for update to authenticated

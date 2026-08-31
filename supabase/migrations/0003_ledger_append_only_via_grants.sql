@@ -1,7 +1,7 @@
 -- The RULEs added in 0001 to make points_ledger append-only also rewrote the
 -- referential-integrity queries Postgres runs for foreign keys, so deleting a
 -- household with points failed with "gave unexpected result". Rules are too
--- blunt an instrument here — they intercept the system's own queries.
+-- blunt an instrument here; they intercept the system's own queries.
 --
 -- Append-only is enforced instead by privilege: RLS already denies UPDATE and
 -- DELETE to clients (no policy grants them), and the revokes below make that

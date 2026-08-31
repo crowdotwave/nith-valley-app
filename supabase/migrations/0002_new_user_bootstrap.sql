@@ -1,5 +1,5 @@
 -- Every signed-in user needs a profile and a household before RLS lets them
--- see anything — app.household_id() reads from profiles. Doing this in a
+-- see anything; app.household_id() reads from profiles. Doing this in a
 -- trigger rather than in the app means there is no window where a user exists
 -- but has no household, and no way to skip it by calling the API directly.
 

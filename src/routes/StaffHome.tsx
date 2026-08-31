@@ -9,7 +9,7 @@ import Icon from '../components/Icon';
 import Logo from '../components/Logo';
 
 // The front desk's own document. Clients and staff are co-equal audiences, so
-// this is a console in its own right — and the queue is worked here, on the
+// this is a console in its own right, and the queue is worked here, on the
 // page, rather than sitting one click behind a link.
 export default function StaffHome() {
   const { rows, loading, error, counts, move, saveNote } = useRequestQueue('open');

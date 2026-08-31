@@ -10,7 +10,7 @@
 --      id. They cannot post a reminder as the clinic.
 --   3. A client may only snooze or complete an existing reminder. The previous
 --      update policy checked ownership but not which columns changed, so a
---      client could have relabelled their own reminder as staff-created — or
+--      client could have relabelled their own reminder as staff-created, or
 --      rewritten a real clinical one. Now the columns that carry meaning are
 --      frozen for anyone who is not staff.
 --

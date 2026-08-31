@@ -97,9 +97,9 @@
       }
     },
     "typographyMeta": {
-      "title": { "displayName": "Title", "purpose": "Screen headings (h1). Condensed uppercase — the document's own voice." },
+      "title": { "displayName": "Title", "purpose": "Screen headings (h1). Condensed uppercase, the document's own voice." },
       "subtitle": { "displayName": "Subtitle", "purpose": "Secondary headings (h2) in soft ink. Shares its metrics with buttons." },
-      "record": { "displayName": "Record", "purpose": "An animal's name on its stub — the subject of the document, and the largest normal-width type in the client app." },
+      "record": { "displayName": "Record", "purpose": "An animal's name on its stub: the subject of the document, and the largest normal-width type in the client app." },
       "metric": { "displayName": "Metric", "purpose": "Staff console queue counts. The only role using tabular figures." },
       "body": { "displayName": "Body", "purpose": "The root size, set on body. Index-row labels step down to .9375rem at 600." },
       "caption": { "displayName": "Caption", "purpose": "Row details and secondary lines." },
@@ -108,8 +108,7 @@
     },
     "shadows": [],
     "motion": [
-      { "name": "summary-pulse", "value": "summary-pulse 1.4s ease-in-out infinite (opacity to .55 at 50%)", "purpose": "The only animation in the system: the summary skeleton while counts load. Disabled under prefers-reduced-motion." },
-      { "name": "chev-turn", "value": "transform .15s ease", "purpose": "Disclosure chevron rotates 90deg when open." }
+      { "name": "summary-pulse", "value": "summary-pulse 1.4s ease-in-out infinite (opacity to .55 at 50%)", "purpose": "The only animation in the system: the summary skeleton while counts load. Disabled under prefers-reduced-motion." }
     ],
     "breakpoints": [
       { "name": "desk", "value": "46rem", "purpose": "The only width media query in the system. Scoped to .desk (staff console), raising it to max-width 44rem. The client app has no breakpoints." }
@@ -132,7 +131,7 @@
       "name": "Sealed Row",
       "kind": "button",
       "refersTo": "index-row-sealed",
-      "description": "The single action that leads a screen. One per surface — a second makes both ordinary. 75px measured.",
+      "description": "The single action that leads a screen. One per surface; a second makes both ordinary. 75px measured.",
       "html": "<button class=\"ds-sealed-row\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z\"/></svg><span class=\"ds-sealed-row-text\"><span class=\"ds-sealed-row-label\">Book an appointment</span><span class=\"ds-sealed-row-detail\">Opens our scheduling system</span></span><svg class=\"ds-icon ds-sealed-row-mark\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5\"/></svg></button>",
       "css": ".ds-sealed-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem; width: 100%; margin-top: .25rem; padding: 1rem .875rem; text-align: left; background: var(--seal, #1d3557); color: var(--seal-ink, #fff); border: 0; border-radius: 0; box-shadow: none; font: 400 16px/1.5 Archivo, 'Helvetica Neue', Arial, sans-serif; font-stretch: 100%; text-transform: none; letter-spacing: normal; cursor: pointer; } .ds-sealed-row .ds-icon { width: 1.125rem; height: 1.125rem; flex: 0 0 auto; color: var(--seal-ink, #fff); } .ds-sealed-row-mark { width: .875rem; height: .875rem; opacity: .8; } .ds-sealed-row-text { display: grid; gap: .0625rem; min-width: 0; } .ds-sealed-row-label { font-weight: 600; font-size: 1rem; } .ds-sealed-row-detail { font-size: .75rem; opacity: .78; } .ds-sealed-row:focus-visible { outline: 2px solid var(--seal, #1d3557); outline-offset: 2px; }"
     },
@@ -140,7 +139,7 @@
       "name": "Animal Stub",
       "kind": "card",
       "refersTo": "stub",
-      "description": "The detachable section of a certificate — one per animal, showing the one thing it needs. Dashed bottom rule is the perforation. 92px measured. Shown here in its no-photo state: the empty frame a certificate ships with.",
+      "description": "The detachable section of a certificate, one per animal, showing the one thing it needs. Dashed bottom rule is the perforation. 92px measured. Shown here in its no-photo state: the empty frame a certificate ships with.",
       "html": "<li class=\"ds-stub\"><span class=\"ds-stub-photo ds-stub-photo-empty\">R</span><a class=\"ds-stub-body\" href=\"#\"><span class=\"ds-stub-name\">Rufus</span><span class=\"ds-stub-meta\">dog · border collie</span><span class=\"ds-stub-due\">Rabies booster due in 9 days</span></a></li>",
       "css": ".ds-stub { display: grid; grid-template-columns: 3.5rem 1fr auto; align-items: center; gap: .875rem; width: 100%; padding: .75rem 0; list-style: none; background: none; border: 0; border-bottom: 1px dashed var(--rule-row, #7e8fa6); color: var(--ink, #14263f); font: 400 16px/1.5 Archivo, 'Helvetica Neue', Arial, sans-serif; font-stretch: 100%; } .ds-stub-photo { width: 3.5rem; height: 3.5rem; object-fit: cover; border: 1px solid var(--rule-ink, #14263f); background: var(--field, #f4f7fa); display: flex; align-items: center; justify-content: center; } .ds-stub-photo-empty { border-style: dashed; font-stretch: 78%; font-size: 1.25rem; font-weight: 600; color: var(--seal-mid, #4e7ebf); cursor: pointer; } .ds-stub-body { min-width: 0; display: grid; gap: .0625rem; color: inherit; text-decoration: none; } .ds-stub-name { font-weight: 600; font-size: 1.0625rem; letter-spacing: -.005em; } .ds-stub-meta { font-size: .6875rem; font-stretch: 78%; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-soft, #5f7590); } .ds-stub-due { font-size: .8125rem; color: var(--ink, #14263f); margin-top: .1875rem; } .ds-stub-body:focus-visible { outline: 2px solid var(--seal, #1d3557); outline-offset: 2px; }"
     },
@@ -164,7 +163,7 @@
       "name": "Summary Band (Calm Day)",
       "kind": "custom",
       "refersTo": "band-clear",
-      "description": "The nothing-due state. A 3px band-coloured TOP edge on a field tint, running the full width. A coloured stripe down one side is the side-tab tell and is refused — border-left is 0 by design.",
+      "description": "The nothing-due state. A 3px band-coloured TOP edge on a field tint, running the full width. A coloured stripe down one side is the side-tab tell and is refused; border-left is 0 by design.",
       "html": "<p class=\"ds-band-clear\">Nothing due right now.</p>",
       "css": ".ds-band-clear { display: flex; align-items: center; min-height: 3.75rem; margin: 0; padding: 0 .875rem; font: 400 .875rem/1.5 Archivo, 'Helvetica Neue', Arial, sans-serif; color: var(--ink, #14263f); background: var(--field, #f4f7fa); border: 0; border-top: 3px solid var(--band, #1f7a46); border-radius: 0; box-shadow: none; text-decoration: none; }"
     },
@@ -172,7 +171,7 @@
       "name": "Field Label",
       "kind": "custom",
       "refersTo": "field-label",
-      "description": "The document's section marker and its primary grouping device — it stands in for the card header the system refuses. The 1px ink underline is what makes it a heading.",
+      "description": "The document's section marker and its primary grouping device: it stands in for the card header the system refuses. The 1px ink underline is what makes it a heading.",
       "html": "<p class=\"ds-field-label\">Animals on file</p>",
       "css": ".ds-field-label { display: block; margin: 1.75rem 0 .5rem; padding-bottom: .3125rem; font: 600 .6875rem/1.2 Archivo, 'Helvetica Neue', Arial, sans-serif; font-stretch: 78%; text-transform: uppercase; letter-spacing: .09em; color: var(--ink-soft, #5f7590); border-bottom: 1px solid var(--rule-ink, #14263f); }"
     },
@@ -204,17 +203,17 @@
       "name": "Queue Fields",
       "kind": "custom",
       "refersTo": "queue-field",
-      "description": "The front desk's standing counts as fields of the document. The grid gaps ARE the rules — a 1px gap over a rule-row background, with no per-cell border. Held onside of the hero-metric template the system refuses only by carrying no fills, no radii and no per-tile accents; that is the line, and it should be re-examined rather than extended.",
+      "description": "The front desk's standing counts as fields of the document. The grid gaps ARE the rules: a 1px gap over a rule-row background, with no per-cell border. Held onside of the hero-metric template the system refuses only by carrying no fills, no radii and no per-tile accents; that is the line, and it should be re-examined rather than extended.",
       "html": "<div class=\"ds-queue\"><div class=\"ds-queue-field\"><span class=\"ds-queue-value\">4</span><span class=\"ds-queue-name\">New</span></div><div class=\"ds-queue-field\"><span class=\"ds-queue-value\">2</span><span class=\"ds-queue-name\">In review</span></div><div class=\"ds-queue-field\"><span class=\"ds-queue-value\">1</span><span class=\"ds-queue-name\">To hand over</span></div></div>",
       "css": ".ds-queue { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: .25rem; background: var(--rule-row, #7e8fa6); border: 1px solid var(--rule-row, #7e8fa6); border-radius: 0; box-shadow: none; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; } .ds-queue-field { background: var(--stock, #fff); padding: .625rem .75rem; border-radius: 0; } .ds-queue-value { display: block; font-size: 1.375rem; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; color: var(--ink, #14263f); } .ds-queue-name { display: block; margin-top: .125rem; font-size: .625rem; font-stretch: 78%; text-transform: uppercase; letter-spacing: .09em; color: var(--ink-soft, #5f7590); }"
     }
   ],
   "narrative": {
     "northStar": "The Vaccination Certificate",
-    "overview": "The app is the document the practice issues about your animal. Not a dashboard, not a feed, not a grid of equal-weight cards — a printed record on white stock, ruled into fields and values, with the practice's mark at the head and the issuing address beneath it. Every screen inherits that posture: a masthead, a heavy rule, then rows of information separated by hairlines. Where a card app would draw a box, this one draws a line and lets the white ground carry the rest.\n\nThe density is document density rather than app density. Rows sit on the page at their natural height (measured 69px for an index row, 92px for an animal stub) with no fill, no border box, no radius and no shadow. Structure comes entirely from the rules between things and from the alternation of condensed uppercase field labels against normal-width values. The one place the document raises its voice is the sealed row — a single navy block per screen for the one action that leads — and the one place it uses colour as information is the summary band, borrowed from the year-coded colour of a rabies tag.\n\nStatus never speaks in hue. A request's state is a stamp whose shape carries the meaning: solid, dashed, doubled, filled, struck, struck-and-hatched. The stamps were verified distinct under filter: grayscale(1), and that verification is the standing acceptance test, not a one-time check. This is the system's central accessibility commitment and the reason several obvious shortcuts (a red chip, a green chip) are permanently unavailable.",
+    "overview": "The app is the document the practice issues about your animal. Not a dashboard, not a feed, not a grid of equal-weight cards: a printed record on white stock, ruled into fields and values, with the practice's mark at the head and the issuing address beneath it. Every screen inherits that posture: a masthead, a heavy rule, then rows of information separated by hairlines. Where a card app would draw a box, this one draws a line and lets the white ground carry the rest.\n\nThe density is document density rather than app density. Rows sit on the page at their natural height (measured 69px for an index row, 92px for an animal stub) with no fill, no border box, no radius and no shadow. Structure comes entirely from the rules between things and from the alternation of condensed uppercase field labels against normal-width values. The one place the document raises its voice is the sealed row (a single navy block per screen for the one action that leads), and the one place it uses colour as information is the summary band, borrowed from the year-coded colour of a rabies tag.\n\nStatus never speaks in hue. A request's state is a stamp whose shape carries the meaning: solid, dashed, doubled, filled, struck, struck-and-hatched. The stamps were verified distinct under filter: grayscale(1), and that verification is the standing acceptance test, not a one-time check. This is the system's central accessibility commitment and the reason several obvious shortcuts (a red chip, a green chip) are permanently unavailable.",
     "keyCharacteristics": [
       "White document stock; structure from rules, never from boxes or elevation",
-      "One family, Archivo, worked across its width axis — condensed labels, normal values",
+      "One family, Archivo, worked across its width axis: condensed labels, normal values",
       "Field-label-and-value grammar on every surface",
       "State carried by mark shape; hue is decorative or supplementary, never load-bearing",
       "Light only; no dark mode, no theme switch",
@@ -223,10 +222,10 @@
     ],
     "rules": [
       { "name": "The Two-Rule Rule", "body": "--rule (1.38:1) is decorative. --rule-row (3.30:1) is the separator. These are not interchangeable and the distinction is not stylistic: on this system the rules ARE the information structure, and at 1.38:1 they were near-invisible to an older client base. Any boundary a reader must perceive to parse the page takes --rule-row or --rule-ink.", "section": "colors" },
-      { "name": "The No-Hue-State Rule", "body": "No state — anywhere, on any surface — may be communicated by colour alone. State takes a stamp shape. Colour may reinforce a state it does not carry. The acceptance test is one line: render the surface under filter: grayscale(1); if two states become the same mark, the design is wrong.", "section": "colors" },
+      { "name": "The No-Hue-State Rule", "body": "No state, anywhere, on any surface, may be communicated by colour alone. State takes a stamp shape. Colour may reinforce a state it does not carry. The acceptance test is one line: render the surface under filter: grayscale(1); if two states become the same mark, the design is wrong.", "section": "colors" },
       { "name": "The One Band Rule", "body": "The green band appears at most once per screen, in the summary slot, running the full content width. It is not a palette; there is no light-green, no green text, no green icon.", "section": "colors" },
       { "name": "The Light-Only Rule", "body": "color-scheme: light, one theme-color meta (#1D3557), and no prefers-color-scheme block anywhere in the stylesheet. Dark mode existed and was removed on the practice's instruction. Do not reintroduce it, and do not add a dark branch 'just in case'.", "section": "colors" },
-      { "name": "The One Family Rule", "body": "Archivo alone, carried on its width axis. There is no second face and no display face. Fraunces was inherited from the practice's website, was never a binding practice commitment, and was retired during this build — do not reintroduce it or substitute another serif for 'warmth'. Warmth in this system comes from the animals' photographs, not from a typeface.", "section": "typography" },
+      { "name": "The One Family Rule", "body": "Archivo alone, carried on its width axis. There is no second face and no display face. Fraunces was inherited from the practice's website, was never a binding practice commitment, and was retired during this build. Do not reintroduce it or substitute another serif for 'warmth'. Warmth in this system comes from the animals' photographs, not from a typeface.", "section": "typography" },
       { "name": "The Two Widths Rule", "body": "font-stretch: 78% is the document's voice; font-stretch: 100% is the document's content. A row that renders as either a link or a button must be pinned to 100% and text-transform: none explicitly, or it inherits the button's stamped casing and the same row shouts or whispers depending on its destination.", "section": "typography" },
       { "name": "The Soft-Ink Floor Rule", "body": "--ink-soft at 4.74:1 is the lightest text in the system. Do not lighten it, do not apply opacity to text (that took the completed stamp below contrast once already), and do not introduce a third, fainter text tier.", "section": "typography" },
       { "name": "The Phone-Document Rule", "body": "The client app gets no breakpoints. If a client surface looks sparse on a wide screen, that is the correct outcome; do not add a column, a two-up grid, or a wider clamp. (min-width: 46rem) belongs to .desk alone.", "section": "layout" },
@@ -237,10 +236,10 @@
     ],
     "dos": [
       "Do separate peers with 1px rule-row (3.30:1) and reserve rule (1.38:1) for decoration only.",
-      "Do carry every state on a stamp shape — solid, dashed, double, filled, struck, hatched-struck — and verify the surface under filter: grayscale(1) before shipping it.",
+      "Do carry every state on a stamp shape (solid, dashed, double, filled, struck, hatched-struck) and verify the surface under filter: grayscale(1) before shipping it.",
       "Do work hierarchy through Archivo's width axis: font-stretch: 78% uppercase for the document's voice, 100% for its content.",
       "Do head each group with a field label and its 1px rule-ink underline instead of drawing a container.",
-      "Do reserve a block's final height across loading, error and ready states — the summary slot's 3.75rem is the pattern.",
+      "Do reserve a block's final height across loading, error and ready states; the summary slot's 3.75rem is the pattern.",
       "Do keep exactly one sealed row and at most one band per screen.",
       "Do render a missing photograph as the dashed empty frame with the subject's initial in seal-mid.",
       "Do clip visually-hidden inputs rather than removing them from the tab order.",
@@ -248,7 +247,7 @@
     ],
     "donts": [
       "Don't add a dark mode, a prefers-color-scheme block, or a second theme-color.",
-      "Don't introduce a second typeface — no display face, no serif, and specifically not Fraunces, which was retired from this build.",
+      "Don't introduce a second typeface: no display face, no serif, and specifically not Fraunces, which was retired from this build.",
       "Don't give a row a fill, a border box, a radius or a shadow. --shadow: none is the whole elevation system.",
       "Don't run a coloured stripe down one side of a block. The band is full-width; a side tab has been removed from this build twice.",
       "Don't signal state with colour alone, and don't use opacity on text to express it.",

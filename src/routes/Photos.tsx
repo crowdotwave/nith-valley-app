@@ -69,7 +69,7 @@ export default function Photos() {
 
     const form = new FormData(e.currentTarget);
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-    // Path must start with the household id — the storage policy reads it.
+    // Path must start with the household id; the storage policy reads it.
     const path = `${profile.household_id}/${crypto.randomUUID()}.${ext}`;
 
     const up = await supabase.storage.from('pet-photos').upload(path, file);
