@@ -437,6 +437,16 @@ badge or a colour. This is not decoration: a client can now write their own remi
 well as the app), and a note you wrote to yourself must never be readable as clinical
 instruction from the practice.
 
+**The No-Em-Dash Rule.** Do not write em dashes. Not in interface copy, not in code
+comments, not in documentation, not in commit messages. Use a period where the clauses
+stand alone, a semicolon where they lean on each other, a colon where what follows defines
+what came before, and a comma or brackets for an aside. This applies to anything newly
+written or edited anywhere in the repository, not only to the interface.
+
+The rule is forward-looking. Existing em dashes are not a defect to sweep; leave them
+where they sit unless you are already editing that passage for another reason, in which
+case fix them as you pass. The point is that the count only ever goes down.
+
 ## Layout
 
 A single-column document. The client app is clamped at `max-width: 32rem` (measured
@@ -786,6 +796,9 @@ feature shipped mouse-only.
 
 ### Don't:
 
+- **Don't** write an em dash, anywhere: interface copy, code comments, documentation or
+  commit messages. Period, semicolon, colon, comma or brackets instead. See The
+  No-Em-Dash Rule.
 - **Don't** add a dark mode, a `prefers-color-scheme` block, or a second `theme-color`.
 - **Don't** introduce a second typeface — no display face, no serif, and specifically not
   Fraunces, which was retired from this build.
