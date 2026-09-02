@@ -11,6 +11,7 @@ export function relativeDue(iso: string | null): string | null {
   if (!iso) return null;
 
   const days = daysUntil(iso);
+  if (days === -1) return 'overdue by a day';
   if (days < 0) return `overdue by ${Math.abs(days)} days`;
   if (days === 0) return 'due today';
   if (days === 1) return 'due tomorrow';
@@ -28,6 +29,7 @@ export function relativeWhen(iso: string | null): string | null {
   if (!iso) return null;
 
   const days = daysUntil(iso);
+  if (days === -1) return 'yesterday';
   if (days < 0) return `${Math.abs(days)} days ago`;
   if (days === 0) return 'today';
   if (days === 1) return 'tomorrow';
