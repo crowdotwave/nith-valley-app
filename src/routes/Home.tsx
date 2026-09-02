@@ -6,6 +6,7 @@ import { CLINIC, openBooking } from '../lib/clinic';
 import { relativeDue } from '../lib/dates';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 import AccountRow from '../components/AccountRow';
+import { FirstRunNote, ViewMark } from '../components/ViewMark';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
 import type { Pet } from '../lib/types';
@@ -226,8 +227,13 @@ export default function Home() {
     <main className="home">
       <header className="masthead">
         <Logo className="logo" />
-        <p className="issuing">{CLINIC.address}</p>
+        <div className="issuing-row">
+          <p className="issuing">{CLINIC.address}</p>
+          <ViewMark view="client" isStaff={isStaff} />
+        </div>
       </header>
+
+      <FirstRunNote view="client" isStaff={isStaff} />
 
       {/* The slot holds its height in every state so the record below never
           shifts once the counts land. */}

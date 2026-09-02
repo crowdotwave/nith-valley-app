@@ -1,54 +1,46 @@
 # Walkthrough
 
-Five minutes, one loop: a client asks for a refill, the desk works it, the
-client sees it happen.
-
 Live at https://crowdotwave.github.io/nith-valley-app/
 
-## Sign in
+Sign in with the email the clinic has on file. A link arrives by email; no password.
 
-Enter the email the clinic has on file. A sign-in link arrives by email. No
-password, because clients already have one for Covetrus booking.
+## Two views
 
-Staff land on the front desk. Clients land on their own animals.
+The app is one product with two documents. The masthead stamps which one you are
+reading, and staff accounts can switch between them from the same line.
 
-## The client side: "Client view"
+- **Client view** is what a pet owner sees.
+- **Front desk** is where the clinic works.
 
-**Home.** The practice's animals, each showing the one thing it needs: *Gertie, senior wellness exam due in 6 days*. Most urgent first. Nothing due says so
-plainly rather than showing an empty screen.
+## Client view
 
-Tap an animal's picture frame to add a photo.
+1. **Home.** Each animal with the one thing it needs, most urgent first. Tap a
+   picture frame to add a photo.
+2. **Tap an animal.** Diet, medications, vaccines with given and next-due dates.
+   Food shows when the bag runs out, worked out from bag size, daily amount and
+   last purchase.
+3. **Order food** or **Request medication.** Two taps, no phone call.
+4. **My requests.** Sent, Being looked at, Approved, Ready for pickup.
+5. **Book an appointment** opens the clinic's existing Covetrus scheduling.
 
-**Tap an animal** for its record: diet, medications, vaccinations. Food shows
-when the bag runs out, worked out from bag size, daily amount and last purchase,
-not typed in by anyone.
+## Front desk
 
-**Order food** or **Request medication.** Two taps, no phone call.
+1. **The queue, worked on the page.** Every open request: animal, item, when it
+   arrived, its status, and the buttons to move it. Notes back to the client
+   save as you type.
+2. **Counts** across the top: new, in review, to hand over.
+3. **Photo submissions** for social media, with consent recorded at the moment
+   the client sent it.
 
-**My requests** shows where each one is: Sent → Being looked at → Approved →
-Ready for pickup.
+## The loop worth showing
 
-**Book an appointment** hands off to the existing Covetrus scheduling system
-rather than replacing it.
-
-## The desk side: "/desk"
-
-**The queue, worked in place.** Every open request on one screen: animal, item,
-when it came in, its status, and the buttons to move it: Review, Approve, Mark
-ready, Hand over, Decline. Notes back to the client save as you type.
-
-**The counts** across the top: new, in review, to hand over.
-
-**Photo submissions** for social media, with the client's consent recorded at
-the moment they sent it.
+Start at the front desk with a request waiting. Move it to **Ready**. Switch to
+client view. The same request now says **Ready for pickup**.
 
 ## The point
 
-The clinic's practice management system keeps the medical record. This keeps
-everything around it (the requests, the supplies, the reminders) so the front
-desk stops fielding refill calls, and food and medication get reordered before
-anyone runs out.
+The practice management system keeps the medical record. This keeps everything
+around it, so the front desk stops fielding refill calls and nobody runs out of
+food or medication.
 
-## Not built yet
-
-Push notifications, loyalty screens, a public website.
+Not built yet: push notifications, loyalty screens, a public website.

@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { CLINIC } from '../lib/clinic';
 import { useRequestQueue } from '../lib/useRequestQueue';
 import AccountRow from '../components/AccountRow';
+import { FirstRunNote, ViewMark } from '../components/ViewMark';
 import QueueList from '../components/QueueList';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
@@ -37,8 +38,13 @@ export default function StaffHome() {
     <main className="home desk">
       <header className="masthead">
         <Logo className="logo" />
-        <p className="issuing">Front desk · {CLINIC.address}</p>
+        <div className="issuing-row">
+          <p className="issuing">{CLINIC.address}</p>
+          <ViewMark view="desk" isStaff />
+        </div>
       </header>
+
+      <FirstRunNote view="desk" isStaff />
 
       <div className="summary-slot" aria-live="polite">
         {loading && <div className="summary summary-skeleton" aria-hidden="true" />}

@@ -132,6 +132,47 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   color: var(--ink-soft);
 }
 
+/* Which copy of the document you are holding. The two views share a layout by
+   design, so the mode has to be stamped rather than implied. */
+.issuing-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+}
+
+.view-mark { display: flex; align-items: center; gap: .75rem; }
+.view-stamp { margin-top: 0; }
+
+.view-switch {
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--seal);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-row);
+  white-space: nowrap;
+}
+
+/* Shown once, then never again. */
+.first-run {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-top: 1.25rem;
+  padding: .875rem;
+  background: var(--field);
+  border-left: 0;
+  border-top: 3px solid var(--seal);
+}
+
+.first-run-body { margin: 0; font-size: .875rem; flex: 1 1 16rem; }
+.first-run button { padding: .5rem .875rem; font-size: .6875rem; }
+
 /* Stubs: one per animal, the detachable section of a certificate --------- */
 
 .stubs { list-style: none; margin: 0; padding: 0; }
