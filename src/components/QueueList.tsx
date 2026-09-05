@@ -1,4 +1,10 @@
-import { ACTION_LABEL, STATUS_LABEL, STATUS_STAMP, type RequestStatus } from '../lib/types';
+import {
+  ACTION_LABEL,
+  ACTION_TONE,
+  STATUS_LABEL,
+  STATUS_STAMP,
+  type RequestStatus,
+} from '../lib/types';
 import { NEXT, type QueueRow } from '../lib/useRequestQueue';
 
 // The queue as a ruled ledger: one line per request, read across. At counter
@@ -38,6 +44,7 @@ export default function QueueList({
             {NEXT[r.status].map((next) => (
               <button
                 key={next}
+                className={ACTION_TONE[next]}
                 onClick={() => onMove(r.id, next)}
                 title={`Move to “${STATUS_LABEL[next]}”`}
               >

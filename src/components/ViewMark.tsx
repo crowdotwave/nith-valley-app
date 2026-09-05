@@ -29,8 +29,11 @@ export function ViewMark({ view, isStaff }: { view: View; isStaff: boolean }) {
   return (
     <span className="view-mark">
       {/* Not a `.badge`: naming the document is not naming a state, and while
-          this shared the status stamps' outline it read as one of them. */}
-      <span className="view-stamp">{copy.stamp}</span>
+          this shared the status stamps' outline it read as one of them. The
+          desk's sheet takes the staff ink, filled; the client's stays quiet. */}
+      <span className={view === 'desk' ? 'view-stamp view-stamp-desk' : 'view-stamp'}>
+        {copy.stamp}
+      </span>
       {isStaff && (
         <Link to={copy.swapTo} className="view-switch staff-only">
           {copy.swapLabel}

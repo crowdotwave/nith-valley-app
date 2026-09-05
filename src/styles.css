@@ -39,13 +39,6 @@
   --staff: #6a2c91;        /* 8.82:1 on stock, 8.20:1 on field */
   --staff-ink: #ffffff;
 
-  /* Which of the two documents you are holding. A carbon-copy book stamps
-     OFFICE COPY on one leaf and CUSTOMER COPY on the other, in an ink that is
-     neither the form's nor the clerk's, so it cannot be mistaken for either.
-     The only warm hue in the app, and near the opposite of the staff violet it
-     sits beside on the front desk. */
-  --view: #b45309;         /* 5.02:1 with white text */
-  --view-ink: #ffffff;
 
   --font-doc: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
 
@@ -162,13 +155,15 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 
 .view-mark { display: flex; align-items: center; gap: .75rem; }
 
-/* Which of the two documents you are holding, and the only filled mark in the
-   masthead. It was built as `.badge view-stamp`, which meant the line naming
-   the document wore the same outline as the stamps naming a request's state,
-   two rows below. It is neither a state nor a control, so it is now its own
-   component and borrows nothing: the fill and the warm ink say "this is the
-   sheet", where an outline in ink would say "this is a status". Stamp step,
-   `xs sm` padding, no radius, once per screen. */
+/* Which of the two documents you are holding. It was built as `.badge
+   view-stamp`, which meant the line naming the document wore the same outline
+   as the stamps naming a request's state two rows below, and read as one of
+   them. It is neither a state nor a control, so it is its own component and
+   borrows nothing from `.badge`.
+
+   The client's sheet is the quiet one: an outline in the document's own ink,
+   because a client has only one view and the mark is there to be read once,
+   not to announce itself. */
 .view-stamp {
   display: inline-block;
   padding: .25rem .5rem;
@@ -177,11 +172,21 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .1em;
-  color: var(--view-ink);
-  background: var(--view);
-  border: 0;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--ink);
   border-radius: 0;
   white-space: nowrap;
+}
+
+/* The office's own sheet, and the only filled mark in the masthead. Staff ink,
+   because that is what this hue means everywhere else in the app and this is a
+   document no client can reach: a client's build never renders it. Filled
+   rather than outlined so it cannot be read as one more status stamp. */
+.view-stamp-desk {
+  color: var(--staff-ink);
+  background: var(--staff);
+  border-color: var(--staff);
 }
 
 .view-switch {
@@ -438,6 +443,20 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   border: 1px solid var(--seal);
 }
 
+/* Tone, not state. The stamp in the same row still carries the state by shape,
+   and these stay outlines so the Filled-Is-State Rule holds: the fill belongs
+   to the state, the control gives it up. What the hue adds is the one
+   separation a counter needs at arm's length — the button that moves a request
+   toward the client having their food, and the button that refuses it.
+   No new inks: the band green the client already reads as good news, and the
+   oxblood that the "Not approved" stamp is already written in, so the control
+   and the state it produces share an ink. */
+.queue-act button.act-go { color: var(--band); border-color: var(--band); }
+.queue-act button.act-stop { color: var(--alert); border-color: var(--alert); }
+
+.queue-act button.act-go:focus-visible { outline-color: var(--band); }
+.queue-act button.act-stop:focus-visible { outline-color: var(--alert); }
+
 .queue-note { font-size: .875rem; }
 
 /* The client app is a phone document and stays one. The front desk works at a
@@ -624,12 +643,16 @@ button.staff-action {
   border: 1px solid var(--staff);
 }
 
-/* The one staff control that also appears on the front desk, where it is the
-   way back. Same ink there: it is the same control, and the switch is the one
-   thing on that screen a client could never have reached. */
+/* The view switch is scaffolding, not product: it exists so one person can see
+   both sides of the app in one sitting, and it may not ship at all. So it does
+   not take an ink from the system's vocabulary — spending a hue on a control
+   that may be deleted would teach the reader a colour that then means nothing.
+   Soft ink and a dashed underline: the dash is the system's provisional mark,
+   the same one an empty photo frame wears. It also keeps it off the filled
+   staff stamp it stands next to on the desk. */
 .view-switch.staff-only {
-  color: var(--staff);
-  border-bottom-color: var(--staff);
+  color: var(--ink-soft);
+  border-bottom: 1px dashed var(--ink-soft);
 }
 
 .staff-mark:focus-visible,

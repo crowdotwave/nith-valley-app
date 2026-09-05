@@ -17,8 +17,6 @@ colors:
   alert: "#a4262c"
   staff: "#6a2c91"
   staff-ink: "#ffffff"
-  view: "#b45309"
-  view-ink: "#ffffff"
 typography:
   title:
     fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
@@ -233,8 +231,16 @@ Status never speaks in hue. A request's state is a stamp whose *shape* carries t
 meaning: solid, dashed, doubled, filled, struck, struck-and-hatched. The stamps were
 verified distinct under `filter: grayscale(1)`, and that verification is the standing
 acceptance test, not a one-time check. This is the system's central accessibility
-commitment and the reason several obvious shortcuts (a red chip, a green chip) are
-permanently unavailable.
+commitment and the reason several obvious shortcuts (a red status chip, a green status
+chip) are permanently unavailable.
+
+**Controls are a separate question, and the line matters.** A *state* may not speak in
+hue; a *control* names an action in the imperative and may be tinted to say what pressing
+it does, because the state it produces is still stamped by shape beside it. That is why
+the desk's forward actions are green-outlined and Decline is oxblood-outlined while every
+stamp in the same row stays exactly as it was. Outlined, never filled: the fill belongs
+to the state. Remove the colour and the queue still reads — the buttons are still named
+"Approve" and "Decline".
 
 The document has two readers and it now issues two documents. The client gets a phone
 record clamped at 32rem. The front desk gets a **ledger** — the same white stock and the
@@ -261,15 +267,14 @@ control that is *pressed* is outlined and named in the imperative.
 
 Ink-on-paper: one near-black navy doing almost all the work, a soft navy for secondary
 text, two structural greys for rules, the practice mark's two blues, a single green band
-standing in for a tag colour, one violet that only staff ever see, and one amber that
-names the sheet you are holding. All ratios below are measured against the actual built
-page, not estimated.
+standing in for a tag colour, and one violet that only staff ever see. All ratios below
+are measured against the actual built page, not estimated.
 
-**The palette is now full.** Five hues carry meaning — band, alert, staff, view, and the
-logo blues — which is the most a document this plain can hold before the reader stops
-reading colour as meaning and starts reading it as decoration. A sixth needs a role no
-existing hue can take and a mark that survives greyscale without it, or it does not go
-in.
+**The palette is full at four meaning-carrying hues** — band, alert, staff, and the logo
+blues. A warm amber was added for the view stamp and removed a day later: the mark it
+carried turned out to belong to the staff violet, and a hue with one use and no second
+claim on it is decoration. A fifth needs a role none of the four can take and a mark that
+survives greyscale without it, or it does not go in.
 
 ### Primary
 
@@ -292,17 +297,16 @@ in.
 
 - **Tag Band Green** (`{colors.band}` on `{colors.band-ink}`): **5.34:1** with white
   text. Rabies tags are colour-coded by year; this is the app's borrowed version of that
-  convention and the client's sole chromatic accent outside the logo blues. It appears
-  once per screen at most, as a full-width band in the summary slot, and never as a text
-  colour, an icon colour, or a per-row accent.
-- **Copy-stamp Amber** (`{colors.view}` on `{colors.view-ink}`): **5.02:1** with white
-  text. A carbon-copy book stamps OFFICE COPY on one leaf and CUSTOMER COPY on the other,
-  in an ink that is neither the form's nor the clerk's so it cannot be mistaken for
-  either. This is that ink, and the only warm hue in the app. It carries exactly one
-  mark, the view stamp in the masthead, appears once per screen, and is never a text
-  colour, an icon colour or a row accent. It sits beside the staff violet on the front
-  desk and is close to its opposite, which is the point: the sheet you are holding and
-  the control that swaps it are different kinds of thing and must not read as a pair.
+  convention and the client's sole chromatic accent outside the logo blues. On a client
+  screen it appears once at most, as a full-width band in the summary slot, and never as
+  a text colour, an icon colour, or a per-row accent.
+  **Second role, staff console only:** the ink and 1px border of a queue action that moves
+  a request forward (`.act-go`). This was previously written as "never a text colour",
+  and that held while the band's only job was the summary. The desk needs the forward
+  action and the refusing action told apart across a counter, and inventing a sixth hue
+  for "good outcome" when the app already has one the reader has been taught would be
+  worse than reusing it. It stays a *border and text* colour there, never a fill — see
+  the Filled-Is-State Rule.
 - **Counter-stamp Violet** (`{colors.staff}`): **8.82:1** on stock, 8.20:1 on field. A
   form is printed in one ink and endorsed by the office in another, and the second ink is
   never the one the form was printed in. This is the app's, and the second chromatic
@@ -633,24 +637,43 @@ The workhorse. A ruled line item that reads as an entry in an index, not a butto
   refuse that shape. The group already has its rule, and it is the right kind — the
   violet underline beneath the Staff heading, running the full content width.
 
-### View Stamp (`.view-stamp`)
+### View Stamp (`.view-stamp`, `.view-stamp-desk`)
 
-Which of the two documents you are holding. One per screen, in the masthead, and the only
-filled mark up there.
+Which of the two documents you are holding. One per screen, in the masthead.
 
-- **Shape:** a solid `view` block, `view-ink` text, square, no border. `xs sm` padding.
-- **Type:** the Stamp step (700, 0.625rem, `wdth 78`, uppercase, .1em).
-- **Why it is filled and warm:** it was built as `.badge view-stamp`, so the line naming
-  the document wore the same outline as the stamps naming a request's state two rows
-  below, and read as one of them. It is neither a state nor a control. The fill and the
-  warm ink say "this is the sheet"; an outline in ink says "this is a status". It now
-  borrows nothing from `.badge` and must not go back to it.
-- **Known limit:** under `filter: grayscale(1)` this and the filled `ready` stamp are both
-  solid blocks, distinguishable by lightness but not by shape. They are held apart by
-  position rather than by form — the view stamp lives in the masthead and never appears in
-  a queue row, and it names a document rather than a state, so the No-Hue-State Rule does
-  not bite. If a filled mark is ever proposed for the body of a screen, this is the
-  collision to check first.
+- **Type:** the Stamp step (700, 0.625rem, `wdth 78`, uppercase, .1em), `xs sm` padding,
+  square, both variants.
+- **The client's sheet (`.view-stamp`):** an outline in `ink`. Quiet on purpose — a client
+  has only one view, so the mark is there to be read once rather than to announce itself.
+- **The office's sheet (`.view-stamp-desk`):** filled `staff`, `staff-ink` text. The only
+  filled mark in the masthead, and the loudest thing above the rule. Staff ink because
+  that is what the hue means everywhere else and this is a document no client can reach:
+  a client's build never renders this variant.
+- **Why it is not a `.badge`:** it was built as `badge view-stamp`, so the line naming the
+  document wore the same outline as the stamps naming a request's state two rows below,
+  and read as one of them. It is neither a state nor a control. It borrows nothing from
+  `.badge` now and must not go back to it.
+- **Known limit:** under `filter: grayscale(1)` the desk variant and the filled `ready`
+  stamp are both solid blocks, distinguishable by lightness but not by shape. They are
+  held apart by position rather than by form — this lives in the masthead and never
+  appears in a queue row, and it names a document rather than a state, so the
+  No-Hue-State Rule does not bite. If a filled mark is ever proposed for the body of a
+  screen, this is the collision to check first.
+
+### View Switch (`.view-switch.staff-only`)
+
+The one control in the app that is scaffolding rather than product. It exists so a single
+person can see both sides in one sitting, and it may not ship.
+
+- **Shape:** the label step in `ink-soft`, over a **dashed** `ink-soft` underline.
+- **Why it holds no ink of its own:** spending a hue on a control that may be deleted
+  teaches the reader a colour that then means nothing. The dash is the system's existing
+  provisional mark — the same one the empty photo frame wears — which is the honest thing
+  for a control whose future is undecided. It also keeps it clear of the filled staff
+  stamp it stands beside on the desk.
+- **If it ships,** it stops being scaffolding and should be re-decided: a permanent
+  control that staff use daily has earned a solid underline and, arguably, the staff ink.
+  Do not promote it by half.
 
 ### Counter-stamp (`.staff-mark`, `.staff-label`, `.staff-action`)
 
@@ -673,10 +696,15 @@ one ink, governed by the Counter-stamp Rule above.
   greyscale; it reads as different in kind, and the section heading and the mark teach
   what the difference means.
 
-**Where it appears.** Four places, all of them gated behind `isStaff`: the view switch in
-the masthead (both views), the Staff section heading and the Front desk row on the client
-home, and Add / Save vaccination on an animal's record. Nowhere else. If a fifth appears,
-check it is genuinely staff-gated before giving it the ink.
+**Where it appears.** Four places, all of them gated behind `isStaff`: the **Front desk
+view stamp** in the masthead, the Staff section heading and the Front desk row on the
+client home, and Add / Save vaccination on an animal's record. Nowhere else. If a fifth
+appears, check it is genuinely staff-gated before giving it the ink.
+
+The view switch used to take this ink and no longer does. It is scaffolding rather than
+product (see View Switch), and once the Front desk stamp went violet the two sat side by
+side in one hue while being different kinds of thing — an identity and a control. The
+stamp kept the ink because it is the thing the ink is *about*.
 
 ### Sealed Row (`.tile-primary`)
 
@@ -849,9 +877,18 @@ so the two surfaces cannot drift on what a request is or how it moves.
   766×47px. It is the one place in the ledger with a border box, and it has one because
   it is an input — the field-and-value grammar's own device, not a card
 - **Actions** (`.queue-act`): a `.5rem`-gapped wrapping flex row of **outlined** buttons —
-  transparent fill, 1px `seal` border, `seal` text, Label metrics (11px / 600 / `wdth 78`
-  / uppercase / .09em), `.5rem .875rem` padding, 2px radius; measured 30px tall. Outlined
-  by the Filled-Is-State Rule, because the filled `ready` stamp sits inches away
+  transparent fill, 1px border, Label metrics (11px / 600 / `wdth 78` / uppercase /
+  .09em), `.5rem .875rem` padding, 2px radius; measured 30px tall. Outlined by the
+  Filled-Is-State Rule, because the filled `ready` stamp sits inches away
+- **Action tone** (`ACTION_TONE` in `src/lib/types.ts`): the border and text hue says what
+  pressing it does, in three tones and no more. `.act-go` in `band` for Approve, Mark
+  ready and Hand over — every step that carries a request toward the client having their
+  food. `.act-stop` in `alert` for Decline, which is the ink the "Not approved" stamp is
+  already written in, so the control and the state it produces share a colour. Plain
+  `seal` for Review and Reopen, which pick a request up without deciding anything. **Tone,
+  not state:** the stamp in the same row still carries the state by shape, the buttons
+  stay outlines, and the queue reads correctly with the hue stripped because the faces are
+  still named "Approve" and "Decline"
 - **Wording:** faces carry `ACTION_LABEL` (Review, Approve, Mark ready, Hand over,
   Decline); the `title` carries the destination state. See the Imperative-Control Rule
 - **Transitions** are deliberately linear (`NEXT` in `useRequestQueue.ts`): one step

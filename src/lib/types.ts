@@ -96,6 +96,21 @@ export const ACTION_LABEL: Record<RequestStatus, string> = {
   declined: 'Decline',
 };
 
+// What pressing it does to the request, as a tone rather than a state. The
+// stamps beside these buttons carry state by SHAPE and keep doing so; this only
+// separates the two things the desk needs to tell apart at a glance across a
+// counter: the button that moves a request toward the client getting their
+// thing, and the one that refuses it. Picking a request up is neither, so
+// Review and Reopen stay in the document's own ink.
+export const ACTION_TONE: Record<RequestStatus, string> = {
+  submitted: '',
+  in_review: '',
+  approved: 'act-go',
+  ready: 'act-go',
+  completed: 'act-go',
+  declined: 'act-stop',
+};
+
 // Wording the client sees. The raw status values are for staff.
 export const STATUS_LABEL: Record<RequestStatus, string> = {
   submitted: 'Sent',
