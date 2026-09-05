@@ -38,8 +38,9 @@ const SOURCE_LABEL: Record<ReminderRow['source'], string> = {
 const ORDERABLE: ReminderRow['type'][] = ['food', 'medication', 'preventative'];
 
 export default function Reminders() {
-  const { profile } = useProfile();
+  const { profile, loading: profileLoading } = useProfile();
   const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
+  const household = profile?.household_id;
 
   const [rows, setRows] = useState<ReminderRow[]>([]);
   const [pets, setPets] = useState<Pet[]>([]);
@@ -48,27 +49,40 @@ export default function Reminders() {
   const [adding, setAdding] = useState(false);
 
   const load = useCallback(async () => {
+    if (!household) return;
+
     const today = new Date().toISOString().slice(0, 10);
 
-    const [r, p] = await Promise.all([
-      supabase
-        .from('reminders')
-        .select('id, pet_id, type, title, due_on, source, snoozed_until, pets(name)')
-        .is('completed_at', null)
-        .or(`snoozed_until.is.null,snoozed_until.lte.${today}`)
-        .order('due_on'),
-      supabase.from('pets').select('*').is('archived_at', null).order('name'),
-    ]);
+    // Reminders key off the pet, so the household's animals come first and
+    // scope the rest. Staff can read every household's reminders; this page is
+    // the client's own list and must not.
+    const p = await supabase
+      .from('pets')
+      .select('*')
+      .eq('household_id', household)
+      .is('archived_at', null)
+      .order('name');
+
+    const list = (p.data ?? []) as Pet[];
+    setPets(list);
+
+    const r = await supabase
+      .from('reminders')
+      .select('id, pet_id, type, title, due_on, source, snoozed_until, pets(name)')
+      .in('pet_id', list.map((pet) => pet.id))
+      .is('completed_at', null)
+      .or(`snoozed_until.is.null,snoozed_until.lte.${today}`)
+      .order('due_on');
 
     if (r.error) setError(r.error.message);
     else setRows((r.data ?? []) as unknown as ReminderRow[]);
-    setPets((p.data ?? []) as Pet[]);
     setLoading(false);
-  }, []);
+  }, [household]);
 
   useEffect(() => {
+    if (profileLoading) return;
     load();
-  }, [load]);
+  }, [load, profileLoading]);
 
   async function snooze(id: string) {
     const until = new Date();

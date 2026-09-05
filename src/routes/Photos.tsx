@@ -21,7 +21,8 @@ const STATUS_LABEL: Record<Submission['status'], string> = {
 };
 
 export default function Photos() {
-  const { profile } = useProfile();
+  const { profile, loading: profileLoading } = useProfile();
+  const household = profile?.household_id;
   const [pets, setPets] = useState<Pet[]>([]);
   const [mine, setMine] = useState<Submission[]>([]);
   const [urls, setUrls] = useState<Record<string, string>>({});
@@ -31,11 +32,21 @@ export default function Photos() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
+    if (!household) return;
+
+    // Staff can read every submission; "photos you've sent" means this
+    // household's, so the filter is asked for rather than left to the policy.
     const [p, s] = await Promise.all([
-      supabase.from('pets').select('*').is('archived_at', null).order('name'),
+      supabase
+        .from('pets')
+        .select('*')
+        .eq('household_id', household)
+        .is('archived_at', null)
+        .order('name'),
       supabase
         .from('photo_submissions')
         .select('id, storage_path, caption, status, created_at')
+        .eq('household_id', household)
         .order('created_at', { ascending: false }),
     ]);
 
@@ -54,11 +65,12 @@ export default function Photos() {
       }),
     );
     setUrls(signed);
-  }, []);
+  }, [household]);
 
   useEffect(() => {
+    if (profileLoading) return;
     load();
-  }, [load]);
+  }, [load, profileLoading]);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

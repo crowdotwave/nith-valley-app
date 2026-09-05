@@ -1,24 +1,33 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { useProfile } from '../lib/useProfile';
 import { STATUS_LABEL, STATUS_STAMP, type ClientRequest } from '../lib/types';
 
 export default function Requests() {
+  const { profile, loading: profileLoading } = useProfile();
+  const household = profile?.household_id;
+
   const [rows, setRows] = useState<ClientRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (profileLoading || !household) return;
+
+    // "My" means this household's. Staff can read every request, so the filter
+    // has to be asked for rather than left to the policy.
     supabase
       .from('requests')
       .select('id, pet_id, type, status, details, client_note, staff_note, created_at')
+      .eq('household_id', household)
       .order('created_at', { ascending: false })
       .then(({ data, error }) => {
         if (error) setError(error.message);
         else setRows((data ?? []) as ClientRequest[]);
         setLoading(false);
       });
-  }, []);
+  }, [household, profileLoading]);
 
   return (
     <main>

@@ -104,8 +104,9 @@ function IndexRow({ entry }: { entry: Entry }) {
 }
 
 export default function Home() {
-  const { profile } = useProfile();
+  const { profile, loading: profileLoading } = useProfile();
   const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
+  const household = profile?.household_id;
 
   const [load, setLoad] = useState<Load>({ state: 'loading' });
   const [attempt, setAttempt] = useState(0);
@@ -113,59 +114,83 @@ export default function Home() {
   const [photoError, setPhotoError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (profileLoading) return;
+
     let cancelled = false;
     setLoad({ state: 'loading' });
+
+    // Staff can read every household, so this document has to name the one it
+    // wants. Without it the front desk's own client view listed other people's
+    // animals and requests as though they were theirs.
+    if (!household) {
+      setLoad({ state: 'error' });
+      return;
+    }
 
     const today = new Date();
     const horizon = new Date();
     horizon.setDate(horizon.getDate() + 14);
     const iso = (d: Date) => d.toISOString().slice(0, 10);
 
-    Promise.all([
-      supabase
+    // Reminders hang off pets, not households, so the animals have to land
+    // before there is anything to scope the reminders to.
+    (async () => {
+      const pets = await supabase
         .from('pets')
         .select('id, household_id, name, species, breed, photo_path')
+        .eq('household_id', household)
         .is('archived_at', null)
-        .order('name'),
-      supabase
-        .from('reminders')
-        .select('pet_id, title, due_on')
-        .is('completed_at', null)
-        .lte('due_on', iso(horizon))
-        .or(`snoozed_until.is.null,snoozed_until.lte.${iso(today)}`)
-        .order('due_on'),
-      supabase
-        .from('requests')
-        .select('id', { count: 'exact', head: true })
-        .in('status', ['submitted', 'in_review', 'approved', 'ready']),
-    ])
-      .then(async ([pets, due, requests]) => {
-        if (cancelled) return;
+        .order('name');
 
-        if (pets.error || due.error || requests.error) {
-          setLoad({ state: 'error' });
-          return;
-        }
+      if (cancelled) return;
 
-        const list = (pets.data ?? []) as Pet[];
-        setLoad({
-          state: 'ready',
-          pets: list,
-          due: (due.data ?? []) as Due[],
-          open: requests.count ?? 0,
-        });
+      if (pets.error) {
+        setLoad({ state: 'error' });
+        return;
+      }
 
-        const signed = await signPaths(list.map((p) => p.photo_path ?? '').filter(Boolean));
-        if (!cancelled) setUrls(signed);
-      })
-      .catch(() => {
-        if (!cancelled) setLoad({ state: 'error' });
+      const list = (pets.data ?? []) as Pet[];
+
+      const [due, requests] = await Promise.all([
+        supabase
+          .from('reminders')
+          .select('pet_id, title, due_on')
+          .in('pet_id', list.map((p) => p.id))
+          .is('completed_at', null)
+          .lte('due_on', iso(horizon))
+          .or(`snoozed_until.is.null,snoozed_until.lte.${iso(today)}`)
+          .order('due_on'),
+        supabase
+          .from('requests')
+          .select('id', { count: 'exact', head: true })
+          .eq('household_id', household)
+          .in('status', ['submitted', 'in_review', 'approved', 'ready']),
+      ]);
+
+      if (cancelled) return;
+
+      if (due.error || requests.error) {
+        setLoad({ state: 'error' });
+        return;
+      }
+
+      setLoad({
+        state: 'ready',
+        pets: list,
+        due: (due.data ?? []) as Due[],
+        open: requests.count ?? 0,
       });
+
+      const signed = await signPaths(list.map((p) => p.photo_path ?? '').filter(Boolean));
+      if (!cancelled) setUrls(signed);
+    })().catch(() => {
+      if (!cancelled) setLoad({ state: 'error' });
+    });
 
     return () => {
       cancelled = true;
     };
-  }, [attempt]);
+  }, [attempt, household, profileLoading]);
 
   const attachPetPhoto = useCallback(
     async (pet: Pet, e: ChangeEvent<HTMLInputElement>) => {
