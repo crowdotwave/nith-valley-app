@@ -39,6 +39,14 @@
   --staff: #6a2c91;        /* 8.82:1 on stock, 8.20:1 on field */
   --staff-ink: #ffffff;
 
+  /* Which of the two documents you are holding. A carbon-copy book stamps
+     OFFICE COPY on one leaf and CUSTOMER COPY on the other, in an ink that is
+     neither the form's nor the clerk's, so it cannot be mistaken for either.
+     The only warm hue in the app, and near the opposite of the staff violet it
+     sits beside on the front desk. */
+  --view: #b45309;         /* 5.02:1 with white text */
+  --view-ink: #ffffff;
+
   --font-doc: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
 
   --radius: 2px;           /* documents do not have soft corners */
@@ -153,7 +161,28 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 }
 
 .view-mark { display: flex; align-items: center; gap: .75rem; }
-.view-stamp { margin-top: 0; }
+
+/* Which of the two documents you are holding, and the only filled mark in the
+   masthead. It was built as `.badge view-stamp`, which meant the line naming
+   the document wore the same outline as the stamps naming a request's state,
+   two rows below. It is neither a state nor a control, so it is now its own
+   component and borrows nothing: the fill and the warm ink say "this is the
+   sheet", where an outline in ink would say "this is a status". Stamp step,
+   `xs sm` padding, no radius, once per screen. */
+.view-stamp {
+  display: inline-block;
+  padding: .25rem .5rem;
+  font-size: .625rem;
+  font-stretch: 78%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--view-ink);
+  background: var(--view);
+  border: 0;
+  border-radius: 0;
+  white-space: nowrap;
+}
 
 .view-switch {
   font-size: .6875rem;

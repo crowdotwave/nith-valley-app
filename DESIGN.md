@@ -17,6 +17,8 @@ colors:
   alert: "#a4262c"
   staff: "#6a2c91"
   staff-ink: "#ffffff"
+  view: "#b45309"
+  view-ink: "#ffffff"
 typography:
   title:
     fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
@@ -259,8 +261,15 @@ control that is *pressed* is outlined and named in the imperative.
 
 Ink-on-paper: one near-black navy doing almost all the work, a soft navy for secondary
 text, two structural greys for rules, the practice mark's two blues, a single green band
-standing in for a tag colour, and one violet that only staff ever see. All ratios below
-are measured against the actual built page, not estimated.
+standing in for a tag colour, one violet that only staff ever see, and one amber that
+names the sheet you are holding. All ratios below are measured against the actual built
+page, not estimated.
+
+**The palette is now full.** Five hues carry meaning — band, alert, staff, view, and the
+logo blues — which is the most a document this plain can hold before the reader stops
+reading colour as meaning and starts reading it as decoration. A sixth needs a role no
+existing hue can take and a mark that survives greyscale without it, or it does not go
+in.
 
 ### Primary
 
@@ -286,6 +295,14 @@ are measured against the actual built page, not estimated.
   convention and the client's sole chromatic accent outside the logo blues. It appears
   once per screen at most, as a full-width band in the summary slot, and never as a text
   colour, an icon colour, or a per-row accent.
+- **Copy-stamp Amber** (`{colors.view}` on `{colors.view-ink}`): **5.02:1** with white
+  text. A carbon-copy book stamps OFFICE COPY on one leaf and CUSTOMER COPY on the other,
+  in an ink that is neither the form's nor the clerk's so it cannot be mistaken for
+  either. This is that ink, and the only warm hue in the app. It carries exactly one
+  mark, the view stamp in the masthead, appears once per screen, and is never a text
+  colour, an icon colour or a row accent. It sits beside the staff violet on the front
+  desk and is close to its opposite, which is the point: the sheet you are holding and
+  the control that swaps it are different kinds of thing and must not read as a pair.
 - **Counter-stamp Violet** (`{colors.staff}`): **8.82:1** on stock, 8.20:1 on field. A
   form is printed in one ink and endorsed by the office in another, and the second ink is
   never the one the form was printed in. This is the app's, and the second chromatic
@@ -615,6 +632,25 @@ The workhorse. A ruled line item that reads as an entry in an index, not a butto
   same day under the No-Side-Tab Rule, which is the third time this build has had to
   refuse that shape. The group already has its rule, and it is the right kind — the
   violet underline beneath the Staff heading, running the full content width.
+
+### View Stamp (`.view-stamp`)
+
+Which of the two documents you are holding. One per screen, in the masthead, and the only
+filled mark up there.
+
+- **Shape:** a solid `view` block, `view-ink` text, square, no border. `xs sm` padding.
+- **Type:** the Stamp step (700, 0.625rem, `wdth 78`, uppercase, .1em).
+- **Why it is filled and warm:** it was built as `.badge view-stamp`, so the line naming
+  the document wore the same outline as the stamps naming a request's state two rows
+  below, and read as one of them. It is neither a state nor a control. The fill and the
+  warm ink say "this is the sheet"; an outline in ink says "this is a status". It now
+  borrows nothing from `.badge` and must not go back to it.
+- **Known limit:** under `filter: grayscale(1)` this and the filled `ready` stamp are both
+  solid blocks, distinguishable by lightness but not by shape. They are held apart by
+  position rather than by form — the view stamp lives in the masthead and never appears in
+  a queue row, and it names a document rather than a state, so the No-Hue-State Rule does
+  not bite. If a filled mark is ever proposed for the body of a screen, this is the
+  collision to check first.
 
 ### Counter-stamp (`.staff-mark`, `.staff-label`, `.staff-action`)
 
