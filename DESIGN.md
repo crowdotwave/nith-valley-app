@@ -387,14 +387,18 @@ generic `sans-serif`.
 - **Stamp** (700, 0.625rem / 10px, `wdth 78`, uppercase, .1em): status marks and the
   queue-field names (at 10px / .625rem).
 
-**Off-ramp glyph sizes.** Three declarations sit deliberately outside the ramp, because
-none of them is type being read as text — each is a letterform used as a graphic mark,
-sized to its frame rather than to the hierarchy:
+**Off-ramp glyph sizes.** Two declarations sit deliberately outside the ramp, because
+neither is type being read as text — each is a letterform used as a graphic mark, sized
+to its frame rather than to the hierarchy:
 
 - `1.25rem` — the initial standing in for a missing photograph in a home-screen stub
-  (`.stub-photo-empty`), and the disclosure chevron (`.chev`).
+  (`.stub-photo-empty`).
 - `1.5rem` — the same initial in the larger 4.5rem frame on an animal's own record
   (`.pet-photo`).
+
+The disclosure chevron was listed here as a third letterform. It is not one: `.chev` is
+a stroke icon, sized and weighted as a sibling of the external mark, and is recorded
+under Index Row rather than here.
 
 The rule is the frame, not the number: a stand-in initial is sized to the box that holds
 it. Do not treat either value as an available text size, and do not add further off-ramp
@@ -573,6 +577,12 @@ The workhorse. A ruled line item that reads as an entry in an index, not a butto
   at 2px offset. There is no hover fill and no active depression.
 - **External variant:** adds a third grid column carrying a 14px corner-arrow mark at 80%
   opacity, for rows that hand off to a third-party site.
+- **Disclosure mark (`.chev`):** the external mark's counterpart at the same 14px and 80%
+  opacity, in soft ink rather than inherited, for a row that opens a record of its own.
+  One points off the site, the other further into it. Softer because it repeats down
+  every row of an index where the external mark appears once. Used on the animals index
+  in the third column the stub grid already reserves; the tiles do not take it, because
+  there every row leads somewhere and a mark on all of them distinguishes nothing.
 
 ### Sealed Row (`.tile-primary`)
 

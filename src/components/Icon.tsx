@@ -20,6 +20,9 @@ const PATHS: Record<string, string> = {
   pin: 'M20 10c0 6.2-8 12-8 12s-8-5.8-8-12a8 8 0 0 1 16 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
   // Marks a tile that hands off to a third-party site.
   external: 'M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5',
+  // Says a row opens a record of its own. The external mark's counterpart: one
+  // points off the site, this one points further into it.
+  chevron: 'M9 5l7 7-7 7',
 };
 
 export type IconName = keyof typeof PATHS;

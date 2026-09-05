@@ -314,6 +314,12 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 .tile-external { grid-template-columns: auto 1fr auto; }
 .icon.tile-external-mark { width: .875rem; height: .875rem; opacity: .8; }
 
+/* The external mark's counterpart, at the same weight: it says a row opens a
+   record of its own rather than handing off. Softer than the external mark
+   because it repeats down every row of an index, where that one appears once.
+   It sits in the third column the stub grid already reserves. */
+.icon.chev { width: .875rem; height: .875rem; opacity: .8; color: var(--ink-soft); }
+
 .staff-tile { margin-bottom: .5rem; }
 
 /* The queue as fields of the document rather than a caption under a link. */

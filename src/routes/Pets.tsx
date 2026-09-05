@@ -2,11 +2,14 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
+import { signPaths } from '../lib/photos';
+import Icon from '../components/Icon';
 import type { Pet } from '../lib/types';
 
 export default function Pets() {
   const { profile } = useProfile();
   const [pets, setPets] = useState<Pet[]>([]);
+  const [urls, setUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
@@ -21,7 +24,12 @@ export default function Pets() {
       .order('name');
 
     if (error) setError(error.message);
-    else setPets((data ?? []) as Pet[]);
+    else {
+      const list = (data ?? []) as Pet[];
+      setPets(list);
+      // The bucket is private, so each picture needs its own signed URL.
+      setUrls(await signPaths(list.map((p) => p.photo_path ?? '').filter(Boolean)));
+    }
     setLoading(false);
   }
 
@@ -66,15 +74,37 @@ export default function Pets() {
         </p>
       )}
 
-      <ul className="list">
-        {pets.map((p) => (
-          <li key={p.id}>
-            <Link to={`/pets/${p.id}`} className="row">
-              <span className="row-title">{p.name}</span>
-              <span className="row-detail">{p.species ?? ''}</span>
-            </Link>
-          </li>
-        ))}
+      {/* The same stub the home screen uses, so an animal looks like an animal
+          wherever it appears. Here the whole stub is one link: this screen is
+          an index into the records, and the photo frame is not also a control
+          the way it is on the home screen. */}
+      <ul className="stubs">
+        {pets.map((p) => {
+          const src = p.photo_path ? urls[p.photo_path] : undefined;
+
+          return (
+            <li key={p.id}>
+              <Link to={`/pets/${p.id}`} className="stub">
+                {src ? (
+                  <img className="stub-photo" src={src} alt="" />
+                ) : (
+                  <span className="stub-photo stub-photo-empty">
+                    {p.name.charAt(0).toUpperCase()}
+                  </span>
+                )}
+
+                <span className="stub-body">
+                  <span className="stub-name">{p.name}</span>
+                  <span className="stub-meta">
+                    {[p.species, p.breed].filter(Boolean).join(' · ') || 'On file'}
+                  </span>
+                </span>
+
+                <Icon name="chevron" className="chev" />
+              </Link>
+            </li>
+          );
+        })}
       </ul>
 
       {adding ? (
