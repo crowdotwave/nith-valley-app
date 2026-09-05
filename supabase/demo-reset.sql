@@ -15,10 +15,10 @@
 
 begin;
 
--- d0000000-…-000000000001 is the Kaufman household, seeded with the four demo
--- animals; the a1–a4 ids below are Aeries, Gertie, Soren and Thelma. Written
--- out in full rather than bound to a variable so this also runs as-is in the
--- Supabase SQL editor.
+-- d0000000-…-000000000001 is the Niederer household, holding the four animals
+-- the demo is built from; the a1–a4 ids below are Aeries, Gertie, Soren and
+-- Thelma. Written out in full rather than bound to a variable so this also runs
+-- as-is in the Supabase SQL editor.
 
 delete from public.request_events
 where request_id in (
