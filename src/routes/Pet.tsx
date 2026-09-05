@@ -320,11 +320,13 @@ export default function PetDetail() {
               <input id="given" name="given" type="date" required />
               <label htmlFor="due">Next due (copy from Pulse)</label>
               <input id="due" name="due" type="date" />
-              <button type="submit">Save vaccination</button>
+              <button type="submit" className="staff-action">Save vaccination</button>
               <button type="button" className="ghost" onClick={() => setForm(null)}>Cancel</button>
             </form>
           ) : (
-            <button onClick={() => setForm('vaccine')}>Add vaccination</button>
+            <button className="staff-action" onClick={() => setForm('vaccine')}>
+              Add vaccination
+            </button>
           ))}
       </section>
     </main>

@@ -23,11 +23,21 @@
   --seal-mid: #4e7ebf;     /* the mark's mid blue */
   --seal-ink: #ffffff;
 
-  /* The band: rabies tags are colour-coded by year. The one accent. */
+  /* The band: rabies tags are colour-coded by year. The client's one accent. */
   --band: #1f7a46;         /* 5.34:1 against white text */
   --band-ink: #ffffff;
 
   --alert: #a4262c;
+
+  /* Staff ink: the counter-stamp. A form is printed in one ink and endorsed by
+     the office in another, and that second ink is never the one the form was
+     printed in. This is the app's, and the only hue here that is neither the
+     logo's nor the band's. It marks a control a client never sees, so it must
+     not be spent on anything a client can reach, and never on status: state is
+     carried by stamp shape, and a hue that means "staff" cannot also mean
+     "approved". */
+  --staff: #6a2c91;        /* 8.82:1 on stock, 8.20:1 on field */
+  --staff-ink: #ffffff;
 
   --font-doc: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
 
@@ -529,6 +539,76 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   background: repeating-linear-gradient(
     135deg, transparent 0 3px, rgba(20, 38, 63, .16) 3px 5px
   );
+}
+
+/* The counter-stamp: what only the office sees -------------------------- */
+
+/* Three marks, one ink, and the ink is the last thing each of them says. A
+   client's copy and a staff member's copy of the client view are the same
+   document; these are the endorsements the office adds to its own copy. Every
+   one of them still reads correctly in greyscale: the word "Staff", the
+   bracketed mark, and a leading edge three times the weight of any other. The
+   colour is the flourish, not the signal. */
+
+/* The mark itself, bracketed like an editorial insertion. Deliberately not a
+   status stamp shape: solid, dashed, double, filled and struck are spoken for,
+   and a fourth border style here would read as a sixth status. */
+.staff-mark {
+  justify-self: end;
+  align-self: center;
+  padding: .1875rem .375rem;
+  font-size: .625rem;
+  font-stretch: 78%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--staff);
+  background: none;
+  border: 0;
+  border-left: 2px solid var(--staff);
+  border-right: 2px solid var(--staff);
+  white-space: nowrap;
+}
+
+/* The section heading over anything the office keeps to itself. */
+.field-label.staff-label {
+  color: var(--staff);
+  border-bottom-color: var(--staff);
+}
+
+/* An index row the client's copy does not carry. The leading edge is the
+   marginal rule a clerk draws beside their own annotation. */
+.tile.staff-only {
+  grid-template-columns: auto 1fr auto;
+  padding-left: .75rem;
+  border-left: 3px solid var(--staff);
+}
+
+.tile.staff-only .icon { color: var(--staff); }
+.tile.staff-only .tile-label { color: var(--staff); }
+
+/* A control a client is not offered. Reads as the ghost button it is a variant
+   of, in the second ink, with the same marginal rule leading it. */
+button.staff-action {
+  background: none;
+  color: var(--staff);
+  border: 1px solid var(--staff);
+  border-left-width: 3px;
+}
+
+/* The one staff control that also appears on the front desk, where it is the
+   way back. Same ink there: it is the same control, and the switch is the one
+   thing on that screen a client could never have reached. */
+.view-switch.staff-only {
+  color: var(--staff);
+  border-bottom-color: var(--staff);
+}
+
+.staff-mark:focus-visible,
+.tile.staff-only:focus-visible,
+button.staff-action:focus-visible,
+.view-switch.staff-only:focus-visible {
+  outline-color: var(--staff);
 }
 
 /* Forms ---------------------------------------------------------------- */

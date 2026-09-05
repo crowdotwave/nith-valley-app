@@ -30,7 +30,7 @@ export function ViewMark({ view, isStaff }: { view: View; isStaff: boolean }) {
     <span className="view-mark">
       <span className="badge view-stamp">{copy.stamp}</span>
       {isStaff && (
-        <Link to={copy.swapTo} className="view-switch">
+        <Link to={copy.swapTo} className="view-switch staff-only">
           {copy.swapLabel}
         </Link>
       )}

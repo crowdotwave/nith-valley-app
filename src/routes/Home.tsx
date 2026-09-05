@@ -21,6 +21,8 @@ type Entry = {
   external?: boolean;
   // The one action the document leads with; rendered as the sealed row.
   primary?: boolean;
+  // Only a staff account is offered this. Takes the counter-stamp.
+  staff?: boolean;
 };
 
 const SECTIONS: { heading: string; entries: Entry[] }[] = [
@@ -77,7 +79,12 @@ type Load =
   | { state: 'ready'; pets: Pet[]; due: Due[]; open: number };
 
 function IndexRow({ entry }: { entry: Entry }) {
-  const className = ['tile', entry.primary && 'tile-primary', entry.external && 'tile-external']
+  const className = [
+    'tile',
+    entry.primary && 'tile-primary',
+    entry.external && 'tile-external',
+    entry.staff && 'staff-only',
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -89,6 +96,7 @@ function IndexRow({ entry }: { entry: Entry }) {
         <span className="tile-detail">{entry.detail}</span>
       </span>
       {entry.external && <Icon name="external" className="tile-external-mark" />}
+      {entry.staff && <span className="staff-mark">Staff</span>}
     </>
   );
 
@@ -360,7 +368,7 @@ export default function Home() {
 
       {isStaff && (
         <>
-          <p className="field-label">Staff</p>
+          <p className="field-label staff-label">Staff</p>
           <div className="tiles">
             <IndexRow
               entry={{
@@ -368,6 +376,7 @@ export default function Home() {
                 detail: 'Request queue and photo submissions',
                 icon: 'list',
                 to: '/desk',
+                staff: true,
               }}
             />
           </div>

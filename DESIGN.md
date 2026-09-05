@@ -15,6 +15,8 @@ colors:
   band: "#1f7a46"
   band-ink: "#ffffff"
   alert: "#a4262c"
+  staff: "#6a2c91"
+  staff-ink: "#ffffff"
 typography:
   title:
     fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
@@ -256,9 +258,9 @@ control that is *pressed* is outlined and named in the imperative.
 ## Colors
 
 Ink-on-paper: one near-black navy doing almost all the work, a soft navy for secondary
-text, two structural greys for rules, the practice mark's two blues, and a single green
-band standing in for a tag colour. All ratios below are measured against the actual
-built page, not estimated.
+text, two structural greys for rules, the practice mark's two blues, a single green band
+standing in for a tag colour, and one violet that only staff ever see. All ratios below
+are measured against the actual built page, not estimated.
 
 ### Primary
 
@@ -281,9 +283,18 @@ built page, not estimated.
 
 - **Tag Band Green** (`{colors.band}` on `{colors.band-ink}`): **5.34:1** with white
   text. Rabies tags are colour-coded by year; this is the app's borrowed version of that
-  convention and the sole chromatic accent outside the logo blues. It appears once per
-  screen at most, as a full-width band in the summary slot, and never as a text colour,
-  an icon colour, or a per-row accent.
+  convention and the client's sole chromatic accent outside the logo blues. It appears
+  once per screen at most, as a full-width band in the summary slot, and never as a text
+  colour, an icon colour, or a per-row accent.
+- **Counter-stamp Violet** (`{colors.staff}`): **8.82:1** on stock, 8.20:1 on field. A
+  form is printed in one ink and endorsed by the office in another, and the second ink is
+  never the one the form was printed in. This is the app's, and the second chromatic
+  accent in the system. It marks controls a client never sees and nothing else, so a
+  client's build of any screen contains none of it. Two hard limits. It is **never used
+  for status**: state is carried by stamp shape, and a hue that means "staff" cannot also
+  mean "approved". And it is **never the only signal** — every mark wearing it also reads
+  in greyscale, by the word "Staff", by the bracket, or by a leading edge three times the
+  weight of any other rule on the page. See Counter-stamp under Components.
 
 ### Tertiary
 
@@ -325,6 +336,15 @@ does not carry. The acceptance test is one line: render the surface under
 **The One Band Rule.** The green band appears at most once per screen, in the summary
 slot, running the full content width. It is not a palette; there is no light-green, no
 green text, no green icon.
+
+**The Counter-stamp Rule.** Violet means one thing: a client never sees this. It follows
+that the ink may only appear on a control gated behind `isStaff`, that a client's build
+of any screen contains none of it, and that it can carry no second meaning — not status,
+not urgency, not category. It is also not a palette: there is no violet fill and no
+violet band. The test is the same grayscale pass as the No-Hue-State Rule, run on a staff
+build: strip the colour and every staff mark must still be legible as staff, by its word
+or its shape. On the front desk the ink is used **only** on the view switch, because that
+whole surface is staff-only and marking all of it would mark nothing.
 
 **The Filled-Is-State Rule.** Where a state mark and a control sit adjacent in the same
 row, **the fill belongs to the state and the control gives it up**. In the ledger the
@@ -583,6 +603,33 @@ The workhorse. A ruled line item that reads as an entry in an index, not a butto
   every row of an index where the external mark appears once. Used on the animals index
   in the third column the stub grid already reserves; the tiles do not take it, because
   there every row leads somewhere and a mark on all of them distinguishes nothing.
+- **Staff variant (`.staff-only`):** takes the third grid column for the counter-stamp,
+  a `.75rem` left pad and a **3px** `staff` leading edge — the marginal rule a clerk
+  draws beside their own annotation, and the heaviest vertical rule in the system. Icon
+  and label take the staff ink. Everything else about the row is unchanged.
+
+### Counter-stamp (`.staff-mark`, `.staff-label`, `.staff-action`)
+
+What the office adds to its own copy of a document the client also holds. Three marks in
+one ink, governed by the Counter-stamp Rule above.
+
+- **The mark (`.staff-mark`):** the word "Staff" at the Stamp step (700, 0.625rem,
+  `wdth 78`, .1em), bracketed by a 2px `staff` rule left and right, no top or bottom, no
+  fill. Bracketed rather than bordered on purpose: solid, dashed, double, filled and
+  struck are spoken for by the five status stamps, and a sixth border style here would
+  read as a sixth status. An editorial insertion, not a state.
+- **The heading (`.staff-label`):** a field label in staff ink over a `staff` underline
+  instead of `rule-ink`. Marks a whole section as the office's.
+- **The control (`.staff-action`):** the ghost button in staff ink — no fill, 1px `staff`
+  border, with the leading edge thickened to 3px to match the row variant. It is a
+  *variant* of the ghost and must stay one: giving it a violet fill would make it the
+  loudest control on a screen whose primary action is navy, and would break the
+  Filled-Is-State Rule's spirit by introducing a second filled hue.
+
+**Where it appears.** Four places, all of them gated behind `isStaff`: the view switch in
+the masthead (both views), the Staff section heading and the Front desk row on the client
+home, and Add / Save vaccination on an animal's record. Nowhere else. If a fifth appears,
+check it is genuinely staff-gated before giving it the ink.
 
 ### Sealed Row (`.tile-primary`)
 
