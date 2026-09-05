@@ -292,9 +292,9 @@ are measured against the actual built page, not estimated.
   accent in the system. It marks controls a client never sees and nothing else, so a
   client's build of any screen contains none of it. Two hard limits. It is **never used
   for status**: state is carried by stamp shape, and a hue that means "staff" cannot also
-  mean "approved". And it is **never the only signal** — every mark wearing it also reads
-  in greyscale, by the word "Staff", by the bracket, or by a leading edge three times the
-  weight of any other rule on the page. See Counter-stamp under Components.
+  mean "approved". And it **never carries the meaning alone** — the word "Staff" appears
+  on both the section heading and the mark, so the group survives greyscale as a word
+  rather than as a colour. See Counter-stamp under Components.
 
 ### Tertiary
 
@@ -340,11 +340,13 @@ green text, no green icon.
 **The Counter-stamp Rule.** Violet means one thing: a client never sees this. It follows
 that the ink may only appear on a control gated behind `isStaff`, that a client's build
 of any screen contains none of it, and that it can carry no second meaning — not status,
-not urgency, not category. It is also not a palette: there is no violet fill and no
-violet band. The test is the same grayscale pass as the No-Hue-State Rule, run on a staff
-build: strip the colour and every staff mark must still be legible as staff, by its word
-or its shape. On the front desk the ink is used **only** on the view switch, because that
-whole surface is staff-only and marking all of it would mark nothing.
+not urgency, not category. It is also not a palette: there is no violet fill, no violet
+band, and — see the No-Side-Tab Rule, which caught this ink breaking it on the day it was
+added — no violet stripe down the side of anything. The test is the same grayscale pass
+as the No-Hue-State Rule, run on a staff build: strip the colour and the group must still
+name itself, which it does through the word "Staff" on the heading and on the mark. On
+the front desk the ink is used **only** on the view switch, because that whole surface is
+staff-only and marking all of it would mark nothing.
 
 **The Filled-Is-State Rule.** Where a state mark and a control sit adjacent in the same
 row, **the fill belongs to the state and the control gives it up**. In the ledger the
@@ -577,10 +579,14 @@ Grouping is expressed by a field label above and hairlines between. If a surface
 card to make sense, the surface is wrong.
 
 **The No-Side-Tab Rule.** A coloured stripe down one side of a block is refused outright.
-It was found and removed twice during this build. The band runs the full content width as
-a *band*; the calm-day variant takes a 3px top edge, and `border-left` computes to 0 on
-the live page. Vertical accent stripes, left-border status bars, and per-row colour tabs
-are all the same tell and all prohibited.
+It was found and removed twice during this build, and a third time when the staff ink
+arrived wearing one on the Front desk row and a thickened leading edge on the staff
+button. The band runs the full content width as a *band*; the calm-day variant takes a
+3px top edge, and `border-left` computes to 0 on the live page. Vertical accent stripes,
+left-border status bars, and per-row colour tabs are all the same tell and all
+prohibited. The third occurrence is the useful one to remember: a new accent colour
+arrives wanting a stripe to carry it, and the answer is that the accent goes in the ink
+and the mark, and the grouping goes in a full-width rule.
 
 ## Components
 
@@ -603,10 +609,12 @@ The workhorse. A ruled line item that reads as an entry in an index, not a butto
   every row of an index where the external mark appears once. Used on the animals index
   in the third column the stub grid already reserves; the tiles do not take it, because
   there every row leads somewhere and a mark on all of them distinguishes nothing.
-- **Staff variant (`.staff-only`):** takes the third grid column for the counter-stamp,
-  a `.75rem` left pad and a **3px** `staff` leading edge — the marginal rule a clerk
-  draws beside their own annotation, and the heaviest vertical rule in the system. Icon
-  and label take the staff ink. Everything else about the row is unchanged.
+- **Staff variant (`.staff-only`):** takes the third grid column for the counter-stamp;
+  icon and label take the staff ink. Everything else about the row is unchanged. It
+  carries **no left edge**: a 3px staff-ink leading edge was built here and removed the
+  same day under the No-Side-Tab Rule, which is the third time this build has had to
+  refuse that shape. The group already has its rule, and it is the right kind — the
+  violet underline beneath the Staff heading, running the full content width.
 
 ### Counter-stamp (`.staff-mark`, `.staff-label`, `.staff-action`)
 
@@ -620,11 +628,14 @@ one ink, governed by the Counter-stamp Rule above.
   read as a sixth status. An editorial insertion, not a state.
 - **The heading (`.staff-label`):** a field label in staff ink over a `staff` underline
   instead of `rule-ink`. Marks a whole section as the office's.
-- **The control (`.staff-action`):** the ghost button in staff ink — no fill, 1px `staff`
-  border, with the leading edge thickened to 3px to match the row variant. It is a
-  *variant* of the ghost and must stay one: giving it a violet fill would make it the
-  loudest control on a screen whose primary action is navy, and would break the
-  Filled-Is-State Rule's spirit by introducing a second filled hue.
+- **The control (`.staff-action`):** the ghost button in staff ink — no fill, an even 1px
+  `staff` border. It is a *variant* of the ghost and must stay one. A violet fill would
+  make it the loudest control on a screen whose primary action is navy, and would break
+  the Filled-Is-State Rule's spirit by introducing a second filled hue. A thickened
+  leading edge, tried and removed, is the side tab at button scale and reads as a
+  rendering fault at 13px. Alone among the three marks this one does not say "staff" in
+  greyscale; it reads as different in kind, and the section heading and the mark teach
+  what the difference means.
 
 **Where it appears.** Four places, all of them gated behind `isStaff`: the view switch in
 the masthead (both views), the Staff section heading and the Front desk row on the client

@@ -545,10 +545,10 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 
 /* Three marks, one ink, and the ink is the last thing each of them says. A
    client's copy and a staff member's copy of the client view are the same
-   document; these are the endorsements the office adds to its own copy. Every
-   one of them still reads correctly in greyscale: the word "Staff", the
-   bracketed mark, and a leading edge three times the weight of any other. The
-   colour is the flourish, not the signal. */
+   document; these are the endorsements the office adds to its own copy. The
+   word "Staff" on the heading and on the mark carries the meaning in greyscale;
+   the colour groups them. No fills, no stripes, no radii: an endorsement is
+   written on the document, not stuck to the side of it. */
 
 /* The mark itself, bracketed like an editorial insertion. Deliberately not a
    status stamp shape: solid, dashed, double, filled and struck are spoken for,
@@ -576,24 +576,23 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   border-bottom-color: var(--staff);
 }
 
-/* An index row the client's copy does not carry. The leading edge is the
-   marginal rule a clerk draws beside their own annotation. */
-.tile.staff-only {
-  grid-template-columns: auto 1fr auto;
-  padding-left: .75rem;
-  border-left: 3px solid var(--staff);
-}
+/* An index row the client's copy does not carry. Ink and mark only: this had a
+   3px staff-ink left edge, which is the side tab the No-Side-Tab Rule refuses,
+   and it was redundant besides. The violet underline under the Staff heading
+   already gives the group its rule, running the full content width the way a
+   rule in this system is supposed to. */
+.tile.staff-only { grid-template-columns: auto 1fr auto; }
 
 .tile.staff-only .icon { color: var(--staff); }
 .tile.staff-only .tile-label { color: var(--staff); }
 
-/* A control a client is not offered. Reads as the ghost button it is a variant
-   of, in the second ink, with the same marginal rule leading it. */
+/* A control a client is not offered. The ghost button in the second ink, and
+   nothing else: an even 1px border, since a thickened leading edge is the same
+   side tab at button scale and reads as a rendering fault at this size. */
 button.staff-action {
   background: none;
   color: var(--staff);
   border: 1px solid var(--staff);
-  border-left-width: 3px;
 }
 
 /* The one staff control that also appears on the front desk, where it is the
