@@ -116,6 +116,14 @@ export default function StaffHome() {
           </span>
         </Link>
 
+        <Link to="/staff/points" className="tile">
+          <Icon name="rosette" />
+          <span className="tile-text">
+            <span className="tile-label">Award points</span>
+            <span className="tile-detail">At checkout, for what just happened</span>
+          </span>
+        </Link>
+
         <Link to="/staff" className="tile">
           <Icon name="list" />
           <span className="tile-text">

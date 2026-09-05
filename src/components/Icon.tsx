@@ -23,6 +23,9 @@ const PATHS: Record<string, string> = {
   // Says a row opens a record of its own. The external mark's counterpart: one
   // points off the site, this one points further into it.
   chevron: 'M9 5l7 7-7 7',
+  // Loyalty. A rosette rather than a star or a coin: points here are awarded
+  // for bringing an animal in, not bought.
+  rosette: 'M12 14a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11z M8.7 13.4L7.5 21l4.5-2.4 4.5 2.4-1.2-7.6',
 };
 
 export type IconName = keyof typeof PATHS;

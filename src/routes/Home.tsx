@@ -63,6 +63,7 @@ const SECTIONS: { heading: string; entries: Entry[] }[] = [
     heading: 'Your pets',
     entries: [
       { label: 'All reminders', detail: 'What is coming due', icon: 'bell', to: '/reminders' },
+      { label: 'Points', detail: 'What you have collected', icon: 'rosette', to: '/points' },
       { label: 'Send us a photo', detail: 'For our social media', icon: 'camera', to: '/photos' },
     ],
   },

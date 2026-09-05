@@ -50,6 +50,36 @@ export type Vaccination = {
   next_due_on: string | null;
 };
 
+/** What the desk taps at checkout. Per event, never per dollar. */
+export type EarnRule = {
+  id: string;
+  code: string;
+  label: string;
+  points: number;
+  active: boolean;
+};
+
+export type Reward = {
+  id: string;
+  label: string;
+  points_cost: number;
+  active: boolean;
+};
+
+/**
+ * One line of the append-only ledger. There is no stored balance anywhere:
+ * `points_balances` sums this, and a correction is an offsetting row rather
+ * than an edit, so every point a client holds can be accounted for.
+ */
+export type LedgerRow = {
+  id: string;
+  delta: number;
+  reason: string;
+  created_at: string;
+  earn_rule_id: string | null;
+  pets: { name: string } | null;
+};
+
 export type RequestType = 'food' | 'medication' | 'other';
 
 export type RequestStatus =

@@ -16,6 +16,8 @@ import Photos from './routes/Photos';
 import StaffPhotos from './routes/StaffPhotos';
 import Contact from './routes/Contact';
 import Services from './routes/Services';
+import Points from './routes/Points';
+import StaffPoints from './routes/StaffPoints';
 
 // Clients and staff are co-equal audiences with different jobs, so they land on
 // different documents. Keeping the decision at "/" means every `← Back` link in
@@ -71,7 +73,9 @@ export default function App() {
       <Route path="/photos" element={<Photos />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/services" element={<Services />} />
+      <Route path="/points" element={<Points />} />
       <Route path="/staff/photos" element={<StaffPhotos />} />
+      <Route path="/staff/points" element={<StaffPoints />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -39,6 +39,14 @@ typography:
     lineHeight: 1.5
     letterSpacing: "-0.005em"
     fontVariation: "'wdth' 100"
+  balance:
+    fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
+    fontSize: "2.5rem"
+    fontWeight: 600
+    lineHeight: 1
+    letterSpacing: "-0.01em"
+    fontVariation: "'wdth' 100"
+    fontFeature: "tabular-nums"
   metric:
     fontFamily: "Archivo, 'Helvetica Neue', Arial, sans-serif"
     fontSize: "1.375rem"
@@ -411,8 +419,14 @@ generic `sans-serif`.
   headings (`h2`) in soft ink. Shares its metrics with `button`.
 - **Record** (600, 1.0625rem / 17px, 1.5, `wdth 100`, −.005em): an animal's name on its
   stub. The largest normal-width type in the client app — the subject of the document.
+- **Balance** (600, 2.5rem / 40px, 1, `wdth 100`, −.01em, `tabular-nums`): the largest type
+  in the system, and it holds exactly one thing — a points balance, on the client's points
+  page and again on the desk's award page. It exists because that figure is the answer to
+  the only question the page is asked, and Metric at 22px left it competing with the row
+  titles beneath it. It is not a general heading size: nothing else may take it, and a
+  second use is the signal that the page has two subjects and should be two pages.
 - **Metric** (600, 1.375rem / 22px, 1.1, `wdth 100`, `tabular-nums`): the staff console's
-  standing queue counts. The only role that uses tabular figures.
+  standing queue counts.
 - **Body** (400, 1rem / 16px, 1.5, `wdth 100`): the root, set on `body`. The sealed row's
   label holds 1rem; everything that steps down from it uses Lead or Note below.
 - **Lead** (0.9375rem / 15px, 1.5, `wdth 100`): the step immediately under Body, and the
@@ -636,6 +650,26 @@ The workhorse. A ruled line item that reads as an entry in an index, not a butto
   same day under the No-Side-Tab Rule, which is the third time this build has had to
   refuse that shape. The group already has its rule, and it is the right kind — the
   violet underline beneath the Staff heading, running the full content width.
+
+### Points Balance (`.balance`) and Reward Row (`.reward`, `.meter`)
+
+The loyalty surfaces, on both sides.
+
+- **Balance:** the Balance step over a Label-metric name, above a 1px `rule-ink` rule. No
+  fill, no box, no radius, no accent colour — the same three refusals that keep the
+  console's queue counts on the right side of the hero-metric tile the system otherwise
+  rejects. A large figure is allowed here; a large figure in a coloured box is not.
+- **A figure is never left alone.** The balance carries its own name, every reward states
+  its cost in points, and every gap is written in words ("15 points to go"). A loyalty
+  screen that shows "135" and stops is asking the reader to do the clinic's arithmetic.
+- **Reward row:** label and cost on one line, the gap beneath, a `rule-row` separator. A
+  claimable reward is distinguished by the **section it sits under**, not by a badge: the
+  five stamp shapes name request states and a sixth here would read as one. What changes
+  is the note, which goes from soft ink to full ink and from caption to instruction.
+- **Meter (`.meter`):** a 3px track in `--rule` with a `seal` fill. This is the one place
+  `--rule` earns its "decorative only" description literally — the row above already
+  states the gap in words, the bar carries nothing on its own, and it is `aria-hidden`.
+  Square, no radius, no gradient, no animation.
 
 ### View Stamp (`.view-stamp`, `.view-stamp-desk`)
 

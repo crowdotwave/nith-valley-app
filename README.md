@@ -41,8 +41,10 @@ manual entry forever, drifts immediately, and cannot be reconciled against a
 PIMS we cannot read.
 
 **The points ledger is append-only.** Balance is `sum(delta)`, never a stored
-column. Corrections are offsetting rows. Enforced by rule, not convention, so
-every point a client has is explainable.
+column. Corrections are offsetting rows. Enforced by privilege, not convention,
+so every point a client has is explainable. The desk's Undo writes the
+offsetting row rather than deleting the mistake, and both lines stay on the
+record.
 
 **Passwordless auth.** Email magic link. Clients already have a Covetrus
 password for booking; a second one would double the front desk's support load
@@ -82,9 +84,9 @@ blocked, clients cannot write vaccinations, grant themselves points, promote
 themselves to staff, or edit the ledger; staff see everything.
 
 Working: magic-link auth, home screen, booking handoff to Covetrus, SMS
-handoff, add/list pets, food and medication requests, request tracking, and the
-staff request queue. Status changes are audited by a database trigger rather
-than by the client.
+handoff, add/list pets, food and medication requests, request tracking, the
+staff request queue, and loyalty points. Status changes are audited by a
+database trigger rather than by the client.
 
 Staff access is granted by setting `profiles.role` to `staff`; there is no
 self-service path to it, by design.
@@ -116,7 +118,7 @@ Fraunces loads from Google Fonts, so the serif fallback stack matters once this
 runs under Capacitor offline; consider self-hosting it at that point.
 
 Not started: push notifications (needs the Capacitor wrap and an FCM project),
-loyalty screens, marketing site.
+marketing site.
 
 ## The PIMS
 

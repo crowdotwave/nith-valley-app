@@ -662,6 +662,131 @@ button.staff-action:focus-visible,
   outline-color: var(--staff);
 }
 
+/* Points: a figure is never left to stand on its own ------------------- */
+
+/* The balance, in the posture the queue's counts already use on the desk: a
+   figure over its own name, above a rule. No fill, no box, no radius and no
+   accent colour, which is the whole of what keeps a large number here from
+   becoming the hero-metric tile the system refuses. */
+.balance {
+  display: grid;
+  gap: .125rem;
+  margin: 1.5rem 0 0;
+  padding-bottom: .625rem;
+  border-bottom: 1px solid var(--rule-ink);
+}
+
+.balance-value {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.balance-name {
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--ink-soft);
+}
+
+.rewards { list-style: none; margin: 0; padding: 0; }
+
+.reward {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .125rem .75rem;
+  padding: .8125rem 0;
+  border-bottom: 1px solid var(--rule-row);
+}
+
+.reward-label { font-weight: 600; font-size: .9375rem; }
+
+.reward-cost {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: .75rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.reward-note { grid-column: 1 / -1; font-size: .75rem; color: var(--ink-soft); }
+
+/* Claimable is carried by the section it sits under, not by a badge: the five
+   stamp shapes name request states and a sixth here would read as one. What
+   changes is the note, which stops being a caption and becomes an instruction. */
+.reward-ready .reward-note { color: var(--ink); }
+
+/* Decorative by design, and `--rule` is the token for exactly that. The row
+   above already states the gap in words, so the bar carries nothing on its own
+   and is hidden from assistive technology. */
+.meter {
+  grid-column: 1 / -1;
+  display: block;
+  height: 3px;
+  margin-top: .5rem;
+  background: var(--rule);
+}
+
+.meter-ink { display: block; height: 100%; background: var(--seal); }
+
+/* What just happened at the counter, one tap deep. */
+.earn { display: grid; gap: .5rem; margin-top: .25rem; }
+
+.earn-rule {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  padding: .8125rem .875rem;
+  text-align: left;
+  background: none;
+  color: var(--ink);
+  border: 1px solid var(--rule-ink);
+  text-transform: none;
+  letter-spacing: normal;
+  font-stretch: 100%;
+}
+
+.earn-label { font-weight: 600; font-size: .9375rem; }
+
+.earn-points {
+  font-size: .8125rem;
+  font-weight: 700;
+  font-stretch: 78%;
+  letter-spacing: .05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--seal);
+}
+
+/* A ledger line: what was earned, against what, and for how much. */
+.entry { grid-template-columns: 1fr auto; }
+
+.entry-delta {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: .9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A correction, which stays on the record beside the row it reverses. */
+.entry-less { color: var(--ink-soft); }
+
+.entry-undo {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: .5rem;
+  padding: .375rem .75rem;
+  font-size: .625rem;
+}
+
 /* Forms ---------------------------------------------------------------- */
 
 .auth form, .stack { display: grid; gap: .5rem; margin-top: 1.5rem; }
