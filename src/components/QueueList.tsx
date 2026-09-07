@@ -7,6 +7,7 @@ import {
   type RequestStatus,
 } from '../lib/types';
 import { NEXT, type QueueRow } from '../lib/useRequestQueue';
+import { waited } from '../lib/dates';
 
 // The queue as a ruled ledger: one line per request, read across. At counter
 // width the fields sit in columns; on a phone they stack. Either way a request
@@ -61,7 +62,14 @@ export default function QueueList({
 
           <span className="queue-sent">{new Date(r.created_at).toLocaleDateString()}</span>
 
-          <span className={`badge ${STATUS_STAMP[r.status]}`}>{STATUS_LABEL[r.status]}</span>
+          <span className="queue-state">
+            <span className={`badge ${STATUS_STAMP[r.status]}`}>{STATUS_LABEL[r.status]}</span>
+            {/* Nobody walks back to the desk to close a request out, so a
+                shelf fills with things that were collected days ago and a
+                count that says otherwise. Naming the wait is what separates
+                "handed over, not clicked" from "still sitting here". */}
+            {r.status === 'ready' && <span className="queue-waited">{waited(r.updated_at)}</span>}
+          </span>
 
           <span className="queue-act">
             {NEXT[r.status].map((next) => (

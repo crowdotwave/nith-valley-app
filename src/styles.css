@@ -1151,3 +1151,16 @@ section { margin-top: 2rem; }
 }
 
 .home footer { margin-top: 2rem; text-align: center; }
+
+/* A state that should have been passed through, and how long it has not been.
+   Follows the stamp rather than replacing it: the stamp still says what the
+   state is, this says how stale it is. */
+.queue-state { display: grid; gap: .25rem; justify-items: start; align-content: start; }
+
+.queue-waited {
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-soft);
+}

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
 import { usePoints, awardPoints, reversePoints } from '../lib/usePoints';
-import type { Pet } from '../lib/types';
+import { useRequestQueue } from '../lib/useRequestQueue';
+import { waited } from '../lib/dates';
+import { summariseItems, type Pet } from '../lib/types';
 
 type Household = { id: string; name: string };
 
@@ -31,6 +33,15 @@ export default function StaffPoints() {
   const [writeError, setWriteError] = useState<string | null>(null);
 
   const { balance, ledger, rewards, rules, loading, error, reload } = usePoints(chosen || null);
+
+  // Nobody walks back to the desk to close a request out after the client has
+  // gone. The one moment it reliably happens is this one, with the client
+  // standing here, so the orders waiting for them are on the same page as the
+  // points they are collecting.
+  const queue = useRequestQueue('open');
+  const waitingHere = queue.rows.filter(
+    (r) => r.status === 'ready' && r.household_id === chosen,
+  );
 
   useEffect(() => {
     if (!isStaff) return;
@@ -116,7 +127,7 @@ export default function StaffPoints() {
   return (
     <main className="desk">
       <Link to="/desk" className="back">← Back</Link>
-      <h1>Award points</h1>
+      <h1>At the counter</h1>
 
       {households.length > 1 && (
         <>
@@ -140,6 +151,37 @@ export default function StaffPoints() {
                 : 'nothing claimable yet'}
             </span>
           </p>
+
+          {/* The client is here. This is the only moment the shelf gets
+              cleared honestly, so it comes before the points. */}
+          {waitingHere.length > 0 && (
+            <>
+              <h2 className="field-label">Waiting to hand over</h2>
+              <ul className="list">
+                {waitingHere.map((r) => (
+                  <li key={r.id} className="row entry">
+                    <span className="row-title">{summariseItems(r.details, r.type)}</span>
+                    <span className="row-detail">
+                      {[r.pets?.name, `ready ${waited(r.updated_at)}`]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </span>
+                    <button
+                      className="act-go entry-undo"
+                      disabled={busy}
+                      onClick={async () => {
+                        setBusy(true);
+                        await queue.move(r.id, 'completed');
+                        setBusy(false);
+                      }}
+                    >
+                      Handed over
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
 
           {pets.length > 0 && (
             <>

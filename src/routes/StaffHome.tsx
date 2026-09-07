@@ -122,8 +122,8 @@ export default function StaffHome() {
         <Link to="/staff/points" className="tile">
           <Icon name="rosette" />
           <span className="tile-text">
-            <span className="tile-label">Award points</span>
-            <span className="tile-detail">At checkout, for what just happened</span>
+            <span className="tile-label">At the counter</span>
+            <span className="tile-detail">Hand over an order and award points</span>
           </span>
         </Link>
 

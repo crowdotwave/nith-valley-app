@@ -38,6 +38,20 @@ export function relativeWhen(iso: string | null): string | null {
   return `on ${new Date(iso + 'T00:00:00').toLocaleDateString()}`;
 }
 
+/**
+ * How long something has been sitting in a state it was meant to pass through.
+ * Bare, with no "ago": it follows a stamp that already says what the state is,
+ * so the row reads "Ready for pickup · 5 days".
+ */
+export function waited(iso: string): string {
+  const days = Math.abs(daysUntil(iso.slice(0, 10)));
+  if (days === 0) return 'today';
+  if (days === 1) return '1 day';
+  if (days < 14) return `${days} days`;
+  if (days < 60) return `${Math.round(days / 7)} weeks`;
+  return 'over 2 months';
+}
+
 /** Depletion dates only matter when they are close. */
 export function isSoon(iso: string | null, within = 21): boolean {
   return iso !== null && daysUntil(iso) <= within;

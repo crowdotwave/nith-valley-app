@@ -1,15 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from './supabase';
-import type { RequestDetails, RequestStatus } from './types';
+import type { RequestDetails, RequestStatus, RequestType } from './types';
 
 export type QueueRow = {
   id: string;
-  type: 'food' | 'medication' | 'other';
+  household_id: string;
+  type: RequestType;
   status: RequestStatus;
   details: RequestDetails;
   client_note: string | null;
   staff_note: string | null;
   created_at: string;
+  /** Last touched. For a ready row this is when it was marked ready, unless a
+   *  staff note was edited after, so it reads as "about this long" rather than
+   *  to the minute. Enough to tell today's shelf from last week's. */
+  updated_at: string;
   pets: { name: string } | null;
   households: { name: string } | null;
 };
@@ -40,7 +45,7 @@ export function useRequestQueue(scope: 'open' | 'all') {
     let query = supabase
       .from('requests')
       .select(
-        'id, type, status, details, client_note, staff_note, created_at, pets(name), households(name)',
+        'id, household_id, type, status, details, client_note, staff_note, created_at, updated_at, pets(name), households(name)',
       )
       .order('created_at', { ascending: true });
 

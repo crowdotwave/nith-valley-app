@@ -33,5 +33,21 @@ export const BOOKING_URL =
   'uemus4wPw&c=@commid&scrollToAppts';
 
 export function openBooking() {
-  window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
+  // A new tab starts with no history, so its Back button is dead on arrival and
+  // a client who has finished booking has no way back they would think of:
+  // returning means finding the tab switcher. Navigating in place hands them
+  // the browser's own Back, which is the one control every phone user already
+  // knows.
+  //
+  // Except where there is no browser chrome to go back with. An installed
+  // home-screen app or a Capacitor webview has no address bar and no Back, so
+  // navigating in place would strand the client on the booking site with the
+  // app gone. Those still hand off to the browser, where the app is a task
+  // switch away rather than a lost page.
+  const chromeless =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (window.navigator as { standalone?: boolean }).standalone === true;
+
+  if (chromeless) window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
+  else window.location.href = BOOKING_URL;
 }
