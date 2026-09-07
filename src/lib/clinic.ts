@@ -33,21 +33,22 @@ export const BOOKING_URL =
   'uemus4wPw&c=@commid&scrollToAppts';
 
 export function openBooking() {
-  // A new tab starts with no history, so its Back button is dead on arrival and
-  // a client who has finished booking has no way back they would think of:
-  // returning means finding the tab switcher. Navigating in place hands them
-  // the browser's own Back, which is the one control every phone user already
-  // knows.
+  // A new tab, and the tile says so.
   //
-  // Except where there is no browser chrome to go back with. An installed
-  // home-screen app or a Capacitor webview has no address bar and no Back, so
-  // navigating in place would strand the client on the booking site with the
-  // app gone. Those still hand off to the browser, where the app is a task
-  // switch away rather than a lost page.
-  const chromeless =
-    window.matchMedia('(display-mode: standalone)').matches ||
-    (window.navigator as { standalone?: boolean }).standalone === true;
-
-  if (chromeless) window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
-  else window.location.href = BOOKING_URL;
+  // This was briefly changed to navigate in place, because a new tab starts
+  // with no history and its Back button is therefore dead, which is what a
+  // tester ran into. Navigating in place is worse. Booking is several screens
+  // long — date, time, reason, confirm — so by the time it is done, Back is
+  // four or five presses from this app and every one of them lands on a booking
+  // step. A Back button that takes five presses to escape is worse than one
+  // that visibly does nothing, and it costs the client their place in the app
+  // as well.
+  //
+  // The dead Back button is not the problem to solve; being surprised by it is.
+  // The tile names the new tab before the client leaves.
+  //
+  // When the Capacitor wrap lands this becomes @capacitor/browser, which
+  // presents the site as a sheet over the app with its own Done button, and
+  // makes the question go away.
+  window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
 }

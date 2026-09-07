@@ -31,7 +31,10 @@ const SECTIONS: { heading: string; entries: Entry[] }[] = [
     entries: [
       {
         label: 'Book an appointment',
-        detail: 'Opens our scheduling system',
+        // Names the new tab before the client leaves. A tester met the dead
+        // Back button a new tab ships with and had no idea the app was still
+        // sitting behind it; see openBooking for why it stays a new tab.
+        detail: 'Our scheduling system, in a new tab',
         icon: 'calendar',
         onClick: openBooking,
         external: true,
