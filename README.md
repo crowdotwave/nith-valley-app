@@ -5,7 +5,8 @@ Client app + staff console for Nith Valley Animal Hospital, New Hamburg ON.
 ## What this is and isn't
 
 This is **not** a medical records system. The clinic's PIMS holds the patient
-record, the invoicing, and the prescriptions, and there is no API access to it.
+record, the invoicing, and the prescriptions, and we have no API access to it
+today.
 This app holds requests, preferences, and loyalty, things the PIMS has never
 heard of.
 
@@ -123,6 +124,23 @@ marketing site.
 ## The PIMS
 
 The clinic runs Covetrus Pulse, with Rapport Online Scheduling as the booking
-front end. There is no API access; see the table above for what that means.
+front end. See the table above for what that means today.
+
+**An API exists and we cannot get at it yet.** Covetrus Connect is the
+"only authenticated and supported way to integrate with Covetrus practice
+management software", reached through the Technology Integration Partner
+Program: sign the Integrated Partner Agreement, test, go live. As of September
+2026 Covetrus is "currently updating our APIs, documentation, and partnership
+framework" and **"new integration requests are paused in the meantime"**, with
+no published timeline, fee schedule or endpoint list. So the constraint this app
+is built around is real, but it is a closed door rather than a missing one, and
+it may open.
+
+What that changes when it does: the hand-over could be read from the invoice
+instead of clicked, vaccination dates would stop being transcribed by hand, and
+per-dollar loyalty accrual would become possible. Nothing above needs to be
+rebuilt to accept any of it — see "Points accrue per event" for why that
+decision holds either way.
+
 Worth checking whether GreatPetCare (Covetrus's own pet-parent portal, which
 requires Pulse) would cover the vaccination gap off the shelf.

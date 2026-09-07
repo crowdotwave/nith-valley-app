@@ -42,8 +42,14 @@ Confirmed success measures, all four selected this session:
 ## Positioning
 
 This is not a medical records system. The clinic runs Covetrus Pulse, with
-Rapport Online Scheduling as the booking front end, and there is no API access to
-either. The PIMS holds the patient record, the invoicing and the prescriptions.
+Rapport Online Scheduling as the booking front end, and we have no API access to
+either today. The PIMS holds the patient record, the invoicing and the
+prescriptions.
+
+An API does exist: Covetrus Connect, reached through their Technology
+Integration Partner Program. New integration requests are paused as of September
+2026 while Covetrus rebuilds the framework, so the constraint is a closed door
+rather than a missing one. Every decision here should stay true if it opens.
 
 This app holds requests, preferences and loyalty, things the PIMS has never
 heard of. Where the clinic already staffs a system, the app hands off to it
