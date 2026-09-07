@@ -206,7 +206,7 @@ components:
     typography: "{typography.label}"
     rounded: "{rounded.doc}"
     padding: "0.5rem 0.875rem"
-    height: "30px"
+    height: "44px"
   pet-photo:
     backgroundColor: "{colors.field}"
     textColor: "{colors.seal-mid}"
@@ -365,6 +365,22 @@ does not carry. The acceptance test is one line: render the surface under
 **The One Band Rule.** The green band appears at most once per screen, in the summary
 slot, running the full content width. It is not a palette; there is no light-green, no
 green text, no green icon.
+
+**The Target Size Rule.** Every control clears **44px**, not the 24px WCAG 2.2 floor.
+Two audiences make the legal minimum the wrong number here: a five-person front desk taps
+the same three queue controls all day, and the client side is aimed at an older
+readership. Buttons reach it with `min-height` and keep their padding, so raising the
+floor changed no visual weight. The two link-shaped controls — the back reference and the
+view switch — are set at the Label step, which is 18px of type that is deliberately placed
+against a heading and a masthead line; those extend the target past the text with a
+pseudo-element instead, so the hit area grows and the document prints where it did.
+
+**Headings are headings.** `.field-label` carries the heading voice, and for a while ten
+of them were `<p>`, which left the client home rendering with no `h1`, `h2` or `h3` at
+all. The class styles the voice; the tag carries the outline, and both home screens take
+their `h1` from the masthead logo, whose alt text is the practice name. A document issued
+by a practice is headed by that practice. `.field-label` outranks the bare `h2` selector,
+so the tag is free to be correct.
 
 **The Counter-stamp Rule.** Violet means one thing: a client never sees this. It follows
 that the ink may only appear on a control gated behind `isStaff`, that a client's build
@@ -912,8 +928,9 @@ so the two surfaces cannot drift on what a request is or how it moves.
   it is an input — the field-and-value grammar's own device, not a card
 - **Actions** (`.queue-act`): a `.5rem`-gapped wrapping flex row of **outlined** buttons —
   transparent fill, 1px border, Label metrics (11px / 600 / `wdth 78` / uppercase /
-  .09em), `.5rem .875rem` padding, 2px radius; measured 30px tall. Outlined by the
-  Filled-Is-State Rule, because the filled `ready` stamp sits inches away
+  .09em), `.5rem .875rem` padding, 2px radius; **44px** tall by the Target Size Rule,
+  raised from a measured 30px. Outlined by the Filled-Is-State Rule, because the filled
+  `ready` stamp sits inches away
 - **Action tone** (`ACTION_TONE` in `src/lib/types.ts`): the border and text hue says what
   pressing it does, in three tones and no more. `.act-go` in `band` for Approve, Mark
   ready and Hand over — every step that carries a request toward the client having their
