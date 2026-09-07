@@ -25,7 +25,7 @@ export default function StaffQueue() {
 
   return (
     <main className="desk">
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/desk" className="back">← Back</Link>
       <h1>Request record</h1>
 
       <button className="ghost" onClick={() => setShowDone((s) => !s)}>

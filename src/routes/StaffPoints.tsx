@@ -115,7 +115,7 @@ export default function StaffPoints() {
 
   return (
     <main className="desk">
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/desk" className="back">← Back</Link>
       <h1>Award points</h1>
 
       {households.length > 1 && (

@@ -9,7 +9,7 @@ import Icon from '../components/Icon';
 export default function Contact() {
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/home" className="back">← Back</Link>
       <h1>Contact us</h1>
 
       <p className="notice">{EMERGENCY_NOTE}</p>

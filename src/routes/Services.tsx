@@ -8,7 +8,7 @@ import { openBooking } from '../lib/clinic';
 export default function Services() {
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/home" className="back">← Back</Link>
       <h1>Services</h1>
       <p className="muted">{SERVICE_AREA}</p>
 

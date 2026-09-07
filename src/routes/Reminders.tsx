@@ -128,7 +128,7 @@ export default function Reminders() {
 
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/home" className="back">← Back</Link>
       <h1>Reminders</h1>
 
       {loading && <p className="muted">Loading…</p>}

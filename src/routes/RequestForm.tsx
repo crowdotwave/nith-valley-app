@@ -75,7 +75,7 @@ export default function RequestForm() {
   if (pets.length === 0) {
     return (
       <main>
-        <Link to="/" className="back">← Back</Link>
+        <Link to="/home" className="back">← Back</Link>
         <h1>{copy.title}</h1>
         <p className="muted">
           Add a pet first so we know who this is for.
@@ -87,7 +87,7 @@ export default function RequestForm() {
 
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/home" className="back">← Back</Link>
       <h1>{copy.title}</h1>
       <p className="muted">{copy.hint}</p>
 

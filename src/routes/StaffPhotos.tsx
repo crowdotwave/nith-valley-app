@@ -77,7 +77,7 @@ export default function StaffPhotos() {
 
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/desk" className="back">← Back</Link>
       <h1>Photo submissions</h1>
 
       <button className="ghost" onClick={() => setShowAll((s) => !s)}>

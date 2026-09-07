@@ -117,7 +117,7 @@ export default function Photos() {
 
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/home" className="back">← Back</Link>
       <h1>Send us a photo</h1>
       <p className="muted">
         We love showing off our patients. Send us a picture and we might feature

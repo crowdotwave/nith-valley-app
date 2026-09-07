@@ -60,6 +60,11 @@ export default function Pets() {
 
   return (
     <main>
+      {/* The one back reference that should resolve by role rather than name a
+          document. This index is reached from the desk's Animals tile and from
+          the client home's empty state, so "/" returning each reader to their
+          own home is the correct answer here and the wrong one everywhere
+          else. */}
       <Link to="/" className="back">
         ← Back
       </Link>

@@ -22,7 +22,7 @@ export default function Points() {
 
   return (
     <main>
-      <Link to="/" className="back">← Back</Link>
+      <Link to="/home" className="back">← Back</Link>
       <h1>Points</h1>
 
       {loading && <p className="muted">Loading…</p>}
