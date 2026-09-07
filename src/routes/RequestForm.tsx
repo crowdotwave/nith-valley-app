@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
 import { relativeWhen, isSoon, daysUntil } from '../lib/dates';
@@ -7,45 +7,32 @@ import type { Pet, PetFood, PetMedication, RequestItem, RequestType } from '../l
 
 const KG = 1000;
 
-const COPY: Record<'food' | 'medication', {
-  title: string;
-  hint: string;
-  none: string;
-  otherPlaceholder: string;
-  qtyPlaceholder: string;
-}> = {
-  food: {
-    title: 'Order food',
-    hint: 'Everything your animals are on is here. Tick what you need.',
-    none: 'No food on file yet, so tell us what you feed and we will add it.',
-    otherPlaceholder: 'Royal Canin Renal, 6kg',
-    qtyPlaceholder: '1 bag',
-  },
-  medication: {
-    title: 'Request medication',
-    hint: 'Everything your animals are on is here. Refills need a vet to approve them, so this may take a day.',
-    none: 'Nothing on file yet, so tell us what you need and we will look it up.',
-    otherPlaceholder: 'Apoquel 16mg',
-    qtyPlaceholder: '30 day supply',
-  },
-};
-
 /** One thing the practice already knows an animal is on. */
 type OnFile = {
   id: string;
   petId: string;
   petName: string;
+  kind: 'food' | 'medication';
   label: string;
   detail: string;
   soon: boolean;
   defaultQty: string;
 };
 
-export default function RequestForm() {
-  const { type } = useParams<{ type: string }>();
-  const kind = (type === 'medication' ? 'medication' : 'food') as 'food' | 'medication';
-  const copy = COPY[kind];
+const KIND_NAME: Record<'food' | 'medication', string> = {
+  food: 'Food',
+  medication: 'Medication',
+};
 
+/**
+ * One order for the household, whatever it is made of.
+ *
+ * This was two forms behind two routes, so a client picking up a bag of food
+ * and a refill on the same visit sent two requests, which the desk then worked
+ * twice and handed over once. It is one page: every animal, food and
+ * medication together, tick what you need.
+ */
+export default function RequestForm() {
   const navigate = useNavigate();
   const { profile, loading: profileLoading } = useProfile();
   const household = profile?.household_id;
@@ -83,65 +70,69 @@ export default function RequestForm() {
       const ids = list.map((p) => p.id);
       const nameOf = new Map(list.map((p) => [p.id, p.name]));
 
-      const { data } =
-        kind === 'food'
-          ? await supabase
-              .from('pet_foods')
-              .select('id, pet_id, brand, product_name, package_size_g, depletes_on')
-              .in('pet_id', ids)
-              .eq('active', true)
-          : await supabase
-              .from('pet_medications')
-              .select('id, pet_id, name, dose, frequency, days_supply, depletes_on')
-              .in('pet_id', ids)
-              .eq('active', true);
+      const [foods, meds] = await Promise.all([
+        supabase
+          .from('pet_foods')
+          .select('id, pet_id, brand, product_name, package_size_g, depletes_on')
+          .in('pet_id', ids)
+          .eq('active', true),
+        supabase
+          .from('pet_medications')
+          .select('id, pet_id, name, dose, frequency, days_supply, depletes_on')
+          .in('pet_id', ids)
+          .eq('active', true),
+      ]);
 
       if (cancelled) return;
-      const rows = (data ?? []) as (PetFood & PetMedication)[];
 
-      const mapped = rows.map((r): OnFile => {
-        const runsOut = r.depletes_on
-          ? `${daysUntil(r.depletes_on) < 0 ? 'ran out' : 'runs out'} ${relativeWhen(r.depletes_on)}`
-          : '';
+      const runsOut = (on: string | null) =>
+        on ? `${daysUntil(on) < 0 ? 'ran out' : 'runs out'} ${relativeWhen(on)}` : '';
 
-        if (kind === 'food') {
-          const size = r.package_size_g ? `${Number(r.package_size_g) / KG}kg bag` : '';
-          return {
-            id: r.id,
-            petId: r.pet_id,
-            petName: nameOf.get(r.pet_id) ?? '',
-            label: [r.brand, r.product_name].filter(Boolean).join(' '),
-            detail: [size, runsOut].filter(Boolean).join(' · '),
-            soon: isSoon(r.depletes_on),
-            defaultQty: '1 bag',
-          };
-        }
+      const fromFood = ((foods.data ?? []) as PetFood[]).map((f): OnFile => ({
+        id: `food:${f.id}`,
+        petId: f.pet_id,
+        petName: nameOf.get(f.pet_id) ?? '',
+        kind: 'food',
+        label: [f.brand, f.product_name].filter(Boolean).join(' '),
+        detail: [
+          f.package_size_g ? `${Number(f.package_size_g) / KG}kg bag` : '',
+          runsOut(f.depletes_on),
+        ]
+          .filter(Boolean)
+          .join(' · '),
+        soon: isSoon(f.depletes_on),
+        defaultQty: '1 bag',
+      }));
 
-        return {
-          id: r.id,
-          petId: r.pet_id,
-          petName: nameOf.get(r.pet_id) ?? '',
-          label: [r.name, r.dose].filter(Boolean).join(' '),
-          detail: [r.frequency, runsOut].filter(Boolean).join(' · '),
-          soon: isSoon(r.depletes_on),
-          defaultQty: r.days_supply ? `${r.days_supply} day supply` : '',
-        };
-      });
+      const fromMeds = ((meds.data ?? []) as PetMedication[]).map((m): OnFile => ({
+        id: `med:${m.id}`,
+        petId: m.pet_id,
+        petName: nameOf.get(m.pet_id) ?? '',
+        kind: 'medication',
+        label: [m.name, m.dose].filter(Boolean).join(' '),
+        detail: [m.frequency, runsOut(m.depletes_on)].filter(Boolean).join(' · '),
+        soon: isSoon(m.depletes_on),
+        defaultQty: m.days_supply ? `${m.days_supply} day supply` : '',
+      }));
 
-      // Soonest first inside each animal, animals in the order they are listed.
+      // Animals in the order they are listed, food before medication inside
+      // each, because that is the order the shelf is walked.
       const order = new Map(list.map((p, i) => [p.id, i]));
-      mapped.sort((a, b) =>
-        order.get(a.petId)! - order.get(b.petId)! || a.label.localeCompare(b.label),
+      const merged = [...fromFood, ...fromMeds].sort(
+        (a, b) =>
+          order.get(a.petId)! - order.get(b.petId)! ||
+          a.kind.localeCompare(b.kind) ||
+          a.label.localeCompare(b.label),
       );
 
-      setOnFile(mapped);
+      setOnFile(merged);
       setLoading(false);
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [household, profileLoading, kind]);
+  }, [household, profileLoading]);
 
   function toggle(option: OnFile) {
     setPicked((current) => {
@@ -153,6 +144,7 @@ export default function RequestForm() {
           quantity: option.defaultQty,
           pet_id: option.petId,
           pet: option.petName,
+          kind: option.kind,
         };
       return next;
     });
@@ -177,14 +169,17 @@ export default function RequestForm() {
         quantity: e.quantity.trim(),
         pet_id: e.pet_id || null,
         pet: e.pet_id ? (pets.find((p) => p.id === e.pet_id)?.name ?? null) : null,
+        kind: e.kind ?? 'food',
       })),
   ];
 
-  // A request still names one animal when every line is for the same one, so
-  // the ledger and the queue keep reading as they always have. Only a genuinely
-  // mixed request goes without, and the lines carry the animal themselves.
+  // A request still names one animal and one kind when every line agrees, so
+  // the ledger and the queue read as they always have. Only a genuinely mixed
+  // one goes without, and the lines carry both themselves.
   const petIds = new Set(items.map((i) => i.pet_id).filter(Boolean));
+  const kinds = new Set(items.map((i) => i.kind));
   const singlePet = petIds.size === 1 ? [...petIds][0] : null;
+  const type: RequestType = kinds.size === 1 ? ([...kinds][0] as RequestType) : 'mixed';
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -196,7 +191,7 @@ export default function RequestForm() {
     const { error: failed } = await supabase.from('requests').insert({
       household_id: household,
       pet_id: singlePet,
-      type: kind as RequestType,
+      type,
       details: { items },
       client_note: note.trim() || null,
       created_by: profile?.id,
@@ -216,37 +211,48 @@ export default function RequestForm() {
     return (
       <main>
         <Link to="/home" className="back">← Back</Link>
-        <h1>{copy.title}</h1>
+        <h1>Order food or medication</h1>
         <p className="muted">Add an animal first so we know who this is for.</p>
         <Link to="/pets"><button>Add a pet</button></Link>
       </main>
     );
   }
 
-  let lastPet = '';
+  let lastGroup = '';
 
   return (
     <main>
       <Link to="/home" className="back">← Back</Link>
-      <h1>{copy.title}</h1>
-      <p className="muted">{copy.hint}</p>
+      <h1>Order food or medication</h1>
+      <p className="muted">
+        Everything your animals are on is here. Tick anything you need, for any of them,
+        and it comes to us as one order.
+      </p>
 
       {loading && <p className="muted">Loading…</p>}
 
       {!loading && (
         <form onSubmit={submit} className="stack">
-          {onFile.length === 0 && <p className="muted record-empty">{copy.none}</p>}
+          {onFile.length === 0 && (
+            <p className="muted record-empty">
+              Nothing on file yet, so tell us what you need and we will add it.
+            </p>
+          )}
 
           {/* The practice already knows what each animal is on, so nobody
               should have to remember a brand and a bag size to reorder it.
-              Every animal in the household is on one page: a four-animal
-              household orders once, not four times. Each row carries when it
-              runs out, which is the thing that decides whether you tick it. */}
+              Food and medication sit in one list per animal: a household
+              ordering both orders once. Each row carries when it runs out,
+              which is the thing that decides whether you tick it. */}
           <ul className="picks">
             {onFile.map((option) => {
               const chosen = picked[option.id];
-              const heading = option.petName !== lastPet ? option.petName : null;
-              lastPet = option.petName;
+              const group = `${option.petId}:${option.kind}`;
+              const heading =
+                group !== lastGroup
+                  ? `${option.petName} · ${KIND_NAME[option.kind]}`
+                  : null;
+              lastGroup = group;
 
               return (
                 <li key={option.id} className={heading ? 'pick pick-first' : 'pick'}>
@@ -273,7 +279,6 @@ export default function RequestForm() {
                       className="pick-qty"
                       value={chosen.quantity}
                       aria-label={`How much ${option.label} for ${option.petName}?`}
-                      placeholder={copy.qtyPlaceholder}
                       onChange={(e) => setQuantity(option.id, e.target.value)}
                     />
                   )}
@@ -289,16 +294,26 @@ export default function RequestForm() {
               <input
                 value={extra.item}
                 aria-label={`Something else, ${i + 1}`}
-                placeholder={copy.otherPlaceholder}
+                placeholder="Royal Canin Renal, 6kg"
                 onChange={(e) => editExtra(i, { item: e.target.value })}
               />
               <input
                 className="pick-qty"
                 value={extra.quantity}
                 aria-label={`How much of ${extra.item || `item ${i + 1}`}?`}
-                placeholder={copy.qtyPlaceholder}
+                placeholder="1 bag"
                 onChange={(e) => editExtra(i, { quantity: e.target.value })}
               />
+              <select
+                value={extra.kind ?? 'food'}
+                aria-label={`Is ${extra.item || `item ${i + 1}`} food or medication?`}
+                onChange={(e) =>
+                  editExtra(i, { kind: e.target.value as 'food' | 'medication' })
+                }
+              >
+                <option value="food">Food</option>
+                <option value="medication">Medication</option>
+              </select>
               <select
                 value={extra.pet_id ?? ''}
                 aria-label={`Which animal is ${extra.item || `item ${i + 1}`} for?`}
@@ -322,7 +337,9 @@ export default function RequestForm() {
           <button
             type="button"
             className="ghost"
-            onClick={() => setExtras((c) => [...c, { item: '', quantity: '', pet_id: null }])}
+            onClick={() =>
+              setExtras((c) => [...c, { item: '', quantity: '', pet_id: null, kind: 'food' }])
+            }
           >
             {extras.length === 0 ? 'Add something not on file' : 'Add another'}
           </button>

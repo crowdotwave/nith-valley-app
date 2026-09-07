@@ -66,6 +66,9 @@ export default function App() {
       <Route path="/desk" element={<StaffHome />} />
       <Route path="/pets" element={<Pets />} />
       <Route path="/pets/:id" element={<PetDetail />} />
+      <Route path="/request" element={<RequestForm />} />
+      {/* The two old routes still land here: the reminders page links to
+          them by kind, and a client may have bookmarked one. */}
       <Route path="/request/:type" element={<RequestForm />} />
       <Route path="/requests" element={<Requests />} />
       <Route path="/staff" element={<StaffQueue />} />

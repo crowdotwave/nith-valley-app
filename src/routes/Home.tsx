@@ -49,12 +49,11 @@ const SECTIONS: { heading: string; entries: Entry[] }[] = [
   {
     heading: 'Food & medication',
     entries: [
-      { label: 'Order food', detail: 'Request a refill', icon: 'food', to: '/request/food' },
       {
-        label: 'Request medication',
-        detail: 'Refill or renewal',
-        icon: 'pill',
-        to: '/request/medication',
+        label: 'Order food or medication',
+        detail: 'Refills for any of your animals, in one order',
+        icon: 'food',
+        to: '/request',
       },
       { label: 'My requests', detail: 'Track what you have sent', icon: 'list', to: '/requests' },
     ],

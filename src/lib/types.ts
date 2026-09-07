@@ -80,7 +80,9 @@ export type LedgerRow = {
   pets: { name: string } | null;
 };
 
-export type RequestType = 'food' | 'medication' | 'other';
+// 'mixed' is a request whose lines are not all one kind. Nothing filters on
+// this; the queue reads the items. It is the summary a report would want.
+export type RequestType = 'food' | 'medication' | 'mixed' | 'other';
 
 export type RequestStatus =
   | 'submitted'
@@ -100,6 +102,8 @@ export type RequestItem = {
   quantity: string;
   pet_id?: string | null;
   pet?: string | null;
+  /** Food or medication. The line knows, so the request can carry both. */
+  kind?: 'food' | 'medication';
 };
 
 /**
@@ -122,10 +126,18 @@ export function requestItems(details: RequestDetails | null | undefined): Reques
   return [];
 }
 
+/** Only reached by a request with no lines at all, which is a pre-list row. */
+const TYPE_FALLBACK: Record<RequestType, string> = {
+  food: 'Food',
+  medication: 'Medication',
+  mixed: 'Food and medication',
+  other: 'Request',
+};
+
 /** "Galliprant 20mg, 30 tablets · NexGard, 3 pack" — one line, for a ledger row. */
 export function summariseItems(details: RequestDetails | null | undefined, type: RequestType) {
   const items = requestItems(details);
-  if (items.length === 0) return type === 'medication' ? 'Medication' : 'Food';
+  if (items.length === 0) return TYPE_FALLBACK[type] ?? 'Request';
   return items
     .map((i) => (i.quantity ? `${i.item}, ${i.quantity}` : i.item))
     .join(' · ');
