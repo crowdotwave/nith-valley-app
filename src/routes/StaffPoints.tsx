@@ -153,7 +153,7 @@ export default function StaffPoints() {
             </>
           )}
 
-          <p className="field-label">What happened</p>
+          <h2 className="field-label">What happened</h2>
           <div className="earn">
             {rules.map((rule) => (
               <button
@@ -172,7 +172,7 @@ export default function StaffPoints() {
           {writeError && <p className="error">{writeError}</p>}
           {error && <p className="error">{error}</p>}
 
-          <p className="field-label">Recent</p>
+          <h2 className="field-label">Recent</h2>
 
           {ledger.length === 0 && <p className="muted record-empty">Nothing awarded yet.</p>}
 

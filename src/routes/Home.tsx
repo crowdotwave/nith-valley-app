@@ -260,7 +260,13 @@ export default function Home() {
   return (
     <main className="home">
       <header className="masthead">
-        <Logo className="logo" />
+        {/* The document's heading is the practice that issues it, which is what
+            the masthead already said in ink. The logo carries the name as its
+            alt text, so this gives both home screens the h1 they were missing
+            without printing the name twice. */}
+        <h1 className="masthead-title">
+          <Logo className="logo" />
+        </h1>
         <div className="issuing-row">
           <p className="issuing">{CLINIC.address}</p>
           <ViewMark view="client" isStaff={isStaff} />
@@ -303,7 +309,7 @@ export default function Home() {
         )}
       </div>
 
-      <p className="field-label">Animals on file</p>
+      <h2 className="field-label">Animals on file</h2>
 
       {load.state === 'ready' && load.pets.length === 0 && (
         <p className="muted record-empty">
@@ -358,7 +364,7 @@ export default function Home() {
 
       {SECTIONS.map((section) => (
         <div key={section.heading}>
-          <p className="field-label">{section.heading}</p>
+          <h2 className="field-label">{section.heading}</h2>
           <div className="tiles">
             {section.entries.map((entry) => (
               <IndexRow key={entry.label} entry={entry} />
@@ -369,7 +375,7 @@ export default function Home() {
 
       {isStaff && (
         <>
-          <p className="field-label staff-label">Staff</p>
+          <h2 className="field-label staff-label">Staff</h2>
           <div className="tiles">
             <IndexRow
               entry={{

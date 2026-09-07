@@ -61,7 +61,7 @@ export default function Points() {
 
           {ready.length > 0 && (
             <>
-              <p className="field-label">Ready to claim</p>
+              <h2 className="field-label">Ready to claim</h2>
               <ul className="rewards">
                 {ready.map((r) => (
                   <li key={r.id} className="reward reward-ready">
@@ -76,7 +76,7 @@ export default function Points() {
 
           {coming.length > 0 && (
             <>
-              <p className="field-label">Coming up</p>
+              <h2 className="field-label">Coming up</h2>
               <ul className="rewards">
                 {coming.map((r) => (
                   <li key={r.id} className="reward">
@@ -97,7 +97,7 @@ export default function Points() {
             </>
           )}
 
-          <p className="field-label">How you collected them</p>
+          <h2 className="field-label">How you collected them</h2>
 
           {ledger.length === 0 && (
             <p className="muted record-empty">

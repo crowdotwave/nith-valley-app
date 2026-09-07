@@ -37,7 +37,10 @@ export default function StaffHome() {
   return (
     <main className="home desk">
       <header className="masthead">
-        <Logo className="logo" />
+        {/* See Home: the practice that issues the document is its heading. */}
+        <h1 className="masthead-title">
+          <Logo className="logo" />
+        </h1>
         <div className="issuing-row">
           <p className="issuing">{CLINIC.address}</p>
           <ViewMark view="desk" isStaff />
@@ -75,7 +78,7 @@ export default function StaffHome() {
         )}
       </div>
 
-      <p className="field-label">The queue</p>
+      <h2 className="field-label">The queue</h2>
 
       {!loading && !error && (
         <div className="queue-fields">
@@ -100,7 +103,7 @@ export default function StaffHome() {
 
       <QueueList rows={rows} onMove={move} onNote={saveNote} />
 
-      <p className="field-label">Also on the desk</p>
+      <h2 className="field-label">Also on the desk</h2>
       <div className="tiles">
         <Link to="/staff/photos" className="tile">
           <Icon name="camera" />

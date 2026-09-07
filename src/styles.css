@@ -92,6 +92,11 @@ h1, h2, h3, .field-label, .section-label {
 }
 
 h1 { font-size: 1.125rem; margin-bottom: .75rem; }
+
+/* The masthead's h1 is the logo, so it contributes structure rather than type.
+   Every rule in the heading block above is about setting words the browser is
+   not setting here. */
+.masthead-title { margin: 0; font-size: 0; line-height: 0; }
 h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 
 .field-label,
@@ -832,6 +837,39 @@ button {
 }
 
 button:disabled { opacity: .45; cursor: default; }
+
+/* Target size ---------------------------------------------------------- */
+
+/* The compact buttons measured 25 to 30px tall. That clears the 24px WCAG 2.2
+   floor and nothing else: these are the three controls a five-person front desk
+   taps all day, and on the client side they are aimed at an older audience. The
+   padding is unchanged, so the buttons look exactly as they did and only the
+   hit area grows to the 44px platform figure. */
+.first-run button,
+.queue-act button,
+.actions button,
+.entry-undo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+}
+
+/* Two controls are shaped as links and set at the Label step, which is 18px of
+   text and under the floor. Neither can grow by padding without moving type
+   that is deliberately placed — the back reference sits above the heading, and
+   the view switch sits on the masthead's issuing line. The target is extended
+   past the text instead, so the hit area reaches 44px while the document is
+   printed exactly where it was. */
+.back,
+.view-switch { position: relative; }
+
+.back::after,
+.view-switch::after {
+  content: '';
+  position: absolute;
+  inset: -.8125rem -.5rem;
+}
 
 button.ghost {
   background: none;
