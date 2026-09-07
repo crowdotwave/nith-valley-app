@@ -3,6 +3,7 @@ import {
   ACTION_TONE,
   STATUS_LABEL,
   STATUS_STAMP,
+  requestItems,
   type RequestStatus,
 } from '../lib/types';
 import { NEXT, type QueueRow } from '../lib/useRequestQueue';
@@ -21,18 +22,40 @@ export default function QueueList({
 }) {
   return (
     <ul className="queue">
-      {rows.map((r) => (
+      {rows.map((r) => {
+        const lines = requestItems(r.details);
+        // A request naming one animal keeps naming it. One covering several
+        // has no single animal to put in the first field, so the field names
+        // them all and each line says which is which.
+        const named = [...new Set(lines.map((l) => l.pet).filter(Boolean))] as string[];
+        const spans = !r.pets?.name && named.length > 1;
+
+        return (
         <li key={r.id} className="queue-row">
           <span className="queue-animal">
-            <span className="queue-pet">{r.pets?.name ?? 'No animal'}</span>
+            <span className="queue-pet">
+              {r.pets?.name ?? (named.length > 0 ? named.join(', ') : 'No animal')}
+            </span>
             <span className="queue-household">{r.households?.name ?? ''}</span>
           </span>
 
+          {/* A request can carry several things, so the ledger lists them
+              rather than naming one. One line each keeps the row scannable
+              when someone is picking the order off a shelf. */}
           <span className="queue-item">
-            <span className="queue-product">
-              {r.details?.item || (r.type === 'medication' ? 'Medication' : 'Food')}
-              {r.details?.quantity ? `, ${r.details.quantity}` : ''}
-            </span>
+            {lines.length === 0 ? (
+              <span className="queue-product">
+                {r.type === 'medication' ? 'Medication' : 'Food'}
+              </span>
+            ) : (
+              lines.map((line, i) => (
+                <span key={i} className="queue-product">
+                  {spans && line.pet ? `${line.pet}: ` : ''}
+                  {line.item}
+                  {line.quantity ? `, ${line.quantity}` : ''}
+                </span>
+              ))
+            )}
             {r.client_note && <span className="queue-quote">“{r.client_note}”</span>}
           </span>
 
@@ -61,7 +84,8 @@ export default function QueueList({
             onBlur={(e) => onNote(r.id, e.target.value)}
           />
         </li>
-      ))}
+        );
+      })}
     </ul>
   );
 }

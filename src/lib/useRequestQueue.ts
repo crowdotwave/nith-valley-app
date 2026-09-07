@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from './supabase';
-import type { RequestStatus } from './types';
+import type { RequestDetails, RequestStatus } from './types';
 
 export type QueueRow = {
   id: string;
   type: 'food' | 'medication' | 'other';
   status: RequestStatus;
-  details: { item?: string; quantity?: string };
+  details: RequestDetails;
   client_note: string | null;
   staff_note: string | null;
   created_at: string;

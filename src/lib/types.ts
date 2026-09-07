@@ -90,12 +90,53 @@ export type RequestStatus =
   | 'completed'
   | 'declined';
 
+/**
+ * One line of a request. The animal's name is copied in rather than referenced
+ * so the line still reads years later if the animal is renamed or archived —
+ * the same reason a ledger row copies its earn rule's label.
+ */
+export type RequestItem = {
+  item: string;
+  quantity: string;
+  pet_id?: string | null;
+  pet?: string | null;
+};
+
+/**
+ * A request carries a list, because a client picking up food rarely picks up
+ * one thing. `items` is the shape everything writes now; `item`/`quantity` is
+ * the single-item shape rows written before that, and it is read rather than
+ * migrated — a request is a record of what someone asked for on a day, and
+ * rewriting old ones to look like new ones would be editing history.
+ */
+export type RequestDetails = {
+  items?: RequestItem[];
+  item?: string;
+  quantity?: string;
+};
+
+/** Both shapes, read as one list. */
+export function requestItems(details: RequestDetails | null | undefined): RequestItem[] {
+  if (details?.items?.length) return details.items;
+  if (details?.item) return [{ item: details.item, quantity: details.quantity ?? '' }];
+  return [];
+}
+
+/** "Galliprant 20mg, 30 tablets · NexGard, 3 pack" — one line, for a ledger row. */
+export function summariseItems(details: RequestDetails | null | undefined, type: RequestType) {
+  const items = requestItems(details);
+  if (items.length === 0) return type === 'medication' ? 'Medication' : 'Food';
+  return items
+    .map((i) => (i.quantity ? `${i.item}, ${i.quantity}` : i.item))
+    .join(' · ');
+}
+
 export type ClientRequest = {
   id: string;
   pet_id: string | null;
   type: RequestType;
   status: RequestStatus;
-  details: { item?: string; quantity?: string };
+  details: RequestDetails;
   client_note: string | null;
   staff_note: string | null;
   created_at: string;

@@ -667,6 +667,79 @@ button.staff-action:focus-visible,
   outline-color: var(--staff);
 }
 
+/* Ordering from the file ------------------------------------------------ */
+
+/* The practice already knows what the animal is on, so a request is a list of
+   ticks against that file rather than a brand typed from memory. Ruled rows
+   like everything else: the checkbox is the only new furniture. */
+.picks { list-style: none; margin: 0; padding: 0; }
+
+.pick {
+  display: grid;
+  gap: .5rem;
+  padding: .75rem 0;
+  border-bottom: 1px solid var(--rule-row);
+}
+
+.pick-choice {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: .75rem;
+  min-height: 2.75rem;
+  align-content: center;
+  cursor: pointer;
+  /* The label voice is for field names; this one is a thing you are choosing. */
+  font-stretch: 100%;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--ink);
+}
+
+.pick-choice input[type='checkbox'] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: .0625rem 0 0;
+  accent-color: var(--seal);
+}
+
+.pick-text { display: grid; gap: .0625rem; min-width: 0; }
+.pick-name { font-weight: 600; font-size: .9375rem; }
+.pick-detail { font-size: .75rem; color: var(--ink-soft); }
+
+/* Running low is the reason to tick the row, so it is the one thing here that
+   is allowed to raise its voice. Ink, not a hue: the sentence already says it. */
+.pick-soon { color: var(--ink); }
+
+.pick-qty { max-width: 12rem; }
+
+/* Whose line this is. The animal is named once above its own things rather
+   than repeated on every row, so a four-animal household reads as four short
+   lists instead of one long one. */
+.pick-pet {
+  font-size: .6875rem;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-soft);
+}
+
+.pick-first { margin-top: .75rem; }
+
+.pick-extra {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .5rem;
+  padding: .75rem 0;
+  border-bottom: 1px solid var(--rule-row);
+}
+
+@media (min-width: 30rem) {
+  .pick { grid-template-columns: 1fr auto; align-items: center; }
+  .pick-pet { grid-column: 1 / -1; }
+  .pick-extra { grid-template-columns: 1fr 9rem 9rem auto; align-items: center; }
+}
+
 /* Points: a figure is never left to stand on its own ------------------- */
 
 /* The balance, in the posture the queue's counts already use on the desk: a

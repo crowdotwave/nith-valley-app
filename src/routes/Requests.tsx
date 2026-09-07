@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
-import { STATUS_LABEL, STATUS_STAMP, type ClientRequest } from '../lib/types';
+import { STATUS_LABEL, STATUS_STAMP, summariseItems, type ClientRequest } from '../lib/types';
 
 export default function Requests() {
   const { profile, loading: profileLoading } = useProfile();
@@ -43,9 +43,7 @@ export default function Requests() {
       <ul className="list">
         {rows.map((r) => (
           <li key={r.id} className="row">
-            <span className="row-title">
-              {r.details?.item || (r.type === 'food' ? 'Food' : 'Medication')}
-            </span>
+            <span className="row-title">{summariseItems(r.details, r.type)}</span>
             <span className="row-detail">
               Sent {new Date(r.created_at).toLocaleDateString()}
             </span>
