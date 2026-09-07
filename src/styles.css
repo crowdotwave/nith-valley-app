@@ -834,6 +834,9 @@ button {
   background: var(--seal);
   color: var(--seal-ink);
   cursor: pointer;
+  /* Measured 42px from padding alone, which is under the platform figure by
+     two pixels for no reason. Every button in the app clears 44 now. */
+  min-height: 2.75rem;
 }
 
 button:disabled { opacity: .45; cursor: default; }
