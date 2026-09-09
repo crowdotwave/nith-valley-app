@@ -1164,3 +1164,55 @@ section { margin-top: 2rem; }
   letter-spacing: .07em;
   color: var(--ink-soft);
 }
+
+/* A claimed reward, as the stub it has always been ---------------------- */
+
+/* A loyalty reward is a coupon, and a coupon is a piece of the document you
+   tear off and carry. Dashed on all four sides: the perforation the animal
+   stubs use along one edge, closed into a shape you can hand over. The only
+   place in the app where a box is the right answer, because here the box is
+   the object. */
+.coupons { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: .75rem; }
+
+.coupon {
+  display: grid;
+  justify-items: center;
+  gap: .25rem;
+  padding: 1.25rem .875rem;
+  text-align: center;
+  border: 2px dashed var(--rule-ink);
+}
+
+.coupon-label { font-weight: 600; font-size: .9375rem; }
+
+/* Read aloud across a counter, so it is set to be read aloud across a counter.
+   Tabular figures and wide tracking: this is a string of characters to be
+   transcribed one at a time, not a word to be taken in at a glance. */
+.coupon-code {
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: .2em;
+  text-indent: .2em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.coupon-note { font-size: .75rem; color: var(--ink-soft); }
+
+/* Claiming is the one thing on the client's points page that does something,
+   so it is a control rather than another line of prose. */
+.reward-claim {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: .5rem;
+  padding: .5rem .875rem;
+  font-size: .6875rem;
+  background: none;
+  color: var(--seal);
+  border: 1px solid var(--seal);
+}
+
+/* Two controls on a ledger row, where the row otherwise carries one. */
+.entry-pair { grid-column: 1 / -1; display: flex; gap: .5rem; margin-top: .5rem; }
+.entry-pair button { padding: .5rem .875rem; font-size: .6875rem; }

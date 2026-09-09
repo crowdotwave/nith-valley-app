@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
-import { usePoints, awardPoints, reversePoints } from '../lib/usePoints';
+import {
+  usePoints,
+  awardPoints,
+  reversePoints,
+  confirmRedemption,
+  cancelRedemption,
+} from '../lib/usePoints';
 import { useRequestQueue } from '../lib/useRequestQueue';
 import { waited } from '../lib/dates';
 import { summariseItems, type Pet } from '../lib/types';
@@ -32,7 +38,9 @@ export default function StaffPoints() {
   const [note, setNote] = useState<string | null>(null);
   const [writeError, setWriteError] = useState<string | null>(null);
 
-  const { balance, ledger, rewards, rules, loading, error, reload } = usePoints(chosen || null);
+  const { balance, ledger, rewards, rules, claims, loading, error, reload } = usePoints(
+    chosen || null,
+  );
 
   // Nobody walks back to the desk to close a request out after the client has
   // gone. The one moment it reliably happens is this one, with the client
@@ -177,6 +185,52 @@ export default function StaffPoints() {
                     >
                       Handed over
                     </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {claims.length > 0 && (
+            <>
+              <h2 className="field-label">Claimed rewards</h2>
+              <ul className="list">
+                {claims.map((c) => (
+                  <li key={c.id} className="row entry">
+                    <span className="row-title">{c.rewards?.label ?? 'Reward'}</span>
+                    <span className="row-detail">
+                      Code {c.code} · {c.points_cost} points
+                    </span>
+                    <span className="entry-delta entry-less">-{c.points_cost}</span>
+                    {/* Confirming is what spends the points: a trigger writes
+                        the debit so it cannot be honoured without being paid
+                        for. See migration 0012. */}
+                    <span className="entry-pair">
+                      <button
+                        className="act-go"
+                        disabled={busy}
+                        onClick={async () => {
+                          setBusy(true);
+                          await confirmRedemption(c.id);
+                          setBusy(false);
+                          reload();
+                        }}
+                      >
+                        Given
+                      </button>
+                      <button
+                        className="ghost"
+                        disabled={busy}
+                        onClick={async () => {
+                          setBusy(true);
+                          await cancelRedemption(c.id);
+                          setBusy(false);
+                          reload();
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </span>
                   </li>
                 ))}
               </ul>

@@ -67,6 +67,21 @@ export type Reward = {
 };
 
 /**
+ * A claimed reward, waiting to be honoured at the desk. The cost is captured at
+ * claim time rather than read back off the reward, so repricing a nail trim
+ * next year does not silently reprice one somebody already claimed.
+ */
+export type Redemption = {
+  id: string;
+  reward_id: string;
+  points_cost: number;
+  code: string;
+  status: 'pending' | 'confirmed' | 'cancelled' | 'expired';
+  created_at: string;
+  rewards: { label: string } | null;
+};
+
+/**
  * One line of the append-only ledger. There is no stored balance anywhere:
  * `points_balances` sums this, and a correction is an offsetting row rather
  * than an edit, so every point a client holds can be accounted for.

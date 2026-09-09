@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProfile } from '../lib/useProfile';
-import { usePoints } from '../lib/usePoints';
+import { usePoints, claimReward } from '../lib/usePoints';
+import type { Reward } from '../lib/types';
 
 /**
  * What the client's points are worth, in the order they care about: whether
@@ -13,10 +15,30 @@ import { usePoints } from '../lib/usePoints';
  */
 export default function Points() {
   const { profile } = useProfile();
-  const { balance, ledger, rewards, loading, error } = usePoints(profile?.household_id);
+  const { balance, ledger, rewards, claims, loading, error, reload } = usePoints(
+    profile?.household_id,
+  );
+  const [claiming, setClaiming] = useState<string | null>(null);
+  const [claimError, setClaimError] = useState<string | null>(null);
+
+  async function claim(reward: Reward) {
+    if (!profile?.household_id) return;
+    setClaiming(reward.id);
+    setClaimError(null);
+
+    const { error: failed } = await claimReward(profile.household_id, reward);
+    setClaiming(null);
+
+    // The balance is checked by the database, not here, so a refusal is a real
+    // answer rather than a bug: it is what a second device claiming the same
+    // points a moment earlier looks like.
+    if (failed) setClaimError(failed.message);
+    else reload();
+  }
 
   const points = balance ?? 0;
-  const ready = rewards.filter((r) => points >= r.points_cost);
+  const claimedIds = new Set(claims.map((c) => c.reward_id));
+  const ready = rewards.filter((r) => points >= r.points_cost && !claimedIds.has(r.id));
   const coming = rewards.filter((r) => points < r.points_cost);
   const next = coming[0];
 
@@ -32,7 +54,14 @@ export default function Points() {
         <>
           {/* The screen's one band, carrying the only line that is news. */}
           <div className="summary-slot">
-            {ready.length > 0 ? (
+            {claims.length > 0 ? (
+              <p className="summary">
+                <span className="summary-title">
+                  {claims.length === 1 ? 'Claimed and waiting' : `${claims.length} claimed and waiting`}
+                </span>
+                <span className="summary-detail">Show your code at the front desk</span>
+              </p>
+            ) : ready.length > 0 ? (
               <p className="summary">
                 <span className="summary-title">
                   {ready.length === 1
@@ -52,6 +81,26 @@ export default function Points() {
             )}
           </div>
 
+          {/* A claim comes off the document as a stub you carry to the desk,
+              which is what a coupon has always been. The code is the whole
+              point of it, so it is set at the size a code gets read aloud
+              across a counter rather than the size of the words around it. */}
+          {claims.length > 0 && (
+            <ul className="coupons">
+              {claims.map((c) => (
+                <li key={c.id} className="coupon">
+                  <span className="coupon-label">{c.rewards?.label ?? 'Reward'}</span>
+                  <span className="coupon-code">{c.code}</span>
+                  <span className="coupon-note">
+                    Show this at the front desk · {c.points_cost} points
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {claimError && <p className="error">{claimError}</p>}
+
           {/* No fill, no box, no accent: a figure and its label over a rule,
               the same posture as the queue's counts on the desk. */}
           <p className="balance">
@@ -67,7 +116,13 @@ export default function Points() {
                   <li key={r.id} className="reward reward-ready">
                     <span className="reward-label">{r.label}</span>
                     <span className="reward-cost">{r.points_cost} points</span>
-                    <span className="reward-note">Ask at the front desk on your next visit.</span>
+                    <button
+                      className="reward-claim"
+                      disabled={claiming !== null}
+                      onClick={() => claim(r)}
+                    >
+                      {claiming === r.id ? 'Claiming…' : 'Claim this'}
+                    </button>
                   </li>
                 ))}
               </ul>
