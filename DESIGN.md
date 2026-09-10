@@ -546,7 +546,8 @@ logo instead of two separate signals.
 it scopes only to `.desk`, raising the staff console to `max-width: 60rem` (measured
 960px, up from 44rem in the previous pass). The client app has no breakpoints at all, by
 design — it is a phone document and stays one. The only other media query is
-`prefers-reduced-motion`, which stops the skeleton pulse.
+`prefers-reduced-motion`, which stops the skeleton pulse and everything under Motion
+below.
 
 That one query now carries the ledger as well as the clamp. Above 46rem `.queue-row`
 takes **fixed tracks with only the item column flexible** —
@@ -846,6 +847,34 @@ The one accent, in the summary slot, in four mutually exclusive states that shar
   as a real button that retries. A failed load is never rendered as an all-clear.
 - **Loading:** `field` fill, 1px `rule` border, a 1.4s opacity pulse to 55%, disabled
   under `prefers-reduced-motion`.
+
+### Motion
+
+The record does not move. Overdue medication, a request queue and a depletion date are
+not places for flourish, and nothing on any of those surfaces animates.
+
+**The points page is the exception, and it is the only one.** It is the single screen
+about what somebody has collected rather than what they owe or what is late, so it is the
+one place where pleasure is the correct answer rather than noise. Three moments, all of
+them decoration over content that reads without them:
+
+- **The balance counts up** (`useCountUp`, 900ms, exponential ease-out). A figure that
+  ticks upward reads as collected rather than assigned, which is the difference between a
+  loyalty balance and an invoice total.
+- **The meters draw in** (`meter-draw`, 900ms), left to right, the way a figure gets
+  filled in by hand. `scaleX` rather than `width`, so it runs on the compositor.
+- **The claim code catches the light** (`foil`, 4s, looping). A voucher worth something
+  has always had a strip of foil on it. Drawn with the logo's own `seal-mid` through
+  `background-clip: text`, so the palette stays at four meaning-carrying hues.
+
+**The sheen is why `.coupon-code` is 700 rather than 600.** At 22px the WCAG large-text
+allowance requires bold; at 600 it does not apply and the 4.5:1 floor does, which the
+highlight (4.15:1) would fail. Bold makes it large text, where the floor is 3:1.
+
+**Switching the animation off is not enough for the code.** It is painted through clipped
+text, so without the gradient it renders in whatever colour the sweep parked on. The
+reduced-motion block restores `color: var(--ink)` and `background-clip: border-box`
+explicitly. Verified.
 
 ### Field Label (`.field-label`, `.section-label`)
 
