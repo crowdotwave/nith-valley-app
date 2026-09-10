@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { CLINIC } from '../lib/clinic';
-import { HOURS, EMERGENCY_NOTE } from '../lib/content';
+import { EMERGENCY_NOTE } from '../lib/content';
+import { useSiteContent } from '../lib/useSiteContent';
 import Icon from '../components/Icon';
 
 // Mirrors the Contact page on the practice website: how to reach us, when we
 // are open, and what to do in an emergency. A bare "text us" button threw away
 // the two things people actually come to a contact page for.
 export default function Contact() {
+  const { hours } = useSiteContent();
+
   return (
     <main>
       <Link to="/home" className="back">← Back</Link>
@@ -43,10 +46,10 @@ export default function Contact() {
       <section>
         <h2>Hours</h2>
         <ul className="hours">
-          {HOURS.map((h) => (
-            <li key={h.days}>
+          {hours.map((h) => (
+            <li key={h.position}>
               <span>{h.days}</span>
-              <span className="row-detail">{h.time}</span>
+              <span className="row-detail">{h.hours}</span>
             </li>
           ))}
         </ul>

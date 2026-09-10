@@ -7,6 +7,7 @@ import { relativeDue } from '../lib/dates';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 import AccountRow from '../components/AccountRow';
 import { FirstRunNote, ViewMark } from '../components/ViewMark';
+import { useSiteContent } from '../lib/useSiteContent';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
 import type { Pet } from '../lib/types';
@@ -118,6 +119,7 @@ export default function Home() {
   const { profile, loading: profileLoading } = useProfile();
   const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
   const household = profile?.household_id;
+  const { live } = useSiteContent();
 
   const [load, setLoad] = useState<Load>({ state: 'loading' });
   const [attempt, setAttempt] = useState(0);
@@ -276,6 +278,12 @@ export default function Home() {
       </header>
 
       <FirstRunNote view="client" isStaff={isStaff} />
+
+      {/* Whatever the practice most recently needed to say. Above the record,
+          because a closure tomorrow outranks a reminder next week. */}
+      {live.map((n) => (
+        <p key={n.id} className="notice">{n.body}</p>
+      ))}
 
       {/* The slot holds its height in every state so the record below never
           shifts once the counts land. */}

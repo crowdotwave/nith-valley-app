@@ -5,6 +5,7 @@ import { CLINIC } from '../lib/clinic';
 import { useRequestQueue } from '../lib/useRequestQueue';
 import AccountRow from '../components/AccountRow';
 import { FirstRunNote, ViewMark } from '../components/ViewMark';
+import { useSiteContent } from '../lib/useSiteContent';
 import QueueList from '../components/QueueList';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
@@ -15,6 +16,7 @@ import Logo from '../components/Logo';
 export default function StaffHome() {
   const { rows, loading, error, counts, move, saveNote } = useRequestQueue('open');
   const [photos, setPhotos] = useState<number | null>(null);
+  const { live } = useSiteContent();
 
   useEffect(() => {
     let cancelled = false;
@@ -48,6 +50,12 @@ export default function StaffHome() {
       </header>
 
       <FirstRunNote view="desk" isStaff />
+
+      {/* Whatever the practice most recently needed to say. Above the record,
+          because a closure tomorrow outranks a reminder next week. */}
+      {live.map((n) => (
+        <p key={n.id} className="notice">{n.body}</p>
+      ))}
 
       <div className="summary-slot" aria-live="polite">
         {loading && <div className="summary summary-skeleton" aria-hidden="true" />}
@@ -124,6 +132,14 @@ export default function StaffHome() {
           <span className="tile-text">
             <span className="tile-label">At the counter</span>
             <span className="tile-detail">Hand over an order and award points</span>
+          </span>
+        </Link>
+
+        <Link to="/staff/content" className="tile">
+          <Icon name="message" />
+          <span className="tile-text">
+            <span className="tile-label">What clients see</span>
+            <span className="tile-detail">Notices and opening hours</span>
           </span>
         </Link>
 
