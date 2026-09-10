@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProfile } from '../lib/useProfile';
 import { usePoints, claimReward } from '../lib/usePoints';
+import { useCountUp } from '../lib/useCountUp';
 import type { Reward } from '../lib/types';
 
 /**
@@ -37,6 +38,7 @@ export default function Points() {
   }
 
   const points = balance ?? 0;
+  const counted = useCountUp(points);
   const claimedIds = new Set(claims.map((c) => c.reward_id));
   const ready = rewards.filter((r) => points >= r.points_cost && !claimedIds.has(r.id));
   const coming = rewards.filter((r) => points < r.points_cost);
@@ -104,7 +106,7 @@ export default function Points() {
           {/* No fill, no box, no accent: a figure and its label over a rule,
               the same posture as the queue's counts on the desk. */}
           <p className="balance">
-            <span className="balance-value">{points}</span>
+            <span className="balance-value">{counted}</span>
             <span className="balance-name">points collected</span>
           </p>
 

@@ -1190,7 +1190,12 @@ section { margin-top: 2rem; }
    transcribed one at a time, not a word to be taken in at a glance. */
 .coupon-code {
   font-size: 1.375rem;
-  font-weight: 600;
+  /* 700, not 600, and the reason is the sheen. At 22px the WCAG large-text
+     allowance needs bold; at 600 it does not apply, the 4.5:1 floor does, and
+     the highlight passing through the glyphs is seal-mid at 4.15:1. Bold makes
+     this large text, where the floor is 3:1 and 4.15 clears comfortably. A
+     code read aloud at a counter wants the weight anyway. */
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: .2em;
   text-indent: .2em;
@@ -1216,3 +1221,75 @@ section { margin-top: 2rem; }
 /* Two controls on a ledger row, where the row otherwise carries one. */
 .entry-pair { grid-column: 1 / -1; display: flex; gap: .5rem; margin-top: .5rem; }
 .entry-pair button { padding: .5rem .875rem; font-size: .6875rem; }
+
+/* Points, and the one place this document is allowed to enjoy itself -------
+   The record is austere everywhere else on purpose. This page is about what
+   somebody has collected rather than what they owe or what is overdue, and it
+   is the only screen where a little pleasure is the correct answer. All of it
+   is decoration over content that already reads without it, all of it is
+   confined to this page, and all of it stops under prefers-reduced-motion. */
+
+/* The meter draws itself in, left to right, the way a figure gets filled in by
+   hand. scaleX rather than width so it runs on the compositor. */
+.meter-ink {
+  transform-origin: left center;
+  animation: meter-draw .9s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes meter-draw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Foil. A voucher worth something has always had a strip on it that catches
+   the light, and this is that, done with the logo's own mid blue rather than
+   a new colour. The base ink stays at 15:1; the highlight passing through is
+   4.15:1 against white, and the code is 22px at 600, which is large text, so
+   the 3:1 floor for large type holds at every frame. */
+.coupon-code {
+  background-image: linear-gradient(
+    100deg,
+    var(--ink) 42%,
+    var(--seal-mid) 50%,
+    var(--ink) 58%
+  );
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: foil 4s ease-in-out 1.2s infinite;
+}
+
+@keyframes foil {
+  0%   { background-position: 100% 0; }
+  45%  { background-position: 0% 0; }
+  100% { background-position: 0% 0; }
+}
+
+/* A claim lands the way a stamp lands: pressed, then settled. Fast enough to
+   feel like an impression rather than a slide. */
+.coupon {
+  animation: press .22s cubic-bezier(.2, .9, .3, 1) both;
+}
+
+@keyframes press {
+  from { opacity: 0; transform: scale(1.035); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meter-ink { animation: none; }
+  .coupon { animation: none; }
+
+  /* The sheen is drawn with clipped text, so switching the animation off is
+     not enough: without it the gradient parks somewhere and the code would
+     read in whichever colour happened to land there. Put the ink back. */
+  .coupon-code {
+    animation: none;
+    background-image: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: var(--ink);
+  }
+}
