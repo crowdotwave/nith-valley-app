@@ -296,6 +296,30 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
 .stub-due { font-size: .8125rem; color: var(--ink); margin-top: .1875rem; }
 .stub-due.clear { color: var(--ink-soft); }
 
+/* The desk looks an animal up by its owner as often as by its name, so the
+   household is a field of the stub there. Full ink and the due line's step:
+   it is content, not the label above it. */
+.stub-owner { font-size: .8125rem; color: var(--ink); margin-top: .1875rem; }
+
+/* The finder: the desk's way into an index too long to scroll --------- */
+
+.finder { display: grid; gap: .75rem; margin-top: 1rem; }
+.finder-field { display: grid; gap: .25rem; }
+
+/* Two fields side by side once the document opens out to counter width; the
+   search box takes the room, because the species is a narrowing and never the
+   thing somebody came here knowing. */
+@media (min-width: 46rem) {
+  .finder { grid-template-columns: 1fr 12rem; }
+}
+
+.finder-count {
+  margin: .625rem 0 0;
+  font-size: .8125rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Index rows: the actions, ruled rather than tiled --------------------- */
 
 .tiles, .list { list-style: none; margin: 0; padding: 0; display: block; }
@@ -628,6 +652,11 @@ h2 { font-size: .8125rem; color: var(--ink-soft); margin-bottom: .5rem; }
   color: var(--staff);
   border-bottom-color: var(--staff);
 }
+
+/* The same endorsement on a heading that carries no rule of its own: an
+   animal's record heads its sections with a bare h2, and the owner block is the
+   one section of it a client's copy does not carry. */
+h2.staff-label { color: var(--staff); }
 
 /* An index row the client's copy does not carry. Ink and mark only: this had a
    3px staff-ink left edge, which is the side tab the No-Side-Tab Rule refuses,

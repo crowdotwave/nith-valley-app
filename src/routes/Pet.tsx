@@ -6,6 +6,18 @@ import { daysUntil, relativeDue, relativeWhen, isSoon } from '../lib/dates';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 import type { Pet, PetFood, PetMedication, Vaccination } from '../lib/types';
 
+/**
+ * Who to ask about this animal. The desk arrives here off the Animals index
+ * having looked the animal up by its owner, and until now the record dropped
+ * that owner the moment it opened: the one thing a front desk needs at the
+ * counter is which person the file belongs to and how to reach them. Clients
+ * are never shown this — a household reading its own record is the owner.
+ */
+type Owner = { full_name: string | null; email: string; phone: string | null };
+
+/** The household travels with the animal, the same way it does on the index. */
+type PetRecord = Pet & { households: { name: string } | null };
+
 // Bags are sold in kilograms; feeding guides are written in grams per day.
 // Store grams throughout and convert only at the input.
 const KG = 1000;
@@ -15,7 +27,8 @@ export default function PetDetail() {
   const { profile } = useProfile();
   const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
 
-  const [pet, setPet] = useState<Pet | null>(null);
+  const [pet, setPet] = useState<PetRecord | null>(null);
+  const [owners, setOwners] = useState<Owner[]>([]);
   const [foods, setFoods] = useState<PetFood[]>([]);
   const [meds, setMeds] = useState<PetMedication[]>([]);
   const [vaccines, setVaccines] = useState<Vaccination[]>([]);
@@ -28,7 +41,7 @@ export default function PetDetail() {
     if (!id) return;
 
     const [p, f, m, v] = await Promise.all([
-      supabase.from('pets').select('*').eq('id', id).single(),
+      supabase.from('pets').select('*, households(name)').eq('id', id).single(),
       supabase.from('pet_foods').select('*').eq('pet_id', id).eq('active', true),
       supabase.from('pet_medications').select('*').eq('pet_id', id).eq('active', true),
       supabase
@@ -39,7 +52,7 @@ export default function PetDetail() {
     ]);
 
     if (p.error) setError(p.error.message);
-    else setPet(p.data as Pet);
+    else setPet(p.data as unknown as PetRecord);
 
     setFoods((f.data ?? []) as PetFood[]);
     setMeds((m.data ?? []) as PetMedication[]);
@@ -69,6 +82,32 @@ export default function PetDetail() {
       cancelled = true;
     };
   }, [pet?.photo_path]);
+
+  // A household can hold two people who share the animal, so this is a list
+  // rather than a name. Staff only: the read policy would hand a client their
+  // own household back, and telling somebody their own phone number is noise.
+  useEffect(() => {
+    let cancelled = false;
+    const household = pet?.household_id;
+
+    if (!isStaff || !household) {
+      setOwners([]);
+      return;
+    }
+
+    supabase
+      .from('profiles')
+      .select('full_name, email, phone')
+      .eq('household_id', household)
+      .order('full_name')
+      .then(({ data }) => {
+        if (!cancelled) setOwners((data ?? []) as Owner[]);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isStaff, pet?.household_id]);
 
   async function attachPhoto(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -194,6 +233,44 @@ export default function PetDetail() {
       </div>
 
       {error && <p className="error">{error}</p>}
+
+      {/* Owner ------------------------------------------------------------
+          Written in the office's own ink, because the client's copy of this
+          record does not carry it. The household names the file; the people
+          under it are how the desk reaches that file, so the phone and the
+          email are live links rather than numbers to be copied out by hand. */}
+      {isStaff && (
+        <section>
+          <h2 className="staff-label">Owner</h2>
+          <ul className="list">
+            <li className="row">
+              <span className="row-title">{pet.households?.name ?? 'No household'}</span>
+              {owners.length === 0 && (
+                <span className="row-detail">Nobody on this household has an app account</span>
+              )}
+            </li>
+
+            {owners.map((o) => {
+              // An account with no name recorded leads with its email, so the
+              // line beneath has nothing left to say but the phone.
+              const named = Boolean(o.full_name);
+
+              return (
+                <li key={o.email} className="row">
+                  <span className="row-title">{o.full_name ?? o.email}</span>
+                  {(named || o.phone) && (
+                    <span className="row-detail">
+                      {o.phone && <a href={`tel:${o.phone}`}>{o.phone}</a>}
+                      {o.phone && named && ' · '}
+                      {named && <a href={`mailto:${o.email}`}>{o.email}</a>}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       {/* Food ------------------------------------------------------------ */}
       <section>

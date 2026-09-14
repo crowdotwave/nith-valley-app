@@ -785,6 +785,30 @@ needs.
 - **Empty photo:** dashed border, the name's initial at 1.25rem / 600 in mid blue
 - **Body:** name (Record role), meta line (species · breed, Label metrics at .07em), due
   line at .8125rem; `.due.clear` drops to soft ink for "Nothing due"
+- **Owner** (`.stub-owner`) — staff only: the household, .8125rem in full ink, on the due
+  line's step. The client's own index has no such field, because the household is the
+  reader. At the counter the animal and the person holding the lead are one lookup, so
+  the owner is a field of the stub rather than something the desk clicks through for
+
+### The Finder (`.finder`, `.finder-count`) — staff only
+
+The way into an index too long to scroll. A practice holds more animals than anyone will
+read past, and the desk always arrives knowing something — an animal's name, an owner's
+surname, sometimes only "the yorkie" — so `#/pets` is a search first and a list second.
+
+- **Fields:** a `search` input over a species select, `.75rem` gap, stacked on the phone
+  and `1fr 12rem` from the console's `46rem` breakpoint. Each is a `.finder-field` grid so
+  the field label keeps its `.25rem` lead over its own control
+- **Terms are ANDed** across name, breed, species and household, so "niederer cat" narrows
+  to one animal. The species select is a second narrowing, never the thing somebody came
+  here knowing, which is why it is the smaller column
+- **Count** (`.finder-count`): .8125rem soft ink, tabular, `aria-live="polite"` — "306
+  animals on file · 82 households" at rest, "2 of 306 animals" while filtering
+- **The list is capped at 60** with a line naming what was dropped. An uncapped list signs
+  a photo URL per animal on every keystroke and reads no better at the bottom than at the
+  top. Only the rows on the page are signed, each path asked for once
+- No fill, no boxes: the finder is a pair of the document's own inputs under its own field
+  labels. It is not a toolbar, and it does not get a background
 
 ### Pet File Header (`.pet-head`)
 
@@ -800,6 +824,23 @@ something that only exists on the home screen.
   blue — the larger frame's stand-in, sized to the box (see Off-ramp glyph sizes)
 - **Type:** the animal's name as Title (h1, 18px, `wdth 78`, uppercase) with `.25rem`
   beneath, then species · breed in soft ink
+
+### Owner Block (`h2.staff-label`) — staff only
+
+The first section under the head, and the fourth thing written in the counter-stamp's
+violet. The desk arrives from the Animals index having looked an animal up by its owner,
+and the record used to drop that owner on the way in.
+
+- **Heading:** a bare `h2` in `staff` ink. The animal's record heads its sections with an
+  h2 that carries no rule, so this endorsement is the colour alone — `.field-label
+  .staff-label` would give one section an underline the three beneath it do not have
+- **Rows:** the document's own index rows. The household first, naming the file; then one
+  row per person on it, name over `tel:` and `mailto:` links, because a desk that has to
+  copy a number out by hand will phone from the PIMS instead
+- **Empty:** a household with no app account says so on the household's own row. That is
+  information at the counter, not an error
+- The client's copy does not render this at all. A household reading its own record is
+  the owner, and telling somebody their own phone number is noise
 
 ### Status Stamp (`.stamp`)
 
