@@ -44,12 +44,6 @@ function inSpecies(pet: PetRow, want: 'all' | 'dog' | 'cat' | 'other') {
   return pet.species === want;
 }
 
-/** "Aeries and Thelma": the note is a sentence, not an enumeration. */
-function inWords(names: string[]) {
-  if (names.length < 2) return names.join('');
-  return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
-}
-
 export default function Pets() {
   const { profile } = useProfile();
   const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
@@ -110,7 +104,9 @@ export default function Pets() {
    * The same animal on file under two households. This is a demo arrangement
    * rather than a fault, and the desk should be told so on sight: a name
    * appearing twice in a medical index is otherwise the first sign of a
-   * duplicated client record, which is the thing a practice hunts down.
+   * duplicated client record, which is the thing a practice hunts down. The
+   * note itself is written out below; this only decides whether it is shown,
+   * so it goes away on its own once the copies do.
    *
    * The test is the name AND the photograph, not the name alone. Two clients
    * can both have a dog called Bella and in a practice this size they will;
@@ -200,8 +196,8 @@ export default function Pets() {
 
       {isStaff && duplicates.length > 0 && (
         <p className="notice">
-          {inWords(duplicates)} appear more than once because I gave the office email{' '}
-          {duplicates.length} of Katrina's pets
+          Aeries and Thelma appear more than once because I assigned two of Katrina's pets
+          to the office email.
         </p>
       )}
 
