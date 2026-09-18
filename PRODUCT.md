@@ -70,17 +70,17 @@ rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
   route to vaccination dates and no second client-facing app to reconcile
   against. Vaccinations stay staff-transcribed, and this app is the only
   pet-owner surface the practice runs.
-- **Open: whether clients can order food or medication through Covetrus
-  directly** — the online store and home delivery — rather than through the
-  front desk. The answer changes the product, and the practice can answer it
-  without contacting Covetrus. If they can: purchases happen where the app and
-  the desk cannot see them, `last_purchased_on` goes stale, every depletion
-  date derived from it drifts, reminders fire for supplies already delivered,
-  and points are never awarded because nobody is at a counter to tap. If they
-  cannot: every purchase passes the front desk, the client's own purchase date
-  is the only record there is, depletion dates are as good as that entry, and
-  the loyalty tap has a moment to happen in. The app is built for the second
-  case today.
+- **Clients cannot order from Covetrus. Every purchase crosses the desk**
+  (Katrina, September 2026). A client asks the practice to order an item in and
+  the practice orders it; there is no client-facing Covetrus storefront in
+  play. Nothing is bought where the app and the front desk cannot see it, which
+  is the condition supply prediction and the loyalty tap both depend on.
+- **How the practice records an order** (Katrina, September 2026): "it's an
+  item that we place on their file associated with a price that is marked pay
+  for when our POS system takes it." An order is a priced line on the client's
+  file, outstanding until the POS settles it. The settled line is the same
+  hand-over the invoice records, which is why request status here stays
+  housekeeping rather than accounting.
 - The app's email address is the join key staff use to match app accounts to
   client files, so it must match the address the clinic holds.
 - The practice moved to 216 Huron St, New Hamburg ON on 31 August 2026. Postal
@@ -124,10 +124,6 @@ Stated direction, explicitly deferred:
 
 Undecided, recorded rather than invented:
 
-- **Whether clients can order food or medication through Covetrus directly**,
-  rather than through the front desk. This is the open question with the most
-  design weight in the product; see Operating Context for what each answer
-  costs.
 - Postal code for the new address.
 
 Near-term goal (August 2026): something the clinic owner can click around and

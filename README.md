@@ -146,12 +146,21 @@ The practice does not use GreatPetCare (practice, September 2026), so there is
 no off-the-shelf route to vaccination dates and no second pet-owner app to
 reconcile against. Vaccinations stay staff-transcribed.
 
-**Still open: whether clients can order food or medication through Covetrus
-directly**, rather than through the front desk. Everything the app predicts about
-supplies rests on `last_purchased_on`, which a client types in, and every
-purchase that bypasses the desk is a purchase nothing here records. If ordering
-does go through Covetrus, depletion dates drift, reminders fire for food already
-delivered, and points are never awarded because nobody is at a counter to tap.
-If it does not, the desk sees every purchase and the model holds. The app is
-built for the second case; the practice can settle it without contacting
-Covetrus.
+**Clients cannot order from Covetrus** (Katrina, September 2026). They ask the
+practice to order an item in and the practice orders it, so every purchase
+crosses the front desk and nothing is bought where this app cannot see it. That
+is the condition supply prediction depends on, and it holds.
+
+An order is recorded in Pulse as "an item that we place on their file associated
+with a price that is marked pay for when our POS system takes it" — a priced
+line on the client's file, outstanding until the POS settles it. Same hand-over
+the invoice records, which is why request status here stays housekeeping.
+
+What that opens, not yet built: `last_purchased_on` is typed in by the client
+today and nothing else writes it, so a depletion date is only as good as someone
+remembering to update it. Since every purchase now provably crosses the desk,
+the app already holds the moment — a request reaching `completed` is a
+hand-over with a date on it. Setting the purchase date from that would close
+most of the accuracy gap without anyone typing anything. Most, not all: a client
+who walks in and buys a bag without going through the app still leaves no
+record here.
