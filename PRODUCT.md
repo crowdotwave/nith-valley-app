@@ -81,6 +81,19 @@ rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
   file, outstanding until the POS settles it. The settled line is the same
   hand-over the invoice records, which is why request status here stays
   housekeeping rather than accounting.
+- **The POS is Clover** (practice, September 2026), so the stack is three
+  systems: this app, Pulse for the record, Clover for the money. The line item
+  is on the client's file, which is Pulse — Katrina's earlier "we have it
+  already in our Covetrus because it shows we billed them out" says so
+  directly — and Clover takes the card. Nothing about `0011` depends on Clover.
+- **Open, and the only reason Clover is interesting: are items keyed into
+  Clover, or only a total?** Unlike Covetrus, Clover has a developer platform a
+  one-person shop can actually reach. If the practice rings up individual items
+  there, Clover is a real purchase feed and could set `last_purchased_on`
+  without anyone typing a date, walk-ins included. If it only ever takes a
+  total, it knows amounts and nothing else, and there is no reason to touch it.
+  Ask before designing anything around it. Per-dollar loyalty stays ruled out
+  either way — see Durable constraints.
 - The app's email address is the join key staff use to match app accounts to
   client files, so it must match the address the clinic holds.
 - The practice moved to 216 Huron St, New Hamburg ON on 31 August 2026. Postal
