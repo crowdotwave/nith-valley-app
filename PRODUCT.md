@@ -65,6 +65,22 @@ rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
   width breakpoint.
 - Clients already hold a Covetrus password for booking. The app is passwordless
   (email magic link) so there is no second credential to support.
+- **The practice does not use GreatPetCare** (practice, September 2026).
+  Covetrus's own pet-parent portal is not in play, so there is no off-the-shelf
+  route to vaccination dates and no second client-facing app to reconcile
+  against. Vaccinations stay staff-transcribed, and this app is the only
+  pet-owner surface the practice runs.
+- **Open: whether clients can order food or medication through Covetrus
+  directly** — the online store and home delivery — rather than through the
+  front desk. The answer changes the product, and the practice can answer it
+  without contacting Covetrus. If they can: purchases happen where the app and
+  the desk cannot see them, `last_purchased_on` goes stale, every depletion
+  date derived from it drifts, reminders fire for supplies already delivered,
+  and points are never awarded because nobody is at a counter to tap. If they
+  cannot: every purchase passes the front desk, the client's own purchase date
+  is the only record there is, depletion dates are as good as that entry, and
+  the loyalty tap has a moment to happen in. The app is built for the second
+  case today.
 - The app's email address is the join key staff use to match app accounts to
   client files, so it must match the address the clinic holds.
 - The practice moved to 216 Huron St, New Hamburg ON on 31 August 2026. Postal
@@ -102,15 +118,16 @@ Stated direction, explicitly deferred:
 
 - **The practice wants the app and Covetrus to talk to each other eventually**
   (practice, August 2026), but has asked that Covetrus not be contacted yet.
-  Treat PIMS integration as a wanted future capability, not a dead end, and
-  note it bears directly on the GreatPetCare question below.
+  Treat PIMS integration as a wanted future capability, not a dead end.
 - **A public-facing website is wanted but deferred.** Not this app, and not the
   staff console; a separate surface for a separate audience.
 
 Undecided, recorded rather than invented:
 
-- Whether GreatPetCare (Covetrus's own pet-parent portal, which requires Pulse)
-  would cover the vaccination gap off the shelf.
+- **Whether clients can order food or medication through Covetrus directly**,
+  rather than through the front desk. This is the open question with the most
+  design weight in the product; see Operating Context for what each answer
+  costs.
 - Postal code for the new address.
 
 Near-term goal (August 2026): something the clinic owner can click around and

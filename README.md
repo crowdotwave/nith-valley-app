@@ -142,5 +142,16 @@ per-dollar loyalty accrual would become possible. Nothing above needs to be
 rebuilt to accept any of it — see "Points accrue per event" for why that
 decision holds either way.
 
-Worth checking whether GreatPetCare (Covetrus's own pet-parent portal, which
-requires Pulse) would cover the vaccination gap off the shelf.
+The practice does not use GreatPetCare (practice, September 2026), so there is
+no off-the-shelf route to vaccination dates and no second pet-owner app to
+reconcile against. Vaccinations stay staff-transcribed.
+
+**Still open: whether clients can order food or medication through Covetrus
+directly**, rather than through the front desk. Everything the app predicts about
+supplies rests on `last_purchased_on`, which a client types in, and every
+purchase that bypasses the desk is a purchase nothing here records. If ordering
+does go through Covetrus, depletion dates drift, reminders fire for food already
+delivered, and points are never awarded because nobody is at a counter to tap.
+If it does not, the desk sees every purchase and the model holds. The app is
+built for the second case; the practice can settle it without contacting
+Covetrus.
