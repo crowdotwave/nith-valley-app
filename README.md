@@ -156,11 +156,17 @@ with a price that is marked pay for when our POS system takes it" — a priced
 line on the client's file, outstanding until the POS settles it. Same hand-over
 the invoice records, which is why request status here stays housekeeping.
 
-What that opens, not yet built: `last_purchased_on` is typed in by the client
+The POS is Clover, and it only ever takes a total; the itemisation lives in
+Covetrus (Katrina, September 2026). So the reachable system knows nothing worth
+reading and the system that knows what was bought is the one with the closed
+door. There is no purchase feed to integrate with, and the app should not be
+designed around one.
+
+What that leaves, not yet built: `last_purchased_on` is typed in by the client
 today and nothing else writes it, so a depletion date is only as good as someone
-remembering to update it. Since every purchase now provably crosses the desk,
-the app already holds the moment — a request reaching `completed` is a
-hand-over with a date on it. Setting the purchase date from that would close
-most of the accuracy gap without anyone typing anything. Most, not all: a client
-who walks in and buys a bag without going through the app still leaves no
-record here.
+remembering to update it. The app already holds a better moment — a request
+reaching `completed` is a hand-over with a date on it — and setting the purchase
+date from that would close most of the gap with nobody typing anything. Most,
+not all: a client who walks in and buys a bag without going through the app is
+caught only by the points tap at the counter, which is now the only purchase
+capture in the system and the sole reason a walk-in is recorded anywhere.

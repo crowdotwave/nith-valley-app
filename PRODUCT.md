@@ -86,14 +86,16 @@ rather than rebuilding it: booking opens Rapport, and messaging is native SMS.
   is on the client's file, which is Pulse — Katrina's earlier "we have it
   already in our Covetrus because it shows we billed them out" says so
   directly — and Clover takes the card. Nothing about `0011` depends on Clover.
-- **Open, and the only reason Clover is interesting: are items keyed into
-  Clover, or only a total?** Unlike Covetrus, Clover has a developer platform a
-  one-person shop can actually reach. If the practice rings up individual items
-  there, Clover is a real purchase feed and could set `last_purchased_on`
-  without anyone typing a date, walk-ins included. If it only ever takes a
-  total, it knows amounts and nothing else, and there is no reason to touch it.
-  Ask before designing anything around it. Per-dollar loyalty stays ruled out
-  either way — see Durable constraints.
+- **Clover only ever takes a total; Covetrus holds the itemisation**
+  (Katrina, September 2026). So the one reachable system knows nothing useful
+  and the one that knows everything is the closed door. There is no purchase
+  feed to integrate with, and Clover should not be designed around at all.
+- **The counter tap is therefore the only purchase capture that exists.**
+  Staff tapping "bag of food" to award points is not just the loyalty action;
+  it is the sole record of a walk-in purchase anywhere in this system. Nothing
+  else observes a client who buys without going through the app. That raises
+  what the tap is worth and what its absence costs, and it is the argument for
+  keeping the tap as fast and as obvious as it is.
 - The app's email address is the join key staff use to match app accounts to
   client files, so it must match the address the clinic holds.
 - The practice moved to 216 Huron St, New Hamburg ON on 31 August 2026. Postal
