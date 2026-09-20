@@ -121,6 +121,43 @@ runs under Capacitor offline; consider self-hosting it at that point.
 Not started: push notifications (needs the Capacitor wrap and an FCM project),
 marketing site.
 
+## Shipping to the stores
+
+Capacitor does not translate anything. `vite build` produces the same
+HTML/CSS/JS it produces for the web, and `npx cap sync` copies that into two
+generated native projects: an iOS app whose root view is a `WKWebView`, wrapped
+in Swift, and an Android app around the system `WebView`, wrapped in
+Java/Kotlin. Both wrappers are boilerplate. No app logic moves out of
+TypeScript, and none of the 34 files under `src/` changes.
+
+`vite.config.ts` already sets `base: './'` so one build serves both the GitHub
+Pages subpath and Capacitor's `file://` origin.
+
+The three remaining features all have official plugins, so the work is
+configuration rather than native code:
+
+| Feature | Plugin | The actual work |
+| --- | --- | --- |
+| Push notifications | `@capacitor/push-notifications` | An FCM project, an APNs key, `google-services.json`, `GoogleService-Info.plist` |
+| Magic link opens the app | `@capacitor/app` | Associated domains and intent filters: `apple-app-site-association`, `assetlinks.json` |
+| Photo capture | `@capacitor/camera` | Permission strings in the manifest and Info.plist |
+
+Costs and prerequisites, none of which are obvious once they are solved:
+
+- **A Mac is required.** Xcode is macOS-only and there is no path around it for
+  building or submitting the iOS app. Budget a machine or a cloud-Mac CI
+  service; this is the largest single cost on the list.
+- **Apple Developer Program is 99 USD a year, recurring.** Google Play is 25 USD
+  once. The annual one is the one that gets forgotten.
+- **Self-host Fraunces before the first store build.** It loads from Google
+  Fonts today, and under `file://` with no network it silently falls back to the
+  serif stack. See Visual design above.
+- **Apple rejects thin wrappers around a website** (App Review guideline 4.2,
+  Minimum Functionality). This app is not one, but the booking handoff does open
+  Covetrus Rapport externally, which is the shape reviewers look at. Ship with
+  push and camera working so it is plainly an app rather than a bookmark; do not
+  submit the bare wrap first.
+
 ## The PIMS
 
 The clinic runs Covetrus Pulse, with Rapport Online Scheduling as the booking
