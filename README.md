@@ -61,6 +61,39 @@ src/routes/            screens
 supabase/migrations/   database schema and RLS policies
 ```
 
+## Demo mode
+
+Add `?demo=client` or `?demo=staff` to the app's address, before the `#`:
+
+```
+https://crowdotwave.github.io/nith-valley-app/?demo=client
+https://crowdotwave.github.io/nith-valley-app/?demo=staff
+```
+
+The app opens already signed in to an invented practice: three households,
+six animals, a refill queue with something in every column, and a client
+sitting on 135 points. It never contacts Supabase. Everything lives in the
+browser tab (`src/lib/demo`), so a request sent as the client is waiting when
+you switch to the desk, and **Start over** puts it all back.
+
+What it is for:
+
+- showing the app in person without signing into a real account
+- recording clips for a website or a pitch
+- end-to-end tests that should not need a database, a login or an email
+
+What it is not: a test of the database. The stand-in answers the queries the
+app makes and copies the few server rules a demo would visibly miss (request
+history, redemption codes and debits, run-out dates, balances), but row level
+security is only imitated. Anything about who can see what is tested against a
+real database, never here.
+
+A bar across the top says it is sample data on every screen, so a demo cannot
+be mistaken for a practice's real records, in the room or in a recording.
+
+The sample data is invented on purpose. The live project's demo household
+belongs to a real family, and this repository is public.
+
 ## Setup
 
 Requires Node 20+.

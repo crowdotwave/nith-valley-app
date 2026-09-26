@@ -22,3 +22,13 @@ turns off the old default on this project, so a table without grants answers
 Grant only the commands an RLS policy actually lets a role use, following the
 pattern in `0014`. Never grant update or delete on `points_ledger` to `anon` or
 `authenticated`: the ledger is append-only, and corrections are offsetting rows.
+
+## Demo mode
+
+`?demo=client` and `?demo=staff` run the app against `src/lib/demo`, an
+in-memory stand-in for Supabase with invented data. It implements only the
+query features the app uses. If you add a new kind of query (a new filter
+operator, an RPC call, a realtime channel), add it to the demo client too, or
+the demo will show an error where the live app works. Never seed it with data
+from the live project: the live demo household is a real family's, and this
+repository is public.

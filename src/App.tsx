@@ -19,6 +19,7 @@ import Services from './routes/Services';
 import Points from './routes/Points';
 import StaffPoints from './routes/StaffPoints';
 import StaffContent from './routes/StaffContent';
+import DemoBar from './components/DemoBar';
 
 // Clients and staff are co-equal audiences with different jobs, so they land on
 // different documents. Keeping the decision at "/" means every `← Back` link in
@@ -61,6 +62,8 @@ export default function App() {
   }
 
   return (
+    <>
+    <DemoBar />
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/home" element={<Home />} />
@@ -83,5 +86,6 @@ export default function App() {
       <Route path="/staff/content" element={<StaffContent />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </>
   );
 }

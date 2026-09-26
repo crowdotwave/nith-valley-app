@@ -1322,3 +1322,38 @@ section { margin-top: 2rem; }
     color: var(--ink);
   }
 }
+
+/* Demo mode ------------------------------------------------------------------
+   Printed across the top of every screen when the app runs on sample data.
+   Ink on stock, reversed, because it is a note about the document rather than
+   part of it, and it must not borrow the band's or the staff ink's meaning. */
+.demo-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  padding: 0.5rem 1rem;
+  padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+  background: var(--ink);
+  color: var(--stock);
+  font-family: var(--font-doc);
+  font-size: 0.8125rem;
+}
+.demo-bar p { margin: 0; }
+.demo-bar strong {
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-right: 0.5rem;
+}
+.demo-bar__actions { display: flex; gap: 0.5rem; }
+.demo-bar button {
+  font: inherit;
+  color: var(--stock);
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+.demo-bar button:focus-visible { outline: 2px solid var(--stock); outline-offset: 2px; }
