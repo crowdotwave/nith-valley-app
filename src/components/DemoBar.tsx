@@ -11,17 +11,17 @@ export default function DemoBar() {
   return (
     <div className="demo-bar" role="note">
       <p>
-        <strong>Demo</strong> Sample practice, invented data. Nothing leaves this browser.
+        <strong>Demo</strong> Invented sample data
       </p>
       <div className="demo-bar__actions">
-        <button type="button" onClick={() => switchDemo(other)}>
-          {other === 'staff' ? 'View as front desk' : 'View as client'}
+        <button type="button" onClick={() => switchDemo(other)} aria-label={other === 'staff' ? 'View as the front desk' : 'View as a client'}>
+          {other === 'staff' ? 'Front desk' : 'Client'}
         </button>
         <button type="button" onClick={restartDemo}>
           Start over
         </button>
-        <button type="button" onClick={leaveDemo}>
-          Exit demo
+        <button type="button" onClick={leaveDemo} aria-label="Exit the demo">
+          Exit
         </button>
       </div>
     </div>

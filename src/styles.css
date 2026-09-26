@@ -1332,28 +1332,31 @@ section { margin-top: 2rem; }
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.4rem 1rem;
-  padding: 0.5rem 1rem;
-  padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+  gap: 0.35rem 0.75rem;
+  padding: 0.4rem 0.75rem;
+  padding-top: calc(0.4rem + env(safe-area-inset-top, 0px));
   background: var(--ink);
   color: var(--stock);
   font-family: var(--font-doc);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
 }
-.demo-bar p { margin: 0; }
+.demo-bar p { margin: 0; white-space: nowrap; }
 .demo-bar strong {
   text-transform: uppercase;
   letter-spacing: 0.09em;
   margin-right: 0.5rem;
 }
-.demo-bar__actions { display: flex; gap: 0.5rem; }
+.demo-bar__actions { display: flex; gap: 0.35rem; }
 .demo-bar button {
   font: inherit;
   color: var(--stock);
   background: transparent;
   border: 1px solid currentColor;
   border-radius: var(--radius);
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.5rem;
+  text-transform: none;
+  letter-spacing: 0;
+  min-height: 0;
   cursor: pointer;
 }
 .demo-bar button:focus-visible { outline: 2px solid var(--stock); outline-offset: 2px; }
