@@ -257,7 +257,12 @@ signed in to the wrong thing.
 
 ### Accounts and costs, in order of lead time
 
-- **Whose account publishes it.** Two workable routes:
+- **Whose account publishes it: the practice's (decided September 2026).**
+  A new personal Google developer account would need the 12-tester closed
+  test, and not everyone the practice could ask has an Android phone. The
+  practice signs up and pays for both accounts and adds the developer as an
+  admin; the developer never signs up or submits in the practice's name. The
+  two routes that were weighed:
   - *The developer's own account.* No D-U-N-S number, so no wait for one. The
     store pages show the developer's name, so get the practice's written
     permission to publish under its name and logo; Apple may ask for it. A
