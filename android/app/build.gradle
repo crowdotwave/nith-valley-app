@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+// One version for both store apps. The version in package.json is the one
+// people see; BUILD_NUMBER, the CI run number, counts every upload up, because
+// both stores refuse an upload that reuses one. Local builds are number 1.
+def packageVersion = new groovy.json.JsonSlurper().parse(file('../../package.json')).version
+def buildNumber = (System.getenv('BUILD_NUMBER') ?: '1') as Integer
+
 android {
     namespace = "com.nithvalleyah.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -7,8 +13,8 @@ android {
         applicationId "com.nithvalleyah.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode buildNumber
+        versionName packageVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

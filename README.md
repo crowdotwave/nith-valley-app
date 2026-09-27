@@ -227,6 +227,13 @@ signed in to the wrong thing.
 
 ### Still needed in the app before submitting
 
+- **A real email sender, before any client can sign in, on the web too.**
+  With no custom SMTP set, Supabase only delivers sign-in emails to members of
+  the project's own team, a few an hour. Clients get nothing. It needs an
+  email sending service (Resend, Postmark or similar) and a few DNS records
+  for `nithvalleyah.com`, whose DNS is in Wix; the email itself is Google
+  Workspace. Then Supabase, Authentication, Emails, SMTP Settings.
+
 - **Account deletion, in the app.** Apple (guideline 5.1.1(v)) rejects an app
   that creates accounts without offering to delete them, and Google Play also
   wants a web page where deletion can be requested. Signing in by magic link
@@ -250,12 +257,18 @@ signed in to the wrong thing.
 
 ### Accounts and costs, in order of lead time
 
-- **Publish as the practice, not as a person.** Both stores' organisation
-  accounts need a D-U-N-S number for the business. It is free from Dun &
-  Bradstreet but can take weeks, so it is the first thing to start.
-- **Google Play: 25 USD once.** A personal account opened since November 2023
-  must run a closed test with 12 testers for 14 days before it may publish; an
-  organisation account does not.
+- **Whose account publishes it.** Two workable routes:
+  - *The developer's own account.* No D-U-N-S number, so no wait for one. The
+    store pages show the developer's name, so get the practice's written
+    permission to publish under its name and logo; Apple may ask for it. A
+    Google personal account opened since November 2023 must run a closed test
+    with 12 testers for 14 days before it may publish to everyone.
+  - *The practice's own accounts.* Needs a D-U-N-S number for the business,
+    free from Dun & Bradstreet but it can take weeks; the practice was not in
+    D&B's directory in September 2026. No 12-tester rule on Google.
+  Either store can transfer an app between accounts later, so starting under
+  the developer and moving it to the practice is possible.
+- **Google Play: 25 USD once.**
 - **Apple Developer Program: 99 USD a year, recurring.** The one that gets
   forgotten.
 - **A Mac is no longer the blocker it was.** The iOS app builds on GitHub's

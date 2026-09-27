@@ -47,8 +47,11 @@ jobs:
           java-version: 21
           cache: gradle
 
+      # The run number becomes the Android versionCode; see android/app/build.gradle.
       - run: ./gradlew assembleDebug
         working-directory: android
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -81,7 +84,8 @@ jobs:
       - run: npx cap sync ios
 
       # A simulator build: compiles the app and its Swift packages without
-      # needing a signing certificate.
+      # needing a signing certificate. Versioned the same way as Android:
+      # package.json for the version people see, the run number for the build.
       - run: >
           xcodebuild
           -project ios/App/App.xcodeproj
@@ -90,4 +94,6 @@ jobs:
           -sdk iphonesimulator
           -destination 'generic/platform=iOS Simulator'
           CODE_SIGNING_ALLOWED=NO
+          MARKETING_VERSION=$(node -p "require('./package.json').version")
+          CURRENT_PROJECT_VERSION=${{ github.run_number }}
           build
