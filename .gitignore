@@ -7,9 +7,10 @@ dist-ssr/
 .env.*
 !.env.example
 
-# Capacitor native projects (added later)
-/ios/
-/android/
+# The native projects under android/ and ios/ are committed: they carry the
+# link scheme, permission strings and icons, which are hand-edited and cannot be
+# regenerated. Each has its own .gitignore for build output and the copy of
+# dist/ that `npx cap sync` puts inside it.
 
 .DS_Store
 Thumbs.db

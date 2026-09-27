@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useProfile } from '../lib/useProfile';
 import { CLINIC, openBooking } from '../lib/clinic';
+import { isNative } from '../lib/native';
 import { relativeDue } from '../lib/dates';
 import { removePhoto, signPaths, uploadHouseholdPhoto } from '../lib/photos';
 import AccountRow from '../components/AccountRow';
@@ -34,8 +35,11 @@ const SECTIONS: { heading: string; entries: Entry[] }[] = [
         label: 'Book an appointment',
         // Names the new tab before the client leaves. A tester met the dead
         // Back button a new tab ships with and had no idea the app was still
-        // sitting behind it; see openBooking for why it stays a new tab.
-        detail: 'Our scheduling system, in a new tab',
+        // sitting behind it; see openBooking for why it stays a new tab. The
+        // store build opens it over the app instead, with a Done button.
+        detail: isNative
+          ? 'Our scheduling system, opened over the app'
+          : 'Our scheduling system, in a new tab',
         icon: 'calendar',
         onClick: openBooking,
         external: true,

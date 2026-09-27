@@ -32,3 +32,14 @@ operator, an RPC call, a realtime channel), add it to the demo client too, or
 the demo will show an error where the live app works. Never seed it with data
 from the live project: the live demo household is a real family's, and this
 repository is public.
+
+## Store builds
+
+`android/` and `ios/` are the Capacitor wrappers for the store apps. They are
+committed and hand-edited (link scheme, permission strings, light theme,
+icons), so never delete and re-add them with `npx cap add`.
+
+Anything the store builds must do differently from the web goes through
+`src/lib/native.ts` and its `isNative` check, so the web deploy keeps its
+behaviour. The Native builds workflow builds both apps on every push; if it
+fails, the change broke the wrap.

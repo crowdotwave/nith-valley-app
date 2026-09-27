@@ -57,8 +57,12 @@ join key staff use to match app accounts to client files.
 ```
 src/lib/clinic.ts      clinic details, booking link, SMS handoff
 src/lib/supabase.ts    Supabase client
+src/lib/native.ts      everything the store builds do differently
 src/routes/            screens
 supabase/migrations/   database schema and RLS policies
+capacitor.config.ts    app ID and name for the store builds
+android/ ios/          the native wrappers (see The store apps)
+assets/                sources for the app icon and splash screen
 ```
 
 ## Demo mode
@@ -96,7 +100,7 @@ belongs to a real family, and this repository is public.
 
 ## Setup
 
-Requires Node 20+.
+Requires Node 22+ (Capacitor 8's CLI will not run on older).
 
 ```
 npm install
@@ -144,15 +148,143 @@ All seven original goals are built.
 
 ## Visual design
 
-Taken from the practice's website: navy `#1D3557`, pale blue ground, white
-cards, pill buttons, Fraunces for display type. Light only; a dark mode existed
-and was dropped deliberately; see `PRODUCT.md` under Brand Commitments, which
-also records the direction this is heading (clean white, logo blues as accents).
-Fraunces loads from Google Fonts, so the serif fallback stack matters once this
-runs under Capacitor offline; consider self-hosting it at that point.
+First taken from the practice's website (navy `#1D3557`, pale blue ground,
+white cards, Fraunces), since replaced by the Vaccination Certificate direction
+in `DESIGN.md`: white stock, logo blues as ink, Archivo alone. Light only; a
+dark mode existed and was dropped deliberately; see `PRODUCT.md` under Brand
+Commitments. The store builds are held light too, so a phone in dark mode does
+not turn the status bar or the system pickers dark over a white page.
 
-Not started: push notifications (needs the Capacitor wrap and an FCM project),
+Archivo is bundled from `@fontsource-variable/archivo`, not loaded from Google
+Fonts, so the store builds render it with no network and no request to a third
+party.
+
+Not started: push notifications (needs an FCM project; see The store apps),
 marketing site.
+
+## The store apps
+
+Capacitor translates nothing. `npm run build` produces the same HTML/CSS/JS the
+web deploy ships, and `npx cap sync` copies it into `android/` and `ios/`: an
+Android app around the system WebView and an iOS app around a WKWebView, both
+generated boilerplate. Every screen stays the TypeScript under `src/`.
+
+### Working on the app with the wrap in place
+
+Nothing about the everyday loop changes. Change `src/`, check it with
+`npm run dev` and demo mode, push to `main`, and the web deploys as before.
+
+- **Every difference goes through `src/lib/native.ts`.** `isNative` is false in
+  any browser, so the web keeps the behaviour it had before the wrap. A new
+  native difference belongs there too, so they can all be found in one place.
+- **The Native builds workflow** (`.github/workflows/native.yml`) builds the
+  Android and iOS apps on every push to any branch. A change that breaks the
+  wrap fails there, not on release day. The Android run leaves a debug APK on
+  the run page that installs on any Android phone.
+- **`npm run native:sync`** builds and copies the web app into both native
+  projects. `npm run native:android` also opens Android Studio;
+  `npm run native:ios` opens Xcode, on a Mac.
+- `android/` and `ios/` are committed. They carry hand edits (the sign-in link
+  scheme, permission strings, the light theme, icons) that regenerating would
+  lose. Do not delete and re-add them.
+
+### What the store builds do differently
+
+| | Web | Store build |
+| --- | --- | --- |
+| Sign-in link returns to | the page that asked | the app, on `com.nithvalleyah.app://auth-callback` |
+| Sign-in flow | token in the URL fragment | PKCE: a one-time code only this install can exchange |
+| Session kept in | localStorage | Preferences, which the OS does not clear for space |
+| Booking | a new tab | a sheet over the app with a Done button |
+| Taking a photo | the browser's file input | the same input, handed to the system camera |
+
+Photo capture needs no camera plugin: the file inputs already work in both
+WebViews once iOS has its permission strings (`Info.plist`), and Android needs
+no permission because the system camera app takes the picture.
+
+**Before a store build can sign anyone in**, add
+`com.nithvalleyah.app://auth-callback` under Supabase, Authentication, URL
+Configuration, Redirect URLs. Without it Supabase ignores the requested return
+address and sends the client to the Site URL, the web app, where they are
+signed in to the wrong thing.
+
+### Decided, and costly to change later
+
+- **App ID `com.nithvalleyah.app`** (`capacitor.config.ts`). It becomes the Play
+  package name and the App Store bundle ID on the first upload and can never be
+  changed after that. It is also the sign-in link scheme.
+- **Home-screen name "Nith Valley".** The full name is cut off under an icon.
+  The store listing can still carry the full name.
+- **iPhone only on iOS.** An iPad build would need its own screenshots and gets
+  reviewed on an iPad. iPhone apps still run on an iPad, in a phone-sized window.
+- **Icon** is the mark cut from `public/logo.png`, on white. It is upscaled from
+  the website image; the practice's original artwork would be sharper. Replace
+  `assets/icon-only.png` and `assets/icon-foreground.png`, then run:
+
+  ```
+  npx @capacitor/assets generate --android --ios --iconBackgroundColor '#ffffff' --splashBackgroundColor '#ffffff' --splashBackgroundColorDark '#ffffff'
+  ```
+
+### Still needed in the app before submitting
+
+- **A real email sender, before any client can sign in, on the web too.**
+  With no custom SMTP set, Supabase only delivers sign-in emails to members of
+  the project's own team, a few an hour. Clients get nothing. It needs an
+  email sending service (Resend, Postmark or similar) and a few DNS records
+  for `nithvalleyah.com`, whose DNS is in Wix; the email itself is Google
+  Workspace. Then Supabase, Authentication, Emails, SMTP Settings.
+
+- **Account deletion, in the app.** Apple (guideline 5.1.1(v)) rejects an app
+  that creates accounts without offering to delete them, and Google Play also
+  wants a web page where deletion can be requested. Signing in by magic link
+  creates an account, so this applies. It needs a decision first: what happens
+  to a household the client shares, to their points ledger, and to photos
+  already released for social media.
+- **A privacy policy at a public URL**, which both stores ask for, and the
+  data declarations that go with it (Apple's privacy labels, Google's Data
+  safety form): email, name, pets, photos, requests. Nothing is shared with
+  third parties or used for tracking, which keeps both forms short.
+- **A way in for the reviewer.** App Review has to sign in and cannot receive a
+  magic link. Apple accepts a fully featured demo mode instead of an account,
+  and this app has one; the store build would need a way to reach it from the
+  sign-in screen, since it has no address bar for `?demo=client`.
+- **Push notifications**, before the first submission. Apple rejects apps that
+  read as a website in a frame (guideline 4.2), and booking already opens
+  Rapport, which is the shape review looks for. Push is also what makes the
+  supply reminders reach anyone. It needs `@capacitor/push-notifications`, a
+  Firebase project (FCM) with an APNs key uploaded to it, somewhere to store
+  device tokens, and a sender run after the nightly reconcile.
+
+### Accounts and costs, in order of lead time
+
+- **Whose account publishes it: the practice's (decided September 2026).**
+  A new personal Google developer account would need the 12-tester closed
+  test, and not everyone the practice could ask has an Android phone. The
+  practice signs up and pays for both accounts and adds the developer as an
+  admin; the developer never signs up or submits in the practice's name. The
+  two routes that were weighed:
+  - *The developer's own account.* No D-U-N-S number, so no wait for one. The
+    store pages show the developer's name, so get the practice's written
+    permission to publish under its name and logo; Apple may ask for it. A
+    Google personal account opened since November 2023 must run a closed test
+    with 12 testers for 14 days before it may publish to everyone.
+  - *The practice's own accounts.* Needs a D-U-N-S number for the business,
+    free from Dun & Bradstreet but it can take weeks; the practice was not in
+    D&B's directory in September 2026. No 12-tester rule on Google.
+  Either store can transfer an app between accounts later, so starting under
+  the developer and moving it to the practice is possible.
+- **Google Play: 25 USD once.**
+- **Apple Developer Program: 99 USD a year, recurring.** The one that gets
+  forgotten.
+- **A Mac is no longer the blocker it was.** The iOS app builds on GitHub's
+  macOS runners, and signing and uploading to TestFlight can run there too with
+  an App Store Connect API key. A Mac is still the easier way to do the first
+  signing setup, and an iPhone is needed to try the app before release.
+- **Store screenshots** come from demo mode, which shows a full practice
+  without touching anyone's records.
+- **Keep the Android upload key safe.** Play App Signing holds the real signing
+  key, but losing the upload key means a support request to Google before the
+  next release.
 
 ## The PIMS
 

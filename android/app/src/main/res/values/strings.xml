@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Nith Valley</string>
+    <string name="title_activity_main">Nith Valley</string>
+    <string name="package_name">com.nithvalleyah.app</string>
+    <string name="custom_url_scheme">com.nithvalleyah.app</string>
+</resources>
