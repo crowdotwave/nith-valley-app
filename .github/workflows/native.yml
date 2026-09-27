@@ -1,0 +1,93 @@
+name: Native builds
+
+# Proves on every push that both store apps still build from the current web
+# code, so a change that breaks the wrap shows up here rather than on the day of
+# a release. Nothing is signed or uploaded. The Android job leaves a debug APK
+# on the run page that installs on any Android phone for testing.
+#
+# The iOS job runs on a GitHub macOS runner, free for a public repository, so
+# checking the iOS build does not need a Mac. Signing and uploading still will,
+# or a signing step here with App Store Connect keys.
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+      - run: npx cap sync android
+
+      # Capacitor 8 builds with JDK 21. The runner already carries the Android SDK.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - run: ./gradlew assembleDebug
+        working-directory: android
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nith-valley-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Capacitor 8 needs Xcode 26; take the newest stable the runner has.
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - run: npm ci
+
+      - run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+      - run: npx cap sync ios
+
+      # A simulator build: compiles the app and its Swift packages without
+      # needing a signing certificate.
+      - run: >
+          xcodebuild
+          -project ios/App/App.xcodeproj
+          -scheme App
+          -configuration Debug
+          -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+          build

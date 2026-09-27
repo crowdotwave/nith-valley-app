@@ -40,7 +40,11 @@
   --staff-ink: #ffffff;
 
 
-  --font-doc: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  /* Bundled from @fontsource-variable/archivo (imported in main.tsx), not
+     fetched from Google Fonts: the store builds run from the device with no
+     guarantee of a network, and a request to Google on every launch is one
+     more third party to declare in the stores' privacy forms. */
+  --font-doc: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
 
   --radius: 2px;           /* documents do not have soft corners */
   --pill: 2px;

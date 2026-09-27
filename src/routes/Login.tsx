@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { supabase } from '../lib/supabase';
+import { AUTH_CALLBACK, isNative } from '../lib/native';
 import Logo from '../components/Logo';
 
 // Passwordless by design. Clients already have a Covetrus password for
@@ -20,7 +21,9 @@ export default function Login() {
         // Not window.location.origin: under GitHub Pages the app lives at a
         // subpath, and origin alone would send people to the domain root.
         // Strip the hash so the magic link's own fragment isn't doubled up.
-        emailRedirectTo: window.location.href.split('#')[0],
+        // The store build's own address is local to the phone, so its links
+        // return on the app's scheme instead; see nativeClient in supabase.ts.
+        emailRedirectTo: isNative ? AUTH_CALLBACK : window.location.href.split('#')[0],
       },
     });
 

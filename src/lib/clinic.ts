@@ -1,3 +1,5 @@
+import { openExternal } from './native';
+
 // Everything clinic-specific lives here so it can be changed without hunting
 // through components.
 
@@ -21,9 +23,8 @@ export const CONSENT_TEXT =
 // Covetrus Rapport online scheduling. This is the practice's own booking link,
 // taken from their website. Booking is not rebuilt in the app; it opens here.
 //
-// On web this is a normal new tab. Under Capacitor, open it with
-// @capacitor/browser so it presents as a sheet over the app rather than
-// kicking the user out to Safari/Chrome.
+// On the web this is a new tab. In the store build it is a sheet over the app
+// (openExternal in native.ts) rather than a trip out to Safari or Chrome.
 export const BOOKING_URL =
   'https://olsr3.covetrus.com/?AID=HxQQYN386QHVmMv52SGF8LCWJPR63DF2TkXUUQHEh' +
   '&ID=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3Mjg4NDAxNTYsImF1ZCI6' +
@@ -47,8 +48,7 @@ export function openBooking() {
   // The dead Back button is not the problem to solve; being surprised by it is.
   // The tile names the new tab before the client leaves.
   //
-  // When the Capacitor wrap lands this becomes @capacitor/browser, which
-  // presents the site as a sheet over the app with its own Done button, and
-  // makes the question go away.
-  window.open(BOOKING_URL, '_blank', 'noopener,noreferrer');
+  // The store build opens it as a sheet over the app with its own Done button,
+  // which makes the question go away there; the tile says that instead.
+  openExternal(BOOKING_URL);
 }
